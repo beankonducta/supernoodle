@@ -3,17 +3,23 @@ package com.patrick.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.SuperNoodle;
+import com.patrick.game.entities.Entity;
+import com.patrick.game.entities.Player;
+import com.patrick.game.levels.Level;
 
 public class GameScreen implements Screen {
 
     private SuperNoodle game;
+    private Level level;
 
     public GameScreen(SuperNoodle game) {
         this.game = game;
+        Entity[] es = new Entity[1];
+        es[0] = new Player(new Vector2(100, 100), 1, 1, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f);
+        this.level = new Level(es);
     }
 
     @Override
@@ -25,7 +31,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-       // render the game
+       if(level == null) return;
+       this.game.batch.begin();
+       this.level.draw(this.game.batch);
+       this.level.update();
+       this.game.batch.end();
     }
 
     @Override

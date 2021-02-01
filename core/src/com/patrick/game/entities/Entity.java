@@ -1,17 +1,17 @@
 package com.patrick.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
 public abstract class Entity {
 
-    private float x;
-    private float y;
+    protected Vector2 position;
 
-    private float speed;
-    private float velocity;
+    protected float speed;
+    protected float velocity;
 
     public abstract void update();
     public abstract void draw(Batch batch);
+    public abstract void move(Vector2 direction);
 
 }
