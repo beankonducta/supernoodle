@@ -10,15 +10,23 @@ import com.patrick.game.entities.Entity;
 import com.patrick.game.entities.Player;
 import com.patrick.game.levels.Level;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameScreen implements Screen {
 
     private SuperNoodle game;
     private Level level;
+    private Player playerOne;
+    private Player playerTwo;
 
     public GameScreen(SuperNoodle game) {
         this.game = game;
-        Entity[] es = new Entity[1];
-        es[0] = new Player(new Vector2(100, 100), 1, 1, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f);
+        List<Entity> es = new ArrayList<Entity>();
+        playerOne = new Player(new Vector2(100, 100), 1, 1, 1, .1f, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f);
+        playerTwo = new Player(new Vector2(500, 400), 1, 1, 1, .1f, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f);
+        es.add(playerOne);
+        es.add(playerTwo);
         this.level = new Level(es);
     }
 

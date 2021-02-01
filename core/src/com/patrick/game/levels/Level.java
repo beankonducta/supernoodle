@@ -1,13 +1,16 @@
 package com.patrick.game.levels;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.patrick.game.controllers.CameraController;
 import com.patrick.game.entities.Entity;
+
+import java.util.List;
 
 public class Level {
 
-    private Entity[] entities;
+    private List<Entity> entities;
 
-    public Level(Entity[] entities) {
+    public Level(List<Entity> entities) {
         this.entities = entities;
     }
 
