@@ -51,10 +51,10 @@ public class Level {
             if (e1 instanceof Floor && !checkCollision(e, e1)) {
                 if (e instanceof Player && e.getId() == 1) {
                     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                        e.move(new Vector2(e.getSpeed(), 0));
+                        e.setVelocity(e.getSpeed());
                     }
                     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                        e.move(new Vector2(-e.getSpeed(), 0));
+                        e.setVelocity(-e.getSpeed());
                     }
                     if (Gdx.input.isKeyJustPressed(Input.Keys.W) && e.getHeightGain() == 0) {
                         e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);

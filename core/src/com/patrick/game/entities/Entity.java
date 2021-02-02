@@ -110,6 +110,7 @@ public class Entity {
         this.heightGain = 0;
     }
 
+    // need to add delta here
     public void update() {
         if (!colliding)
             this.position.add(new Vector2(this.velocity, -this.weight + this.heightGain));
@@ -130,8 +131,7 @@ public class Entity {
         }
     }
 
-    public void move(Vector2 direction) {
-        if (this.heightGain == 0) // this line disallows player to move horizontally while in the air
-            this.velocity = direction.x;
+    public void move(Vector2 position) {
+        this.position = position;
     }
 }

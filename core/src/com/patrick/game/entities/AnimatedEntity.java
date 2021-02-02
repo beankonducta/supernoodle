@@ -35,7 +35,7 @@ public class AnimatedEntity extends Entity {
         batch.draw(this.animation.getKeyFrame(this.animFrame, true), this.position.x, this.position.y);
     }
 
-    public void move(Vector2 direction) {
-        super.move(direction);
+    public void move(Vector2 position) {
+        super.move(position);
     }
 }

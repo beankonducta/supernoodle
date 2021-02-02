@@ -28,8 +28,7 @@ public class StaticEntity extends Entity {
         batch.draw(texture, this.position.x, this.position.y);
     }
 
-    @Override
-    public void move(Vector2 direction) {
-        super.move(direction);
+    public void move(Vector2 position) {
+        super.move(position);
     }
 }
