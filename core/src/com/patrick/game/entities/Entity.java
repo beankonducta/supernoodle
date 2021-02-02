@@ -24,12 +24,22 @@ public class Entity {
     protected Texture texture;
     protected Rectangle collider;
     protected int id;
+    protected boolean grounded;
 
     public Direction getDir() {
         return dir;
     }
+
     public void setDir(Direction dir) {
         this.dir = dir;
+    }
+
+    public void setGrounded(boolean grounded) {
+        this.grounded = grounded;
+    }
+
+    public boolean getGrounded() {
+        return this.grounded;
     }
 
     public Vector2 getPosition() {
@@ -115,12 +125,16 @@ public class Entity {
     }
 
     public void update(float delta) {
-        if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
-        if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
+        if(this.grounded) {
+            if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
+            if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
+        }
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;
         if (this.heightGain < 0) this.heightGain += this.decelSpeed * delta;
         if(this.heightGain < 1 && this.heightGain > 0) this.heightGain = 0;
         if(this.heightGain > -1 && this.heightGain < 0) this.heightGain = 0;
+        if(this.velocity < 1 && this.velocity > .5f) this.velocity = 0;
+        if(this.velocity > -.5f && this.velocity < 0) this.velocity = 0;
         if (this.collider != null)
             this.collider.setPosition(this.position);
     }

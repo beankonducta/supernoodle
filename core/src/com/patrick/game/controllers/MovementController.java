@@ -22,16 +22,18 @@ public class MovementController {
     }
 
     public void playerMove(Entity e, List<Entity> entities, ShapeRenderer renderer) {
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.D) && e.getGrounded()) {
             e.setVelocity(e.getSpeed());
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.A) && e.getGrounded()) {
             e.setVelocity(-e.getSpeed());
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && e.getHeightGain() == 0) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && e.getHeightGain() == 0 && e.getGrounded()) {
+            e.setGrounded(false);
             e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S) && e.getHeightGain() == 0) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S) && e.getHeightGain() == 0 && e.getGrounded()) {
+            e.setGrounded(false);
             e.setHeightGain(-Settings.PLAYER_FALL_MOD);
         }
         moveEntity(e, entities, renderer);
@@ -39,20 +41,27 @@ public class MovementController {
 
 
     public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer) {
+        int weightMod = 2;
         Vector2 position = new Vector2(e1.getPosition().x + e1.getVelocity(), e1.getPosition().y + e1.getHeightGain());
         Vector2 offset = new Vector2(0, 0);
-        Rectangle temp = new Rectangle(position.x, position.y, e1.getCollider().width, e1.getCollider().height);
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        renderer.setColor(Color.YELLOW);
-        renderer.rect(temp.x, temp.y, temp.width, temp.height);
-        renderer.end();
+        Rectangle futurePosition = new Rectangle(position.x, position.y, e1.getCollider().width, e1.getCollider().height);
+        if(Settings.DEBUG_COLLISION) {
+            renderer.begin(ShapeRenderer.ShapeType.Line);
+            renderer.setColor(Color.YELLOW);
+            renderer.rect(futurePosition.x, futurePosition.y, futurePosition.width, futurePosition.height);
+            renderer.end();
+        }
         for(Entity e : entities) {
             if(e1 instanceof Player && e instanceof Floor) {
-                if (collisionController.checkBasicCollision(temp, e.getCollider())) {
+                if (collisionController.checkBasicCollision(futurePosition, e.getCollider())) {
                     offset = collisionController.calculateCollisionOffset(e1, e, position);
+                    weightMod = 2;
+                    e1.setGrounded(true);
+                } else {
+                    weightMod = 1;
                 }
             }
         }
-        e1.move(new Vector2(e1.getVelocity(), e1.getHeightGain() - e1.getWeight() - offset.y));
+        e1.move(new Vector2(e1.getVelocity(), e1.getHeightGain() - (e1.getWeight() * weightMod) - offset.y));
     }
 }
