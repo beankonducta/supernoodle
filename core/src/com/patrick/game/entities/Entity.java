@@ -16,6 +16,7 @@ public class Entity {
     protected float weight;
     protected float decelSpeed;
     protected float heightGain;
+    protected float gravity;
     protected Texture texture;
     protected Rectangle collider;
     protected boolean colliding;
@@ -65,6 +66,12 @@ public class Entity {
     public float getDecelSpeed() {
         return decelSpeed;
     }
+
+    public void setGravity(float gravity) {
+        this.gravity = gravity;
+    }
+
+    public float getGravity() { return gravity; }
 
     public Texture getTexture() {
         return texture;
