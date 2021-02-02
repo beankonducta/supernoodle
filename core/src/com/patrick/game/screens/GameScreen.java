@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.SuperNoodle;
+import com.patrick.game.controllers.CollisionController;
 import com.patrick.game.controllers.MovementController;
 import com.patrick.game.entities.Entity;
 import com.patrick.game.entities.Floor;
@@ -24,6 +25,7 @@ public class GameScreen implements Screen {
     private Player playerOne;
     private Player playerTwo;
     private MovementController movementController;
+    private CollisionController collisionController;
 
     public GameScreen(SuperNoodle game) {
         this.game = game;
@@ -33,7 +35,8 @@ public class GameScreen implements Screen {
         playerTwo = new Player(new Vector2(500, 400), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 2);
         es.add(playerOne);
         es.add(playerTwo);
-        movementController = new MovementController();
+        collisionController = new CollisionController();
+        movementController = new MovementController(collisionController);
         this.level = new Level(es);
     }
 

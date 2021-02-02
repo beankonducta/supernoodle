@@ -110,12 +110,13 @@ public class Entity {
         this.heightGain = 0;
     }
 
-    // need to add delta here
     public void update(float delta) {
-        if (this.velocity > 0) this.velocity -= this.decelSpeed;
-        if (this.velocity < 0) this.velocity += this.decelSpeed;
-        if (this.heightGain > 0) this.heightGain -= this.decelSpeed;
-        if (this.heightGain < 0) this.heightGain += this.decelSpeed;
+        // i think these are OK here, I just need to make the actual movement outside of
+        // entity so I can check for collision before moving
+        if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
+        if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
+        if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;
+        if (this.heightGain < 0) this.heightGain += this.decelSpeed * delta;
         if (this.collider != null)
             this.collider.setPosition(this.position);
     }

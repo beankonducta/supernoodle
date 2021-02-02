@@ -2,14 +2,18 @@ package com.patrick.game.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 import com.patrick.game.entities.Entity;
 import com.patrick.game.util.Settings;
 
+import java.util.List;
+
 public class MovementController {
 
-    public MovementController() {
+    private CollisionController collisionController;
 
+    public MovementController(CollisionController collisionController) {
+        this.collisionController = collisionController;
     }
 
     public void playerMove(Entity e) {
@@ -25,12 +29,13 @@ public class MovementController {
         if (Gdx.input.isKeyJustPressed(Input.Keys.S) && e.getHeightGain() == 0) {
             e.setHeightGain(Settings.PLAYER_FALL_MOD);
         }
-        moveEntity(e);
     }
 
 
-    public void moveEntity(Entity e) {
-        Vector2 previous = e.getPosition();
-        e.move(new Vector2(e.getPosition().x + e.getVelocity(), e.getPosition().y - e.getWeight() + e.getHeightGain()));
+    public void moveEntity(Entity e1, List<Entity> entities) {
+        Rectangle temp = new Rectangle(e1.getPosition().x + e1.getVelocity(), e1.getPosition().y - e1.getWeight() + e1.getHeightGain(), e1.getCollider().width, e1.getCollider().height);
+        // check if temp collides with any floors
+        // if it does, calculate the distance between player and floor and force him to move only that far
+        // if it doesn't, make the move!
     }
 }
