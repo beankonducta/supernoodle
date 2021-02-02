@@ -111,9 +111,7 @@ public class Entity {
     }
 
     // need to add delta here
-    public void update() {
-        if (!colliding)
-            this.position.add(new Vector2(this.velocity, -this.weight + this.heightGain));
+    public void update(float delta) {
         if (this.velocity > 0) this.velocity -= this.decelSpeed;
         if (this.velocity < 0) this.velocity += this.decelSpeed;
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed;

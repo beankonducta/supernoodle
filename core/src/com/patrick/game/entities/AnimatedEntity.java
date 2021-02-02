@@ -23,8 +23,8 @@ public class AnimatedEntity extends Entity {
         this.animFrame = 0;
     }
 
-    public void update() {
-        super.update();
+    public void update(float delta) {
+        super.update(delta);
         if (this.animFrame < this.textureRegions[0].length - 1) this.animFrame++;
         else this.animFrame = 0;
     }

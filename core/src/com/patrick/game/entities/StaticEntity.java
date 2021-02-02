@@ -16,12 +16,10 @@ public class StaticEntity extends Entity {
         super(position, speed, weight, decelSpeed, texture);
     }
 
-    @Override
-    public void update() {
-        super.update();
+    public void update(float delta) {
+        super.update(delta);
     }
 
-    @Override
     public void draw(Batch batch, ShapeRenderer renderer) {
         super.draw(batch, renderer);
         if (this.texture == null) return;

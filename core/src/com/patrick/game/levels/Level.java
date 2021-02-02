@@ -27,43 +27,9 @@ public class Level {
         }
     }
 
-    public void update() {
+    public void update(float delta) {
         for (Entity e : entities) {
-            this.checkMove(e);
-            e.update();
-        }
-    }
-
-    public boolean checkCollision(Entity e1, Entity e2) {
-        if (!e1.getCollider().overlaps(e2.getCollider())) return false;
-        if (e1 instanceof Player && e2 instanceof Floor) {
-            e1.setColliding(true);
-            return true;
-        }
-        e1.setColliding(false);
-        return false;
-    }
-
-    // i'm thinking this should be in 'gamescreen' not 'level'
-    // level should be the actual rendered level, not the controls
-    public void checkMove(Entity e) {
-        for (Entity e1 : this.entities) {
-            if (e1 instanceof Floor && !checkCollision(e, e1)) {
-                if (e instanceof Player && e.getId() == 1) {
-                    if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                        e.setVelocity(e.getSpeed());
-                    }
-                    if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                        e.setVelocity(-e.getSpeed());
-                    }
-                    if (Gdx.input.isKeyJustPressed(Input.Keys.W) && e.getHeightGain() == 0) {
-                        e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
-                    }
-                    if (Gdx.input.isKeyJustPressed(Input.Keys.S) && e.getHeightGain() == 0) {
-                        e.setHeightGain(Settings.PLAYER_FALL_MOD);
-                    }
-                }
-            }
+            e.update(delta);
         }
     }
 }
