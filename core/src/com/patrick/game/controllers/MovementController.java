@@ -22,19 +22,37 @@ public class MovementController {
     }
 
     public void playerMove(Entity e, List<Entity> entities, ShapeRenderer renderer) {
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && e.getGrounded()) {
-            e.setVelocity(e.getSpeed());
+        if(e instanceof Player && e.getId() == 1) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                e.setVelocity(e.getSpeed());
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                e.setVelocity(-e.getSpeed());
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.W) && e.getHeightGain() == 0 && e.getGrounded()) {
+                e.setGrounded(false);
+                e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.S) && e.getHeightGain() == 0 && e.getGrounded()) {
+                e.setGrounded(false);
+                e.setHeightGain(-Settings.PLAYER_FALL_MOD);
+            }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && e.getGrounded()) {
-            e.setVelocity(-e.getSpeed());
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && e.getHeightGain() == 0 && e.getGrounded()) {
-            e.setGrounded(false);
-            e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S) && e.getHeightGain() == 0 && e.getGrounded()) {
-            e.setGrounded(false);
-            e.setHeightGain(-Settings.PLAYER_FALL_MOD);
+        if(e instanceof Player && e.getId() == 2) {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                e.setVelocity(e.getSpeed());
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                e.setVelocity(-e.getSpeed());
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && e.getHeightGain() == 0 && e.getGrounded()) {
+                e.setGrounded(false);
+                e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && e.getHeightGain() == 0 && e.getGrounded()) {
+                e.setGrounded(false);
+                e.setHeightGain(-Settings.PLAYER_FALL_MOD);
+            }
         }
         moveEntity(e, entities, renderer);
     }
@@ -42,7 +60,8 @@ public class MovementController {
 
     public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer) {
         int weightMod = 2;
-        Vector2 position = new Vector2(e1.getPosition().x + e1.getVelocity(), e1.getPosition().y + e1.getHeightGain());
+        float veloMod = e1.getGrounded() ? 1 : .5f;
+        Vector2 position = new Vector2(e1.getPosition().x + (e1.getVelocity() * veloMod), e1.getPosition().y + e1.getHeightGain());
         Vector2 offset = new Vector2(0, 0);
         Rectangle futurePosition = new Rectangle(position.x, position.y, e1.getCollider().width, e1.getCollider().height);
         if(Settings.DEBUG_COLLISION) {
@@ -62,6 +81,6 @@ public class MovementController {
                 }
             }
         }
-        e1.move(new Vector2(e1.getVelocity(), e1.getHeightGain() - (e1.getWeight() * weightMod) - offset.y));
+        e1.move(new Vector2((e1.getVelocity() * veloMod), e1.getHeightGain() - (e1.getWeight() * weightMod) - offset.y));
     }
 }

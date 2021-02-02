@@ -8,6 +8,6 @@ public class Settings {
     public static final float PLAYER_DECEL_SPEED = 10f;
     public static final float PLAYER_WEIGHT = 4;
 
-    public static final boolean DEBUG_COLLISION = false;
+    public static final boolean DEBUG_COLLISION = true;
 
 }

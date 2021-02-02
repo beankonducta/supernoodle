@@ -51,6 +51,7 @@ public class GameScreen implements Screen {
         this.level.draw(this.game.batch, this.game.shapeRenderer);
         this.level.update(delta);
         movementController.playerMove(playerOne, entities, game.shapeRenderer);
+        movementController.playerMove(playerTwo, entities, game.shapeRenderer);
         this.game.batch.end();
     }
 
