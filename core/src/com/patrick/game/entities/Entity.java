@@ -10,25 +10,26 @@ import com.patrick.game.util.Settings;
 
 public class Entity {
 
+    enum Direction {
+        LEFT, RIGHT
+    }
+
+    protected Direction dir;
     protected Vector2 position;
     protected float speed;
     protected float velocity;
     protected float weight;
     protected float decelSpeed;
     protected float heightGain;
-    protected float gravity;
     protected Texture texture;
     protected Rectangle collider;
-    protected boolean colliding;
-
     protected int id;
 
-    public void setColliding(boolean colliding) {
-        this.colliding = colliding;
+    public Direction getDir() {
+        return dir;
     }
-
-    public boolean getColliding() {
-        return colliding;
+    public void setDir(Direction dir) {
+        this.dir = dir;
     }
 
     public Vector2 getPosition() {
@@ -67,11 +68,7 @@ public class Entity {
         return decelSpeed;
     }
 
-    public void setGravity(float gravity) {
-        this.gravity = gravity;
-    }
-
-    public float getGravity() { return gravity; }
+    public float getVelocityY() {return -weight + heightGain; };
 
     public Texture getTexture() {
         return texture;
@@ -118,8 +115,6 @@ public class Entity {
     }
 
     public void update(float delta) {
-        // i think these are OK here, I just need to make the actual movement outside of
-        // entity so I can check for collision before moving
         if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
         if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;

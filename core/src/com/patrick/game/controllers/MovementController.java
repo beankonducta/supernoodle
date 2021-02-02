@@ -39,25 +39,20 @@ public class MovementController {
 
 
     public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer) {
-        Vector2 position = new Vector2(e1.getPosition().x + e1.getVelocity(), e1.getPosition().y + e1.getGravity() + e1.getHeightGain());
+        Vector2 position = new Vector2(e1.getPosition().x + e1.getVelocity(), e1.getPosition().y + e1.getHeightGain());
         Vector2 offset = new Vector2(0, 0);
         Rectangle temp = new Rectangle(position.x, position.y, e1.getCollider().width, e1.getCollider().height);
-//        renderer.begin(ShapeRenderer.ShapeType.Line);
-//        renderer.setColor(Color.YELLOW);
-//        renderer.rect(temp.x, temp.y, temp.width, temp.height);
-//        renderer.end();
+        renderer.begin(ShapeRenderer.ShapeType.Line);
+        renderer.setColor(Color.YELLOW);
+        renderer.rect(temp.x, temp.y, temp.width, temp.height);
+        renderer.end();
         for(Entity e : entities) {
             if(e1 instanceof Player && e instanceof Floor) {
                 if (collisionController.checkBasicCollision(temp, e.getCollider())) {
                     offset = collisionController.calculateCollisionOffset(e1, e, position);
-                    e1.setGravity(0);
-                }
-                if(!collisionController.checkBasicCollision(e1.getCollider(), e.getCollider())) {
-                    offset = new Vector2(0, 0);
-                    e1.setGravity(-e1.getWeight());
                 }
             }
         }
-        e1.move(new Vector2(e1.getVelocity() - offset.x, e1.getHeightGain() + e1.getGravity() - offset.y));
+        e1.move(new Vector2(e1.getVelocity(), e1.getHeightGain() - e1.getWeight() - offset.y));
     }
 }
