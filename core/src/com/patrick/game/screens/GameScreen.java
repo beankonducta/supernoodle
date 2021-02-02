@@ -31,7 +31,7 @@ public class GameScreen implements Screen {
     public GameScreen(SuperNoodle game) {
         this.game = game;
         entities.add(new Floor(new Vector2(100, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        playerOne = new Player(new Vector2(100, 20), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 1);
+        playerOne = new Player(new Vector2(100, 400), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 1);
         playerTwo = new Player(new Vector2(500, 400), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 2);
         entities.add(playerOne);
         entities.add(playerTwo);
@@ -50,7 +50,7 @@ public class GameScreen implements Screen {
         this.game.batch.begin();
         this.level.draw(this.game.batch, this.game.shapeRenderer);
         this.level.update(delta);
-        movementController.playerMove(playerOne, entities);
+        movementController.playerMove(playerOne, entities, game.shapeRenderer);
         this.game.batch.end();
     }
 

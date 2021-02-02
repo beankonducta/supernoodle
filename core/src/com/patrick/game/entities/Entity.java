@@ -117,6 +117,8 @@ public class Entity {
         if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;
         if (this.heightGain < 0) this.heightGain += this.decelSpeed * delta;
+        if(this.heightGain < 1 && this.heightGain > 0) this.heightGain = 0;
+        if(this.heightGain > -1 && this.heightGain < 0) this.heightGain = 0;
         if (this.collider != null)
             this.collider.setPosition(this.position);
     }
@@ -131,6 +133,6 @@ public class Entity {
     }
 
     public void move(Vector2 position) {
-        this.position = position;
+        this.position = this.position.add(position);
     }
 }
