@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 public class AnimatedEntity extends Entity {
@@ -28,8 +29,8 @@ public class AnimatedEntity extends Entity {
         else this.animFrame = 0;
     }
 
-    public void draw(Batch batch) {
-        super.draw(batch);
+    public void draw(Batch batch, ShapeRenderer renderer) {
+        super.draw(batch, renderer);
         if (this.texture == null) return;
         batch.draw(this.animation.getKeyFrame(this.animFrame, true), this.position.x, this.position.y);
     }

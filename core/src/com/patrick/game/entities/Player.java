@@ -3,6 +3,7 @@ package com.patrick.game.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends AnimatedEntity {
@@ -22,5 +23,6 @@ public class Player extends AnimatedEntity {
         this.textureRegions = Sprite.split(texture, tileSize, tileSize);
         this.animation = new Animation(animSpeed, this.textureRegions[0]);
         this.id = playerNumber;
+        this.collider = new Rectangle(position.x, position.y, tileSize, tileSize);
     }
 }

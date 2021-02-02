@@ -1,9 +1,12 @@
 package com.patrick.game.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.util.Settings;
 
 public class Entity {
 
@@ -15,8 +18,17 @@ public class Entity {
     protected float heightGain;
     protected Texture texture;
     protected Rectangle collider;
+    protected boolean colliding;
 
     protected int id;
+
+    public void setColliding(boolean colliding) {
+        this.colliding = colliding;
+    }
+
+    public boolean getColliding() {
+        return colliding;
+    }
 
     public Vector2 getPosition() {
         return position;
@@ -36,6 +48,10 @@ public class Entity {
 
     public float getSpeed() {
         return speed;
+    }
+
+    public void setVelocity(float velocity) {
+        this.velocity = velocity;
     }
 
     public float getVelocity() {
@@ -95,21 +111,27 @@ public class Entity {
     }
 
     public void update() {
-        this.position.add(new Vector2(this.velocity, -this.weight + this.heightGain));
+        if (!colliding)
+            this.position.add(new Vector2(this.velocity, -this.weight + this.heightGain));
         if (this.velocity > 0) this.velocity -= this.decelSpeed;
         if (this.velocity < 0) this.velocity += this.decelSpeed;
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed;
         if (this.heightGain < 0) this.heightGain += this.decelSpeed;
+        if (this.collider != null)
+            this.collider.setPosition(this.position);
     }
 
-    public void draw(Batch batch) {
-
+    public void draw(Batch batch, ShapeRenderer renderer) {
+        if (Settings.DEBUG_COLLISION && this.collider != null) {
+            renderer.begin(ShapeRenderer.ShapeType.Line);
+            renderer.setColor(Color.BLUE);
+            renderer.rect(collider.x, collider.y, collider.width, collider.height);
+            renderer.end();
+        }
     }
 
     public void move(Vector2 direction) {
         if (this.heightGain == 0) // this line disallows player to move horizontally while in the air
             this.velocity = direction.x;
-        if (this.collider != null)
-            this.collider.setPosition(this.position);
     }
 }

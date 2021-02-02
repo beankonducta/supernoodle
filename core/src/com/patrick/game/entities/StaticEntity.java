@@ -2,6 +2,7 @@ package com.patrick.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -21,8 +22,8 @@ public class StaticEntity extends Entity {
     }
 
     @Override
-    public void draw(Batch batch) {
-        super.draw(batch);
+    public void draw(Batch batch, ShapeRenderer renderer) {
+        super.draw(batch, renderer);
         if (this.texture == null) return;
         batch.draw(texture, this.position.x, this.position.y);
     }
