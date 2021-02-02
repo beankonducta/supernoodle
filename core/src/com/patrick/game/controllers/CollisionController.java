@@ -30,8 +30,13 @@ public class CollisionController {
         return false;
     }
 
-    public Vector2 calculateCollisionOffset(Entity e1, Entity e2) {
-        // i think if we can calculate the 'space to collision' before moving and return it we can just subtract it from the move.
-        return new Vector2(0, 0);
+    public Vector2 calculateCollisionOffset(Entity e1, Entity e2, Vector2 position) {
+        float x = 0;
+        if (position.x > 0) x = e2.getPosition().x - (e1.getPosition().x + e1.getCollider().width);
+        else if (position.x < 0) x = (e2.getPosition().x + e2.getCollider().width) - e1.getPosition().x;
+        float y = 0;
+        if (position.y > 0) y = e2.getPosition().y - (e1.getPosition().y + e1.getCollider().height);
+        else if (position.y < 0) y = (e2.getPosition().y + e2.getCollider().height) - e1.getPosition().y;
+        return new Vector2(x, y);
     }
 }

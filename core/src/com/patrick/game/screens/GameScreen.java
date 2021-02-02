@@ -24,20 +24,20 @@ public class GameScreen implements Screen {
     private Level level;
     private Player playerOne;
     private Player playerTwo;
+    List<Entity> entities = new ArrayList<Entity>();
     private MovementController movementController;
     private CollisionController collisionController;
 
     public GameScreen(SuperNoodle game) {
         this.game = game;
-        List<Entity> es = new ArrayList<Entity>();
-        es.add(new Floor(new Vector2(100, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(100, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
         playerOne = new Player(new Vector2(100, 20), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 1);
         playerTwo = new Player(new Vector2(500, 400), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 2);
-        es.add(playerOne);
-        es.add(playerTwo);
+        entities.add(playerOne);
+        entities.add(playerTwo);
         collisionController = new CollisionController();
         movementController = new MovementController(collisionController);
-        this.level = new Level(es);
+        this.level = new Level(entities);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class GameScreen implements Screen {
         this.game.batch.begin();
         this.level.draw(this.game.batch, this.game.shapeRenderer);
         this.level.update(delta);
-        movementController.playerMove(playerOne);
+        movementController.playerMove(playerOne, entities);
         this.game.batch.end();
     }
 
