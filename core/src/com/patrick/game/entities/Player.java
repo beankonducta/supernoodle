@@ -13,10 +13,14 @@ public class Player extends AnimatedEntity {
 
     private Direction dir;
 
-    public Player(Vector2 position, float speed, float velocity, float weight, float decelSpeed, Texture texture, int tileSize, float animSpeed) {
-        super(position, speed, velocity, weight, decelSpeed, texture);
+    public Direction getDir() {
+        return dir;
+    }
+
+    public Player(Vector2 position, float speed, float weight, float decelSpeed, Texture texture, int tileSize, float animSpeed, int playerNumber) {
+        super(position, speed, weight, decelSpeed, texture);
         this.textureRegions = Sprite.split(texture, tileSize, tileSize);
         this.animation = new Animation(animSpeed, this.textureRegions[0]);
-        System.out.println(this.textureRegions.length);
+        this.id = playerNumber;
     }
 }

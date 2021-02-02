@@ -1,6 +1,7 @@
 package com.patrick.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +10,7 @@ import com.patrick.game.SuperNoodle;
 import com.patrick.game.entities.Entity;
 import com.patrick.game.entities.Player;
 import com.patrick.game.levels.Level;
+import com.patrick.game.util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,8 @@ public class GameScreen implements Screen {
     public GameScreen(SuperNoodle game) {
         this.game = game;
         List<Entity> es = new ArrayList<Entity>();
-        playerOne = new Player(new Vector2(100, 100), 1, 1, 1, .1f, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f);
-        playerTwo = new Player(new Vector2(500, 400), 1, 1, 1, .1f, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f);
+        playerOne = new Player(new Vector2(100, 100), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 1);
+        playerTwo = new Player(new Vector2(500, 400), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 2);
         es.add(playerOne);
         es.add(playerTwo);
         this.level = new Level(es);
@@ -32,9 +34,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(new InputAdapter() {
-          // process inputs
-        });
     }
 
     @Override

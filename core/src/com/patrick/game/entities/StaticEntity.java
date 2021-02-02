@@ -11,8 +11,8 @@ public class StaticEntity extends Entity {
         super(position, texture);
     }
 
-    public StaticEntity(Vector2 position, float speed, float velocity, float weight, float decelSpeed, Texture texture) {
-        super(position, speed, velocity, weight, decelSpeed, texture);
+    public StaticEntity(Vector2 position, float speed, float weight, float decelSpeed, Texture texture) {
+        super(position, speed, weight, decelSpeed, texture);
     }
 
     @Override

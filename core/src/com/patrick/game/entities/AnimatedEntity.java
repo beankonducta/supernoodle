@@ -17,8 +17,8 @@ public class AnimatedEntity extends Entity {
         this.animFrame = 0;
     }
 
-    public AnimatedEntity(Vector2 position, float speed, float velocity, float weight, float decelSpeed, Texture texture) {
-        super(position, speed, velocity, weight, decelSpeed, texture);
+    public AnimatedEntity(Vector2 position, float speed, float weight, float decelSpeed, Texture texture) {
+        super(position, speed, weight, decelSpeed, texture);
         this.animFrame = 0;
     }
 
