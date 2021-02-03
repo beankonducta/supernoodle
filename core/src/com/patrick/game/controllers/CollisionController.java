@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.Entity;
 import com.patrick.game.entities.Floor;
+import com.patrick.game.entities.Ingredient;
 import com.patrick.game.entities.Player;
 
 public class CollisionController {
@@ -27,6 +28,14 @@ public class CollisionController {
     public boolean checkPlayerFloorCollision(Entity e1, Entity e2) {
         if (e1.getCollider().overlaps(e2.getCollider()) && (e1 instanceof Player && e2 instanceof Floor) || (e1 instanceof Floor && e2 instanceof Player))
             return true;
+        return false;
+    }
+
+    public boolean checkIngredientPickupCollision(Entity e1, Entity e2) {
+        Ingredient i = (Ingredient) e2;
+        if (i.getPickupCollider() != null) {
+            return e1.getCollider().overlaps(i.getPickupCollider());
+        }
         return false;
     }
 
@@ -54,11 +63,11 @@ public class CollisionController {
     }
 
     public float calculateDoubleCollisionVelocityOffset(Entity e1, Entity e2) {
-        if(e1.getHeightGain() > 0 && e2.getHeightGain() > 0) {
-            return -1* e1.getVelocity();
+        if (e1.getHeightGain() > 0 && e2.getHeightGain() > 0) {
+            return -1 * e1.getVelocity(); // players bump eachother and stop moving
         }
-        if(Math.abs(e1.getVelocity()) > Math.abs(e2.getVelocity())) {
-            return -1 * e1.getVelocity()/2;
+        if (Math.abs(e1.getVelocity()) > Math.abs(e2.getVelocity())) {
+            return -1 * (e1.getVelocity());
         } else return e2.getVelocity();
     }
 }

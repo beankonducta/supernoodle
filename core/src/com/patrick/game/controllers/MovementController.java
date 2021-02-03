@@ -46,8 +46,9 @@ public class MovementController {
                 if (p.getIngredient() != null) p.setIngredient(null);
                 else
                     for (Entity e1 : entities) {
-                        if (collisionController.checkBasicCollision(e, e1))
-                            attemptPickup(e, e1);
+                        if (e1 instanceof Ingredient)
+                            if (collisionController.checkIngredientPickupCollision(e, e1))
+                                attemptPickup(e, e1);
                     }
             }
         }
@@ -95,9 +96,11 @@ public class MovementController {
                     weightMod = 2;
                 }
             }
-            if (e1.getId() != e.getId()) {
+            if (e1.getId() != e.getId() && !(e instanceof Floor)) {
                 if (collisionController.checkBasicCollision(e1, e)) {
                     xOffset = collisionController.calculateDoubleCollisionVelocityOffset(e1, e);
+                    if (e1 instanceof Ingredient)
+                        e1.setVelocity(xOffset);
                 }
             }
         }
