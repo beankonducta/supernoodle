@@ -60,7 +60,7 @@ public class MovementController {
             Player p = (Player) e1;
             if (p.getIngredient() == null) {
                 Ingredient i = (Ingredient) e2;
-                i.setOffset(new Vector2(-8, 8));
+                i.setOffset(new Vector2(-8, 16));
                 p.setIngredient(i);
             }
         }
@@ -98,9 +98,13 @@ public class MovementController {
             }
             if (e1.getId() != e.getId() && !(e instanceof Floor)) {
                 if (collisionController.checkBasicCollision(e1, e)) {
-                    xOffset = collisionController.calculateDoubleCollisionVelocityOffset(e1, e);
-                    if (e1 instanceof Ingredient)
-                        e1.setVelocity(xOffset);
+                    if(Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
+                        e.move(new Vector2(e1.getVelocity(), 0));
+                        e.setVelocity(e1.getVelocity() * .75f);
+                    } else {
+                        e1.move(new Vector2(e.getVelocity(), 0));
+                        e1.setVelocity(e.getVelocity() * .75f);
+                    }
                 }
             }
         }

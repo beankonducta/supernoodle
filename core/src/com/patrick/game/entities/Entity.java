@@ -70,6 +70,10 @@ public class Entity {
         return velocity;
     }
 
+    public void setWeight(float weight) {
+        this.weight = weight;
+    }
+
     public float getWeight() {
         return weight;
     }

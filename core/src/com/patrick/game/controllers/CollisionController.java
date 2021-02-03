@@ -61,13 +61,4 @@ public class CollisionController {
 
         return new Vector2(x, y);
     }
-
-    public float calculateDoubleCollisionVelocityOffset(Entity e1, Entity e2) {
-        if (e1.getHeightGain() > 0 && e2.getHeightGain() > 0) {
-            return -1 * e1.getVelocity(); // players bump eachother and stop moving
-        }
-        if (Math.abs(e1.getVelocity()) > Math.abs(e2.getVelocity())) {
-            return -1 * (e1.getVelocity());
-        } else return e2.getVelocity();
-    }
 }
