@@ -32,13 +32,13 @@ public class CollisionController {
 
     public Vector2 calculateCollisionOffset(Entity e1, Entity e2, Vector2 position) {
         // this isn't actually calculating what we think it is :)
+        // but it does seem to be working
         float x = 0;
         if (position.x > 0) x = e1.getPosition().x - (e2.getPosition().x + e2.getCollider().width);
         else if (position.x < 0) x = (e1.getPosition().x + e1.getCollider().width) - e2.getPosition().x;
         float y = 0;
-        if (position.y > 0) y = e1.getPosition().y - (e2.getPosition().y + e2.getCollider().height);
-        else if (position.y < 0) y = (e1.getPosition().y + e1.getCollider().height) - e2.getPosition().y;
-        System.out.println(y);
+        if (position.y < e1.getPosition().y) y = e1.getPosition().y - (e2.getPosition().y + e2.getCollider().height);
+        else if (position.y < 110) y = 0;
         return new Vector2(x, y);
     }
 }

@@ -61,7 +61,7 @@ public class MovementController {
     public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer) {
         int weightMod = 2;
         float veloMod = e1.getGrounded() ? 1 : .5f;
-        Vector2 position = new Vector2(e1.getPosition().x + (e1.getVelocity() * veloMod), e1.getPosition().y + e1.getHeightGain());
+        Vector2 position = new Vector2(e1.getPosition().x + (e1.getVelocity() * veloMod), e1.getPosition().y - (e1.getWeight()) + e1.getHeightGain());
         Vector2 offset = new Vector2(0, 0);
         Rectangle futurePosition = new Rectangle(position.x, position.y, e1.getCollider().width, e1.getCollider().height);
         if(Settings.DEBUG_COLLISION) {
@@ -74,10 +74,10 @@ public class MovementController {
             if(e1 instanceof Player && e instanceof Floor) {
                 if (collisionController.checkBasicCollision(futurePosition, e.getCollider())) {
                     offset = collisionController.calculateCollisionOffset(e1, e, position);
-                    weightMod = 2;
+                    weightMod = 1;
                     e1.setGrounded(true);
                 } else {
-                    weightMod = 1;
+                    weightMod = 2;
                 }
             }
         }
