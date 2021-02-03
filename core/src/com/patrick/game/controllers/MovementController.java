@@ -23,47 +23,25 @@ public class MovementController {
     }
 
     public void playerMove(Entity e, List<Entity> entities, ShapeRenderer renderer) {
-        if (e instanceof Player && e.getId() == 1) {
-            if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+        final int[] KEYS = e.getId() == 1 ?
+                new int[]{Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S, Input.Keys.CONTROL_LEFT} :
+                new int[]{Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT};
+        if (e instanceof Player && KEYS != null) {
+            if (Gdx.input.isKeyPressed(KEYS[0])) {
                 e.setVelocity(e.getSpeed());
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if (Gdx.input.isKeyPressed(KEYS[1])) {
                 e.setVelocity(-e.getSpeed());
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.W) && e.getHeightGain() == 0 && e.getGrounded()) {
+            if (Gdx.input.isKeyJustPressed(KEYS[2]) && e.getHeightGain() == 0 && e.getGrounded()) {
                 e.setGrounded(false);
                 e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.S) && e.getHeightGain() == 0 && e.getGrounded()) {
+            if (Gdx.input.isKeyJustPressed(KEYS[3]) && e.getHeightGain() == 0 && e.getGrounded()) {
                 e.setGrounded(false);
                 e.setHeightGain(-Settings.PLAYER_FALL_MOD);
             }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)) {
-                Player p = (Player) e;
-                if (p.getIngredient() != null) p.setIngredient(null);
-                else
-                    for (Entity e1 : entities) {
-                        if (collisionController.checkBasicCollision(e, e1))
-                            attemptPickup(e, e1);
-                    }
-            }
-        }
-        if (e instanceof Player && e.getId() == 2) {
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                e.setVelocity(e.getSpeed());
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                e.setVelocity(-e.getSpeed());
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && e.getHeightGain() == 0 && e.getGrounded()) {
-                e.setGrounded(false);
-                e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && e.getHeightGain() == 0 && e.getGrounded()) {
-                e.setGrounded(false);
-                e.setHeightGain(-Settings.PLAYER_FALL_MOD);
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.CONTROL_LEFT)) {
+            if (Gdx.input.isKeyJustPressed(KEYS[4])) {
                 Player p = (Player) e;
                 if (p.getIngredient() != null) p.setIngredient(null);
                 else
