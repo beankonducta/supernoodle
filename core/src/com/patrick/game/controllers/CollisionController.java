@@ -31,6 +31,7 @@ public class CollisionController {
         return false;
     }
 
+    // this is redundant, since we can just use the simple collisions above
     public boolean checkIngredientPickupCollision(Entity e1, Entity e2) {
         Ingredient i = (Ingredient) e2;
         if (i.getPickupCollider() != null) {

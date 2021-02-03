@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.patrick.game.entities.Entity;
-import com.patrick.game.entities.Floor;
-import com.patrick.game.entities.Ingredient;
-import com.patrick.game.entities.Player;
+import com.patrick.game.entities.*;
 import com.patrick.game.util.Settings;
 
 import java.util.List;
@@ -48,7 +45,11 @@ public class MovementController {
                     for (Entity e1 : entities) {
                         if (e1 instanceof Ingredient)
                             if (collisionController.checkIngredientPickupCollision(e, e1))
-                                attemptPickup(e, e1);
+                                this.attemptPickup(e, e1);
+                        else if (e1 instanceof Bowl)
+                            if(collisionController.checkBasicCollision(e, e1))
+                                // this might error since we're currently iterating through the list when we call
+                                this.attemptIngredientRemove(e, entities);
                     }
             }
         }
@@ -109,5 +110,25 @@ public class MovementController {
             }
         }
         e1.move(new Vector2((e1.getVelocity() * veloMod) + xOffset, e1.getHeightGain() - (e1.getWeight() * weightMod) - offset.y + yOffset));
+        // try to add ingredient to bowl after it's moved
+        if(e1 instanceof Ingredient)
+        this.attemptIngredientAdd(e1, entities);
+    }
+
+    private void attemptIngredientAdd(Entity e1, List<Entity> entities) {
+        Ingredient i = (Ingredient) e1;
+        for(Entity e : entities) {
+            if(e instanceof Bowl)
+                if(collisionController.checkBasicCollision(i.getPickupCollider(), e.getCollider())) {
+                    Bowl b = (Bowl) e;
+                    b.addIngredient(i);
+                }
+        }
+        entities.remove(e1);
+    }
+
+    private void attemptIngredientRemove(Entity e1, List<Entity> entities) {
+        Bowl b = (Bowl) e1;
+        entities.add(b.removeLastIngredient());
     }
 }
