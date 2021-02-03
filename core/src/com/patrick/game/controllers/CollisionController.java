@@ -30,6 +30,12 @@ public class CollisionController {
         return false;
     }
 
+    /*
+    As it stands, if we enter through the bottom of a tile, we get 'pushed' to the top once we pass the half way point.
+
+    I think we need to include a direction paramater here so we know the intended direction of travel (or maybe
+    we can calculate this in the math) so if we're moving 'up' through a tile we don't get teleported through it.
+     */
     public Vector2 calculateCollisionOffset(Entity e1, Entity e2, Vector2 position) {
         // this isn't actually calculating what we think it is :)
         // but it does seem to be working
@@ -38,7 +44,7 @@ public class CollisionController {
         else if (position.x < 0) x = (e1.getPosition().x + e1.getCollider().width) - e2.getPosition().x;
         float y = 0;
         if (position.y < e1.getPosition().y) y = e1.getPosition().y - (e2.getPosition().y + e2.getCollider().height);
-        else if (position.y < 110) y = 0;
+        else if (position.y > e1.getPosition().y) y = 0;
         return new Vector2(x, y);
     }
 }
