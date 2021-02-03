@@ -12,10 +12,12 @@ public class AnimatedEntity extends Entity {
     protected TextureRegion[][] textureRegions; // might need to be 2d array
     protected Animation<TextureRegion> animation;
     protected int animFrame;
+    protected boolean playAnimation;
 
     public AnimatedEntity(Vector2 position, Texture texture) {
         super(position, texture);
         this.animFrame = 0;
+        this.playAnimation = false;
     }
 
     public AnimatedEntity(Vector2 position, float speed, float weight, float decelSpeed, Texture texture) {
@@ -25,8 +27,10 @@ public class AnimatedEntity extends Entity {
 
     public void update(float delta) {
         super.update(delta);
-        if (this.animFrame < this.textureRegions[0].length - 1) this.animFrame++;
-        else this.animFrame = 0;
+        if (this.playAnimation) {
+            if (this.animFrame < this.textureRegions[0].length - 1) this.animFrame++;
+            else this.animFrame = 0;
+        }
     }
 
     public void draw(Batch batch, ShapeRenderer renderer) {
@@ -36,6 +40,10 @@ public class AnimatedEntity extends Entity {
     }
 
     public void move(Vector2 position) {
+        if (Math.abs(position.x) > 0 || Math.abs(position.y) > 0)
+            this.playAnimation = true;
+        else
+            this.playAnimation = false;
         super.move(position);
     }
 }
