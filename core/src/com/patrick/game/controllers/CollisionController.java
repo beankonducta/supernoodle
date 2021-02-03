@@ -35,16 +35,30 @@ public class CollisionController {
 
     I think we need to include a direction paramater here so we know the intended direction of travel (or maybe
     we can calculate this in the math) so if we're moving 'up' through a tile we don't get teleported through it.
+
+    Also we aren't actually using the x value right now but we should get that working.
      */
-    public Vector2 calculateCollisionOffset(Entity e1, Entity e2, Vector2 position) {
+    public Vector2 calculateFloorCollisionOffset(Entity e1, Entity e2, Vector2 position) {
         // this isn't actually calculating what we think it is :)
         // but it does seem to be working
         float x = 0;
+        float y = 0;
+
         if (position.x > 0) x = e1.getPosition().x - (e2.getPosition().x + e2.getCollider().width);
         else if (position.x < 0) x = (e1.getPosition().x + e1.getCollider().width) - e2.getPosition().x;
-        float y = 0;
+
         if (position.y < e1.getPosition().y) y = e1.getPosition().y - (e2.getPosition().y + e2.getCollider().height);
         else if (position.y > e1.getPosition().y) y = 0;
+
         return new Vector2(x, y);
+    }
+
+    public float calculateDoubleCollisionVelocityOffset(Entity e1, Entity e2) {
+        if(e1.getHeightGain() > 0 && e2.getHeightGain() > 0) {
+            return -1* e1.getVelocity();
+        }
+        if(Math.abs(e1.getVelocity()) > Math.abs(e2.getVelocity())) {
+            return -1 * e1.getVelocity()/2;
+        } else return e2.getVelocity();
     }
 }

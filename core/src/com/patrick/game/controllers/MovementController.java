@@ -61,6 +61,8 @@ public class MovementController {
     public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer) {
         int weightMod = 2;
         float veloMod = e1.getGrounded() ? 1 : .5f;
+        float xOffset = 0;
+        float yOffset = 0;
         Vector2 position = new Vector2(e1.getPosition().x + (e1.getVelocity() * veloMod), e1.getPosition().y - (e1.getWeight()) + e1.getHeightGain());
         Vector2 offset = new Vector2(0, 0);
         Rectangle futurePosition = new Rectangle(position.x, position.y, e1.getCollider().width, e1.getCollider().height);
@@ -73,14 +75,19 @@ public class MovementController {
         for(Entity e : entities) {
             if(e1 instanceof Player && e instanceof Floor) {
                 if (collisionController.checkBasicCollision(futurePosition, e.getCollider())) {
-                    offset = collisionController.calculateCollisionOffset(e1, e, position);
+                    offset = collisionController.calculateFloorCollisionOffset(e1, e, position);
                     weightMod = 1;
                     e1.setGrounded(true);
                 } else {
                     weightMod = 2;
                 }
             }
+            if(e1 instanceof Player && e instanceof Player && e1.getId() != e.getId()) {
+                if(collisionController.checkBasicCollision(e1, e)) {
+                    xOffset = collisionController.calculateDoubleCollisionVelocityOffset(e1, e);
+                }
+            }
         }
-        e1.move(new Vector2((e1.getVelocity() * veloMod), e1.getHeightGain() - (e1.getWeight() * weightMod) - offset.y));
+        e1.move(new Vector2((e1.getVelocity() * veloMod) + xOffset, e1.getHeightGain() - (e1.getWeight() * weightMod) - offset.y + yOffset));
     }
 }

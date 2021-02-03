@@ -31,6 +31,16 @@ public class GameScreen implements Screen {
     public GameScreen(SuperNoodle game) {
         this.game = game;
         entities.add(new Floor(new Vector2(100, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(150, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(200, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(250, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(300, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(350, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(400, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(450, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(500, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+        entities.add(new Floor(new Vector2(550, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+
         playerOne = new Player(new Vector2(100, 400), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 1);
         playerTwo = new Player(new Vector2(500, 400), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 2);
         entities.add(playerOne);
