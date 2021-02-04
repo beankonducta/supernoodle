@@ -109,7 +109,7 @@ public class MovementController {
                 }
             }
         }
-        e1.move(new Vector2((e1.getVelocity() * veloMod) + xOffset, e1.getHeightGain() - (e1.getWeight() * weightMod) - offset.y + yOffset));
+        e1.move(new Vector2((e1.getVelocity() * veloMod) + xOffset - offset.x, e1.getHeightGain() - (e1.getWeight() * weightMod) - offset.y + yOffset));
         // try to add ingredient to bowl after it's moved
         if(e1 instanceof Ingredient)
         this.attemptIngredientAdd(e1, entities);

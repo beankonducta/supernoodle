@@ -49,16 +49,13 @@ public class CollisionController {
     Also we aren't actually using the x value right now but we should get that working.
      */
     public Vector2 calculateFloorCollisionOffset(Entity e1, Entity e2, Vector2 position) {
-        // this isn't actually calculating what we think it is :)
-        // but it does seem to be working
+        // the player keeps falling through the corners haha
         float x = 0;
         float y = 0;
-
-        if (position.x > 0) x = e1.getPosition().x - (e2.getPosition().x + e2.getCollider().width);
-        else if (position.x < 0) x = (e1.getPosition().x + e1.getCollider().width) - e2.getPosition().x;
-
-        if (position.y < e1.getPosition().y) y = e1.getPosition().y - (e2.getPosition().y + e2.getCollider().height);
-        else if (position.y > e1.getPosition().y) y = 0;
+        if (position.y > e2.getPosition().y) y = e1.getPosition().y - (e2.getPosition().y + e2.getCollider().height);
+//        else if (position.y < e2.getPosition().y) y = e1.getPosition().y + e1.getCollider().height - e2.getPosition().y;
+        else if (position.x > e2.getPosition().x && y == 0) x = e1.getPosition().x - (e2.getPosition().x + e2.getCollider().width);
+        else if (position.x < e2.getPosition().x && y ==0) x = (e1.getPosition().x + e1.getCollider().width) - e2.getPosition().x;
 
         return new Vector2(x, y);
     }

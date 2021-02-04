@@ -12,6 +12,8 @@ public class Settings {
     public static final float INGREDIENT_DECEL_SPEED = 3f;
     public static final float INGREDIENT_WEIGHT = 3f;
 
-    public static final boolean DEBUG_COLLISION = false;
+    public static final boolean DEBUG_COLLISION = true;
+
+    public static final int TILE_SIZE = 16;
 
 }

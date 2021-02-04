@@ -14,8 +14,13 @@ import com.patrick.game.entities.Floor;
 import com.patrick.game.entities.Ingredient;
 import com.patrick.game.entities.Player;
 import com.patrick.game.levels.Level;
+import com.patrick.game.util.MapLoader;
 import com.patrick.game.util.Settings;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,36 +28,14 @@ public class GameScreen implements Screen {
 
     private SuperNoodle game;
     private Level level;
-    private Player playerOne;
-    private Player playerTwo;
-    private Ingredient ingredientOne;
-    private Ingredient ingredientTwo;
     private List<Entity> entities = new ArrayList<Entity>();
     private MovementController movementController;
     private CollisionController collisionController;
 
     public GameScreen(SuperNoodle game) {
         this.game = game;
-        entities.add(new Floor(new Vector2(100, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        entities.add(new Floor(new Vector2(150, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        entities.add(new Floor(new Vector2(200, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        entities.add(new Floor(new Vector2(250, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        entities.add(new Floor(new Vector2(300, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        entities.add(new Floor(new Vector2(350, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        entities.add(new Floor(new Vector2(400, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        entities.add(new Floor(new Vector2(450, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        entities.add(new Floor(new Vector2(500, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-        entities.add(new Floor(new Vector2(550, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
-
-        entities.add(new Floor(new Vector2(350, 150), new Texture(Gdx.files.internal("PLAYER.png"))));
-        ingredientOne = new Ingredient(new Vector2(200, 400), Settings.INGREDIENT_SPEED, Settings.INGREDIENT_WEIGHT, Settings.INGREDIENT_DECEL_SPEED, new Texture(Gdx.files.internal("INGREDIENT.png")), 3);
-        ingredientTwo = new Ingredient(new Vector2(300, 200), Settings.INGREDIENT_SPEED, Settings.INGREDIENT_WEIGHT, Settings.INGREDIENT_DECEL_SPEED, new Texture(Gdx.files.internal("INGREDIENT.png")), 4);
-        entities.add(ingredientOne);
-        entities.add(ingredientTwo);
-        playerOne = new Player(new Vector2(100, 400), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 1);
-        playerTwo = new Player(new Vector2(500, 400), Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED, new Texture(Gdx.files.internal("PLAYER.png")), 16, 0.99f, 2);
-        entities.add(playerOne);
-        entities.add(playerTwo);
+        MapLoader mapLoader = new MapLoader();
+        entities = mapLoader.loadMap("map.png");
         collisionController = new CollisionController();
         movementController = new MovementController(collisionController);
         this.level = new Level(entities);
@@ -68,10 +51,13 @@ public class GameScreen implements Screen {
         this.game.batch.begin();
         this.level.draw(this.game.batch, this.game.shapeRenderer);
         this.level.update(delta);
-        movementController.playerMove(playerOne, entities, game.shapeRenderer);
-        movementController.playerMove(playerTwo, entities, game.shapeRenderer);
-        movementController.ingredientMove(ingredientOne, entities, game.shapeRenderer);
-        movementController.ingredientMove(ingredientTwo, entities, game.shapeRenderer);
+        if(entities != null)
+        for(Entity e : entities) {
+            if(e instanceof Player)
+                movementController.playerMove(e, entities, game.shapeRenderer);
+            if(e instanceof Ingredient)
+                movementController.ingredientMove(e, entities, game.shapeRenderer);
+        }
         this.game.batch.end();
     }
 
