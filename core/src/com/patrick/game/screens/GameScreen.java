@@ -43,6 +43,8 @@ public class GameScreen implements Screen {
         entities.add(new Floor(new Vector2(450, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
         entities.add(new Floor(new Vector2(500, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
         entities.add(new Floor(new Vector2(550, 120), new Texture(Gdx.files.internal("PLAYER.png"))));
+
+        entities.add(new Floor(new Vector2(350, 150), new Texture(Gdx.files.internal("PLAYER.png"))));
         ingredientOne = new Ingredient(new Vector2(200, 400), Settings.INGREDIENT_SPEED, Settings.INGREDIENT_WEIGHT, Settings.INGREDIENT_DECEL_SPEED, new Texture(Gdx.files.internal("INGREDIENT.png")), 3);
         ingredientTwo = new Ingredient(new Vector2(300, 200), Settings.INGREDIENT_SPEED, Settings.INGREDIENT_WEIGHT, Settings.INGREDIENT_DECEL_SPEED, new Texture(Gdx.files.internal("INGREDIENT.png")), 4);
         entities.add(ingredientOne);

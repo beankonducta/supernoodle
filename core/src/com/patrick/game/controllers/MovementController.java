@@ -124,7 +124,7 @@ public class MovementController {
                     b.addIngredient(i);
                 }
         }
-        entities.remove(e1);
+//        entities.remove(e1);
     }
 
     private void attemptIngredientRemove(Entity e1, List<Entity> entities) {
