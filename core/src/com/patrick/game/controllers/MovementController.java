@@ -19,10 +19,11 @@ public class MovementController {
         this.collisionController = collisionController;
     }
 
-    public void playerMove(Entity e, List<Entity> entities, ShapeRenderer renderer) {
+    public void playerMove(Entity e, List<Entity> entities, ShapeRenderer renderer, float delta) {
         final int[] KEYS = e.getId() == 1 ?
                 new int[]{Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S, Input.Keys.CONTROL_LEFT} :
                 new int[]{Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT};
+
         if (e instanceof Player && KEYS != null) {
             if (Gdx.input.isKeyPressed(KEYS[0])) {
                 e.setVelocity(e.getSpeed());
@@ -53,7 +54,7 @@ public class MovementController {
                     }
             }
         }
-        moveEntity(e, entities, renderer);
+        moveEntity(e, entities, renderer, delta);
     }
 
     public void attemptPickup(Entity e1, Entity e2) {
@@ -67,49 +68,42 @@ public class MovementController {
         }
     }
 
-    public void ingredientMove(Entity e, List<Entity> entities, ShapeRenderer renderer) {
+    public void ingredientMove(Entity e, List<Entity> entities, ShapeRenderer renderer, float delta) {
         if (e instanceof Ingredient) {
-            moveEntity(e, entities, renderer);
+            moveEntity(e, entities, renderer, delta);
         }
     }
 
-    public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer) {
-        int weightMod = 2;
-        float veloMod = e1.getGrounded() ? 1 : .5f;
-        float xOffset = 0;
-        float yOffset = 0;
-        Vector2 position = new Vector2(e1.getPosition().x + (e1.getVelocity() * veloMod), e1.getPosition().y - (e1.getWeight()) + e1.getHeightGain());
-        Vector2 offset = new Vector2(0, 0);
-        Rectangle futurePosition = new Rectangle(position.x, position.y, e1.getCollider().width, e1.getCollider().height);
-        if (Settings.DEBUG_COLLISION) {
-            renderer.begin(ShapeRenderer.ShapeType.Line);
-            renderer.setColor(Color.YELLOW);
-            renderer.rect(futurePosition.x, futurePosition.y, futurePosition.width, futurePosition.height);
-            renderer.end();
-        }
+    public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer, float delta) {
+        e1.move(new Vector2((e1.getVelocity() * delta * (e1.getGrounded() ? 1 : .5f)), ((e1.getHeightGain() - e1.getWeight()) * delta)));
         for (Entity e : entities) {
             if (e instanceof Floor) {
-                if (collisionController.checkBasicCollision(futurePosition, e.getCollider())) {
-                    offset = collisionController.calculateFloorCollisionOffset(e1, e, position);
-                    weightMod = 1;
+                if (collisionController.checkBasicCollision(e1, e)) {
+                    Vector2 offset = collisionController.calculateFloorCollisionOffset(e1, e);
+                    e1.move(offset);
+                    if(offset.x != 0) e1.setVelocity(-e1.getVelocity());
+                    if(offset.y != 0)
                     e1.setGrounded(true);
-                } else {
-                    weightMod = 2;
+                    if(Settings.DEBUG_COLLISION) {
+                        renderer.begin(ShapeRenderer.ShapeType.Line);
+                        renderer.setColor(Color.WHITE);
+                        renderer.rect(e.getCollider().x, e.getCollider().y, e.getCollider().width, e.getCollider().height);
+                        renderer.end();
+                    }
                 }
             }
             if (e1.getId() != e.getId() && !(e instanceof Floor)) {
                 if (collisionController.checkBasicCollision(e1, e)) {
                     if(Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
-                        e.move(new Vector2(e1.getVelocity(), 0));
-                        e.setVelocity(e1.getVelocity() * .75f);
+                        e.move(new Vector2(e1.getVelocity() * delta, 0));
+                        e.setVelocity(e1.getVelocity() * .75f * delta);
                     } else {
-                        e1.move(new Vector2(e.getVelocity(), 0));
-                        e1.setVelocity(e.getVelocity() * .75f);
+                        e1.move(new Vector2(e.getVelocity() * delta, 0));
+                        e1.setVelocity(e.getVelocity() * .75f * delta);
                     }
                 }
             }
         }
-        e1.move(new Vector2((e1.getVelocity() * veloMod) + xOffset - offset.x, e1.getHeightGain() - (e1.getWeight() * weightMod) - offset.y + yOffset));
         // try to add ingredient to bowl after it's moved
         if(e1 instanceof Ingredient)
         this.attemptIngredientAdd(e1, entities);

@@ -135,10 +135,10 @@ public class Entity {
         }
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;
         if (this.heightGain < 0) this.heightGain += this.decelSpeed * delta;
-        if(this.heightGain < 1 && this.heightGain > 0) this.heightGain = 0;
-        if(this.heightGain > -1 && this.heightGain < 0) this.heightGain = 0;
-        if(this.velocity < 1 && this.velocity > .5f) this.velocity = 0;
-        if(this.velocity > -.5f && this.velocity < 0) this.velocity = 0;
+        if((this.heightGain < 5 && this.heightGain > 0) || this.grounded) this.heightGain = 0;
+        if((this.heightGain > -5 && this.heightGain < 0) || this.grounded) this.heightGain = 0;
+        if(this.velocity < 5 && this.velocity > 0) this.velocity = 0;
+        if(this.velocity > -5f && this.velocity < 0) this.velocity = 0;
         if (this.collider != null)
             this.collider.setPosition(this.position);
     }

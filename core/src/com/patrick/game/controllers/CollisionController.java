@@ -40,23 +40,37 @@ public class CollisionController {
         return false;
     }
 
-    /*
-    As it stands, if we enter through the bottom of a tile, we get 'pushed' to the top once we pass the half way point.
+//    public Vector2 calculateFloorCollisionOffset(Entity e1, Entity e2, Vector2 position) {
+//        // the player keeps falling through the corners haha
+//        float x = 0;
+//        float y = 0;
+//        if (position.y > e2.getPosition().y) y = e1.getPosition().y - (e2.getPosition().y + e1.getCollider().height);
+//        else if (position.y < e2.getPosition().y) y = 0;
+//        if (position.x > e2.getPosition().x) x = e1.getPosition().x - (e2.getPosition().x + e2.getCollider().width);
+//        else if (position.x < e2.getPosition().x) x = (e1.getPosition().x + e1.getCollider().width) - e2.getPosition().x;
+//        if(x < y) y = 0;
+//        if(y < x) x = 0;
+//        return new Vector2(x, y);
+//    }
 
-    I think we need to include a direction paramater here so we know the intended direction of travel (or maybe
-    we can calculate this in the math) so if we're moving 'up' through a tile we don't get teleported through it.
-
-    Also we aren't actually using the x value right now but we should get that working.
-     */
-    public Vector2 calculateFloorCollisionOffset(Entity e1, Entity e2, Vector2 position) {
+    public Vector2 calculateFloorCollisionOffset(Entity e1, Entity e2) {
         // the player keeps falling through the corners haha
         float x = 0;
         float y = 0;
-        if (position.y > e2.getPosition().y) y = e1.getPosition().y - (e2.getPosition().y + e2.getCollider().height);
-//        else if (position.y < e2.getPosition().y) y = e1.getPosition().y + e1.getCollider().height - e2.getPosition().y;
-        else if (position.x > e2.getPosition().x && y == 0) x = e1.getPosition().x - (e2.getPosition().x + e2.getCollider().width);
-        else if (position.x < e2.getPosition().x && y ==0) x = (e1.getPosition().x + e1.getCollider().width) - e2.getPosition().x;
-
+        if(e1.getPosition().y > e2.getPosition().y && e1.getHeightGain() <= e1.getWeight()) {
+            y = -1*(e1.getPosition().y - e1.getCollider().height - e2.getPosition().y);
+        }
+        else if(e1.getPosition().y < e2.getPosition().y && e1.getHeightGain() > 0) {
+//            y = e2.getPosition().y - e1.getCollider().height - e1.getPosition().y;
+            y = 0;
+        }
+        else if(e1.getPosition().x > e2.getPosition().x && e1.getVelocity() < 0) {
+            x = -1*(e1.getPosition().x - e1.getCollider().width - e2.getPosition().x);
+        }
+        else if(e1.getPosition().x < e2.getPosition().x && e1.getVelocity() > 0) {
+            x = e2.getPosition().x - e1.getCollider().width - e1.getPosition().x;
+        }
+       System.out.println(x + " : " + y);
         return new Vector2(x, y);
     }
 }

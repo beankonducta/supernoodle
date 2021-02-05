@@ -54,9 +54,9 @@ public class GameScreen implements Screen {
         if(entities != null)
         for(Entity e : entities) {
             if(e instanceof Player)
-                movementController.playerMove(e, entities, game.shapeRenderer);
+                movementController.playerMove(e, entities, game.shapeRenderer, delta);
             if(e instanceof Ingredient)
-                movementController.ingredientMove(e, entities, game.shapeRenderer);
+                movementController.ingredientMove(e, entities, game.shapeRenderer, delta);
         }
         this.game.batch.end();
     }
