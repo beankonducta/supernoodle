@@ -129,10 +129,10 @@ public class Entity {
     }
 
     public void update(float delta) {
-        if(this.grounded) {
+//        if(this.grounded) {
             if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
             if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
-        }
+//        }
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;
         if (this.heightGain < 0) this.heightGain += this.decelSpeed * delta;
         if((this.heightGain < 5 && this.heightGain > 0) || this.grounded) this.heightGain = 0;

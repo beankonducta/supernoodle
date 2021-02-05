@@ -61,8 +61,7 @@ public class CollisionController {
             y = -1*(e1.getPosition().y - e1.getCollider().height - e2.getPosition().y);
         }
         else if(e1.getPosition().y < e2.getPosition().y && e1.getHeightGain() > 0) {
-//            y = e2.getPosition().y - e1.getCollider().height - e1.getPosition().y;
-            y = 0;
+            y = e2.getPosition().y - e1.getCollider().height - e1.getPosition().y;
         }
         else if(e1.getPosition().x > e2.getPosition().x && e1.getVelocity() < 0) {
             x = -1*(e1.getPosition().x - e1.getCollider().width - e2.getPosition().x);

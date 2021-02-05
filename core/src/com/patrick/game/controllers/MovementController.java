@@ -47,10 +47,10 @@ public class MovementController {
                         if (e1 instanceof Ingredient)
                             if (collisionController.checkIngredientPickupCollision(e, e1))
                                 this.attemptPickup(e, e1);
-                        else if (e1 instanceof Bowl)
-                            if(collisionController.checkBasicCollision(e, e1))
-                                // this might error since we're currently iterating through the list when we call
-                                this.attemptIngredientRemove(e, entities);
+                            else if (e1 instanceof Bowl)
+                                if (collisionController.checkBasicCollision(e, e1))
+                                    // this might error since we're currently iterating through the list when we call
+                                    this.attemptIngredientRemove(e, entities);
                     }
             }
         }
@@ -81,10 +81,12 @@ public class MovementController {
                 if (collisionController.checkBasicCollision(e1, e)) {
                     Vector2 offset = collisionController.calculateFloorCollisionOffset(e1, e);
                     e1.move(offset);
-                    if(offset.x != 0) e1.setVelocity(-e1.getVelocity());
-                    if(offset.y != 0)
-                    e1.setGrounded(true);
-                    if(Settings.DEBUG_COLLISION) {
+                    if (offset.x != 0) e1.setVelocity(-e1.getVelocity()*.95f);
+                    if (offset.y > 0)
+                        e1.setGrounded(true);
+                    if(offset.y < 0)
+                        e1.setHeightGain(e1.getHeightGain() / 2);
+                    if (Settings.DEBUG_COLLISION) {
                         renderer.begin(ShapeRenderer.ShapeType.Line);
                         renderer.setColor(Color.WHITE);
                         renderer.rect(e.getCollider().x, e.getCollider().y, e.getCollider().width, e.getCollider().height);
@@ -94,7 +96,7 @@ public class MovementController {
             }
             if (e1.getId() != e.getId() && !(e instanceof Floor)) {
                 if (collisionController.checkBasicCollision(e1, e)) {
-                    if(Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
+                    if (Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
                         e.move(new Vector2(e1.getVelocity() * delta, 0));
                         e.setVelocity(e1.getVelocity() * .75f * delta);
                     } else {
@@ -105,15 +107,15 @@ public class MovementController {
             }
         }
         // try to add ingredient to bowl after it's moved
-        if(e1 instanceof Ingredient)
-        this.attemptIngredientAdd(e1, entities);
+        if (e1 instanceof Ingredient)
+            this.attemptIngredientAdd(e1, entities);
     }
 
     private void attemptIngredientAdd(Entity e1, List<Entity> entities) {
         Ingredient i = (Ingredient) e1;
-        for(Entity e : entities) {
-            if(e instanceof Bowl)
-                if(collisionController.checkBasicCollision(i.getPickupCollider(), e.getCollider())) {
+        for (Entity e : entities) {
+            if (e instanceof Bowl)
+                if (collisionController.checkBasicCollision(i.getPickupCollider(), e.getCollider())) {
                     Bowl b = (Bowl) e;
                     b.addIngredient(i);
                 }
