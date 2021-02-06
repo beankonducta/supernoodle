@@ -10,20 +10,10 @@ import com.patrick.game.util.Settings;
 
 public class Ingredient extends StaticEntity {
 
-    protected Vector2 offset;
     protected Rectangle pickupCollider;
-
-    public void setOffset(Vector2 offset) {
-        this.offset = offset;
-    }
 
     public Rectangle getPickupCollider() {
         return this.pickupCollider;
-    }
-
-    public void resetOffset() {
-        this.offset.x = 0;
-        this.offset.y = 0;
     }
 
     public Ingredient(Vector2 position, float speed, float weight, float decelSpeed, Texture texture, int id) {
@@ -31,7 +21,6 @@ public class Ingredient extends StaticEntity {
         this.id = id;
         this.collider = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
         this.pickupCollider = new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth() + texture.getWidth(), texture.getHeight() + texture.getHeight());
-        this.offset = new Vector2(0, 0);
         this.debugColor = Color.BLACK;
     }
 
@@ -51,10 +40,7 @@ public class Ingredient extends StaticEntity {
         }
     }
 
-
     public void move(Vector2 position) {
-        // not working. oh well.
-        super.move(position.add(this.offset));
-        this.resetOffset();
+        super.move(position);
     }
 }

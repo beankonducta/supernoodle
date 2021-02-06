@@ -68,7 +68,10 @@ public class MovementController {
             }
             if (Gdx.input.isKeyJustPressed(KEYS[4])) {
                 Player p = (Player) e;
-                if (p.getIngredient() != null) p.setIngredient(null);
+                if (p.getIngredient() != null) {
+                    p.getIngredient().setHeightGain(500);
+                    p.setIngredient(null);
+                }
                 else
                     for (Entity e1 : entities) {
                         if (e1 instanceof Ingredient)
@@ -89,7 +92,6 @@ public class MovementController {
             Player p = (Player) e1;
             if (p.getIngredient() == null) {
                 Ingredient i = (Ingredient) e2;
-                i.setOffset(new Vector2(-8, 16));
                 p.setIngredient(i);
             }
         }
@@ -112,7 +114,6 @@ public class MovementController {
                     e1.move(offset);
                     if (offset.x != 0) {
                         e1.setVelocity(-e1.getVelocity() * .95f);
-                        break;
                     }
                     if (offset.y > 0)
                         e1.setGrounded(true);

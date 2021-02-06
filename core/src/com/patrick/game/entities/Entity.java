@@ -166,4 +166,8 @@ public class Entity {
     public void move(Vector2 position) {
         this.position = this.position.add(position);
     }
+
+    public void moveTo(Vector2 position) {
+        this.position = position;
+    }
 }

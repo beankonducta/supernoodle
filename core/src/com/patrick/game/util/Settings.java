@@ -8,9 +8,9 @@ public class Settings {
     public static final float PLAYER_DECEL_SPEED = 350f;
     public static final float PLAYER_WEIGHT = 260f;
 
-    public static final float INGREDIENT_SPEED = 130f;
-    public static final float INGREDIENT_DECEL_SPEED = 100f;
-    public static final float INGREDIENT_WEIGHT = 90f;
+    public static final float INGREDIENT_SPEED = 150f;
+    public static final float INGREDIENT_DECEL_SPEED = 350f;
+    public static final float INGREDIENT_WEIGHT = 240f;
 
     public static final boolean DEBUG_COLLISION = false;
 

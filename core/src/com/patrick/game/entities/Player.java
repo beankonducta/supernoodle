@@ -38,7 +38,7 @@ public class Player extends AnimatedEntity {
         super.move(position);
         // we might want to move ingredient out of this class
         if(this.ingredient != null) {
-            this.ingredient.move(position);
+            this.ingredient.moveTo(new Vector2(this.getCollider().x, this.getCollider().y + this.getCollider().height + 5));
         }
     }
 }
