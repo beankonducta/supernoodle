@@ -1,5 +1,6 @@
 package com.patrick.game.entities;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -30,6 +31,7 @@ public class Player extends AnimatedEntity {
         this.animation = new Animation(animSpeed, this.textureRegions[0]);
         this.id = playerNumber;
         this.collider = new Rectangle(position.x, position.y, tileSize, tileSize);
+        this.debugColor = Color.RED;
     }
 
     public void move(Vector2 position) {

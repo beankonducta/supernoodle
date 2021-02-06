@@ -27,6 +27,8 @@ public class Entity {
     protected boolean grounded;
     protected boolean collided;
 
+    protected Color debugColor;
+
     public boolean isCollided() {
         return this.collided;
     }
@@ -155,7 +157,7 @@ public class Entity {
     public void draw(Batch batch, ShapeRenderer renderer) {
         if (Settings.DEBUG_COLLISION && this.collider != null) {
             renderer.begin(ShapeRenderer.ShapeType.Line);
-            renderer.setColor(Color.BLUE);
+            renderer.setColor((this.debugColor != null ? debugColor : Color.BLUE));
             renderer.rect(collider.x, collider.y, collider.width, collider.height);
             renderer.end();
         }

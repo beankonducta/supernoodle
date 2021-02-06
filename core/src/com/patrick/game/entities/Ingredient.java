@@ -32,6 +32,7 @@ public class Ingredient extends StaticEntity {
         this.collider = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
         this.pickupCollider = new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth() + texture.getWidth(), texture.getHeight() + texture.getHeight());
         this.offset = new Vector2(0, 0);
+        this.debugColor = Color.GREEN;
     }
 
     public void update(float delta) {
@@ -44,7 +45,7 @@ public class Ingredient extends StaticEntity {
         super.draw(batch, renderer);
         if (Settings.DEBUG_COLLISION && this.pickupCollider != null) {
             renderer.begin(ShapeRenderer.ShapeType.Line);
-            renderer.setColor(Color.BLUE);
+            renderer.setColor(Color.GREEN);
             renderer.rect(pickupCollider.x, pickupCollider.y, pickupCollider.width, pickupCollider.height);
             renderer.end();
         }

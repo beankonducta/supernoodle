@@ -69,7 +69,6 @@ public class CollisionController {
         else if(e1.getPosition().x < e2.getPosition().x && e1.getVelocity() > 0) {
             x = e2.getPosition().x - e1.getCollider().width - e1.getPosition().x + 1;
         }
-       System.out.println(x + " : " + y);
         return new Vector2(x, y);
     }
 }

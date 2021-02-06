@@ -20,7 +20,7 @@ public class MovementController {
 
     When the player moves LEFT, then UP, they teleport through the wall. totally edge case, doesn't seem to happen anywhere
     else.
-     
+
      */
 
     private CollisionController collisionController;
