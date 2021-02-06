@@ -21,6 +21,10 @@ public class MovementController {
     When the player moves LEFT, then UP, they teleport through the wall. totally edge case, doesn't seem to happen anywhere
     else.
 
+    REFACTOR:
+
+    I should move a lot of stuff out of here and into the game controller or something
+
      */
 
     private CollisionController collisionController;
@@ -126,13 +130,17 @@ public class MovementController {
 
     private void attemptIngredientAdd(Entity e1, List<Entity> entities) {
         Ingredient i = (Ingredient) e1;
+        boolean rm = false;
         for (Entity e : entities) {
             if (e instanceof Bowl)
                 if (collisionController.checkBasicCollision(i.getPickupCollider(), e.getCollider())) {
                     Bowl b = (Bowl) e;
                     b.addIngredient(i);
+                    System.out.println("Ingredient Added to Bowl");
+                    rm = true;
                 }
         }
+//        if(rm)
 //        entities.remove(e1);
     }
 
