@@ -96,8 +96,9 @@ public class MovementController {
                     }
                     if (offset.y > 0)
                         e1.setGrounded(true);
-                    if(offset.y < 0)
+                    if(offset.y < 0) {
                         e1.setHeightGain(e1.getHeightGain() / 2);
+                    }
                     if (Settings.DEBUG_COLLISION) {
                         renderer.begin(ShapeRenderer.ShapeType.Line);
                         renderer.setColor(Color.WHITE);
@@ -106,7 +107,7 @@ public class MovementController {
                     }
                 }
             }
-            if (e1.getId() != e.getId() && !(e instanceof Floor)) {
+            if (e1.getId() != e.getId() && !(e instanceof Floor) && !(e instanceof Bowl)) {
                 if (collisionController.checkBasicCollision(e1, e)) {
                     if (Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
                         e.move(new Vector2(e1.getVelocity() * delta, 0));

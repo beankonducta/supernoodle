@@ -41,7 +41,7 @@ public class MapLoader {
                         playerCount++;
                     }
                 }
-                if(c.getRed() == 255 && c.getGreen() == 255) {
+                if(c.getBlue() == 255 && c.getGreen() == 255) {
                     if(ingredientCount <= 7) {
                         entities.add(
                                 new Ingredient(
@@ -54,7 +54,7 @@ public class MapLoader {
                         ingredientCount++;
                     }
                 }
-                if(c.getBlue() == 255 && c.getGreen() == 255) {
+                if(c.getRed() == 255 && c.getGreen() == 255) {
                     entities.add(
                             new Bowl(
                                     new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
