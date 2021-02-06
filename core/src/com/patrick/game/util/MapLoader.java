@@ -32,7 +32,6 @@ public class MapLoader {
                 }
                 if(c.getRed() == 255 && c.getBlue() == 255) {
                     if(playerCount <= 2) {
-                        System.out.println("Player Added");
                         entities.add(
                                 new Player(
                                         new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
@@ -44,7 +43,6 @@ public class MapLoader {
                 }
                 if(c.getRed() == 255 && c.getGreen() == 255) {
                     if(ingredientCount <= 7) {
-                        System.out.println("Ingredient Added");
                         entities.add(
                                 new Ingredient(
                                         new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
@@ -57,7 +55,6 @@ public class MapLoader {
                     }
                 }
                 if(c.getBlue() == 255 && c.getGreen() == 255) {
-                    System.out.println("Bowl Added");
                     entities.add(
                             new Bowl(
                                     new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
@@ -65,7 +62,6 @@ public class MapLoader {
                 }
             }
         }
-        System.out.println(entities.size());
         return entities;
     }
 }

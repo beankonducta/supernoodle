@@ -111,7 +111,7 @@ public class MovementController {
                     if (Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
                         e.move(new Vector2(e1.getVelocity() * delta, 0));
                         e.setVelocity(e1.getVelocity() * .75f * delta);
-                    } else {
+                    } else if(Math.abs(e.getVelocity()) > Math.abs(e1.getVelocity())) {
                         e1.move(new Vector2(e.getVelocity() * delta, 0));
                         e1.setVelocity(e.getVelocity() * .75f * delta);
                     }
