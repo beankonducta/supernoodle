@@ -13,6 +13,16 @@ import java.util.List;
 
 public class MovementController {
 
+    /*
+    TODO:
+
+    KNOWN BUG:
+
+    When the player moves LEFT, then UP, they teleport through the wall. totally edge case, doesn't seem to happen anywhere
+    else.
+     
+     */
+
     private CollisionController collisionController;
 
     public MovementController(CollisionController collisionController) {
@@ -23,7 +33,6 @@ public class MovementController {
         final int[] KEYS = e.getId() == 1 ?
                 new int[]{Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S, Input.Keys.CONTROL_LEFT} :
                 new int[]{Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT};
-
         if (e instanceof Player && KEYS != null) {
             if (Gdx.input.isKeyPressed(KEYS[0])) {
                 e.setVelocity(e.getSpeed());
@@ -81,7 +90,10 @@ public class MovementController {
                 if (collisionController.checkBasicCollision(e1, e)) {
                     Vector2 offset = collisionController.calculateFloorCollisionOffset(e1, e);
                     e1.move(offset);
-                    if (offset.x != 0) e1.setVelocity(-e1.getVelocity()*.95f);
+                    if (offset.x != 0) {
+                        e1.setVelocity(-e1.getVelocity()*.95f);
+                        break;
+                    }
                     if (offset.y > 0)
                         e1.setGrounded(true);
                     if(offset.y < 0)

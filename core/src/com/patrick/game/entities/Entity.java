@@ -25,6 +25,15 @@ public class Entity {
     protected Rectangle collider;
     protected int id;
     protected boolean grounded;
+    protected boolean collided;
+
+    public boolean isCollided() {
+        return this.collided;
+    }
+
+    public void setCollided(boolean collided) {
+        this.collided = collided;
+    }
 
     public Direction getDir() {
         return dir;

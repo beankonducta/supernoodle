@@ -58,16 +58,16 @@ public class CollisionController {
         float x = 0;
         float y = 0;
         if(e1.getPosition().y > e2.getPosition().y && e1.getHeightGain() <= e1.getWeight()) {
-            y = -1*(e1.getPosition().y - e1.getCollider().height - e2.getPosition().y);
+            y = -1*(e1.getPosition().y - e1.getCollider().height - e2.getPosition().y + 1);
         }
         else if(e1.getPosition().y < e2.getPosition().y && e1.getHeightGain() > 0) {
-            y = e2.getPosition().y - e1.getCollider().height - e1.getPosition().y;
+            y = e2.getPosition().y - e1.getCollider().height - e1.getPosition().y + 1;
         }
         else if(e1.getPosition().x > e2.getPosition().x && e1.getVelocity() < 0) {
-            x = -1*(e1.getPosition().x - e1.getCollider().width - e2.getPosition().x);
+            x = -1*(e1.getPosition().x - e1.getCollider().width - e2.getPosition().x + 1);
         }
         else if(e1.getPosition().x < e2.getPosition().x && e1.getVelocity() > 0) {
-            x = e2.getPosition().x - e1.getCollider().width - e1.getPosition().x;
+            x = e2.getPosition().x - e1.getCollider().width - e1.getPosition().x + 1;
         }
        System.out.println(x + " : " + y);
         return new Vector2(x, y);
