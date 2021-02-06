@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.*;
 import com.patrick.game.util.Settings;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovementController {
@@ -29,9 +31,21 @@ public class MovementController {
 
     private CollisionController collisionController;
 
+    private List<Entity> toRemove;
+
     public MovementController(CollisionController collisionController) {
         this.collisionController = collisionController;
+        toRemove = new ArrayList<>();
     }
+
+    public void updateEntityList(List<Entity> entities) {
+        for (Entity e : toRemove) {
+            System.out.println("REMOVING ENTITY");
+            entities.remove(e);
+        }
+        toRemove = new ArrayList<>();
+    }
+
 
     public void playerMove(Entity e, List<Entity> entities, ShapeRenderer renderer, float delta) {
         final int[] KEYS = e.getId() == 1 ?
@@ -84,6 +98,8 @@ public class MovementController {
     public void ingredientMove(Entity e, List<Entity> entities, ShapeRenderer renderer, float delta) {
         if (e instanceof Ingredient) {
             moveEntity(e, entities, renderer, delta);
+            // try to add ingredient to bowl after it's moved
+            this.attemptIngredientAdd(e, entities);
         }
     }
 
@@ -95,12 +111,12 @@ public class MovementController {
                     Vector2 offset = collisionController.calculateFloorCollisionOffset(e1, e);
                     e1.move(offset);
                     if (offset.x != 0) {
-                        e1.setVelocity(-e1.getVelocity()*.95f);
+                        e1.setVelocity(-e1.getVelocity() * .95f);
                         break;
                     }
                     if (offset.y > 0)
                         e1.setGrounded(true);
-                    if(offset.y < 0) {
+                    if (offset.y < 0) {
                         e1.setHeightGain(e1.getHeightGain() / 2);
                     }
                     if (Settings.DEBUG_COLLISION) {
@@ -116,32 +132,25 @@ public class MovementController {
                     if (Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
                         e.move(new Vector2(e1.getVelocity() * delta, 0));
                         e.setVelocity(e1.getVelocity() * .75f * delta);
-                    } else if(Math.abs(e.getVelocity()) > Math.abs(e1.getVelocity())) {
+                    } else if (Math.abs(e.getVelocity()) > Math.abs(e1.getVelocity())) {
                         e1.move(new Vector2(e.getVelocity() * delta, 0));
                         e1.setVelocity(e.getVelocity() * .75f * delta);
                     }
                 }
             }
         }
-        // try to add ingredient to bowl after it's moved
-        if (e1 instanceof Ingredient)
-            this.attemptIngredientAdd(e1, entities);
     }
 
     private void attemptIngredientAdd(Entity e1, List<Entity> entities) {
         Ingredient i = (Ingredient) e1;
-        boolean rm = false;
         for (Entity e : entities) {
             if (e instanceof Bowl)
-                if (collisionController.checkBasicCollision(i.getPickupCollider(), e.getCollider())) {
+                if (collisionController.checkBasicCollision(e1, e)) {
                     Bowl b = (Bowl) e;
                     b.addIngredient(i);
-                    System.out.println("Ingredient Added to Bowl");
-                    rm = true;
+                    this.toRemove.add(i);
                 }
         }
-//        if(rm)
-//        entities.remove(e1);
     }
 
     private void attemptIngredientRemove(Entity e1, List<Entity> entities) {
