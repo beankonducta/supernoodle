@@ -34,6 +34,11 @@ public class Player extends AnimatedEntity {
         this.debugColor = Color.RED;
     }
 
+    public void update(float delta) {
+        super.update(delta);
+        if(grounded) this.heightGain = 0;
+    }
+
     public void move(Vector2 position) {
         super.move(position);
         // we might want to move ingredient out of this class

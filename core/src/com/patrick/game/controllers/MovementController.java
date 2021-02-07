@@ -63,7 +63,8 @@ public class MovementController {
             if (Gdx.input.isKeyJustPressed(KEYS[4])) {
                 Player p = (Player) e;
                 if (p.getIngredient() != null) {
-                    p.getIngredient().setHeightGain(500);
+                    p.getIngredient().setHeightGain(p.getHeightGain() * 1.1f);
+                    p.getIngredient().setVelocity(p.getVelocity() * .75f);
                     p.setIngredient(null);
                 }
                 else

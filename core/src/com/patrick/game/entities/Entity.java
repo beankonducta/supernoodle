@@ -93,7 +93,11 @@ public class Entity {
         return decelSpeed;
     }
 
-    public float getVelocityY() {return -weight + heightGain; };
+    public float getVelocityY() {
+        return -weight + heightGain;
+    }
+
+    ;
 
     public Texture getTexture() {
         return texture;
@@ -141,15 +145,15 @@ public class Entity {
 
     public void update(float delta) {
 //        if(this.grounded) {
-            if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
-            if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
+        if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
+        if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
 //        }
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;
         if (this.heightGain < 0) this.heightGain += this.decelSpeed * delta;
-        if((this.heightGain < 5 && this.heightGain > 0) || this.grounded) this.heightGain = 0;
-        if((this.heightGain > -5 && this.heightGain < 0) || this.grounded) this.heightGain = 0;
-        if(this.velocity < 5 && this.velocity > 0) this.velocity = 0;
-        if(this.velocity > -5f && this.velocity < 0) this.velocity = 0;
+        if (this.heightGain < 5 && this.heightGain > 0) this.heightGain = 0;
+        if (this.heightGain > -5 && this.heightGain < 0) this.heightGain = 0;
+        if (this.velocity < 5 && this.velocity > 0) this.velocity = 0;
+        if (this.velocity > -5f && this.velocity < 0) this.velocity = 0;
         if (this.collider != null)
             this.collider.setPosition(this.position);
     }
