@@ -30,7 +30,7 @@ public class CameraController {
 
     public void resetCamera() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false);
+        camera.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() /2);
         camera.update();
     }
 

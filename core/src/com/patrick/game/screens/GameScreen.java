@@ -53,7 +53,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         if (level == null) return;
         this.game.batch.begin();
-        this.game.batch.setProjectionMatrix(this.cameraController.getCamera().projection);
+        this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
         this.level.draw(this.game.batch, this.game.shapeRenderer);
         this.level.update(delta);
         if(entities != null)
