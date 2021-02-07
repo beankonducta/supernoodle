@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.util.Settings;
 
 public class Player extends AnimatedEntity {
 
@@ -25,12 +26,12 @@ public class Player extends AnimatedEntity {
             this.ingredient.setHeightGain(heightGain * .75f);
     }
 
-    public Player(Vector2 position, float speed, float weight, float decelSpeed, Texture texture, int tileSize, float animSpeed, int playerNumber) {
+    public Player(Vector2 position, float speed, float weight, float decelSpeed, Texture texture, float animSpeed, int playerNumber) {
         super(position, speed, weight, decelSpeed, texture);
-        this.textureRegions = Sprite.split(texture, tileSize, tileSize);
+        this.textureRegions = Sprite.split(texture, Settings.TILE_SIZE, Settings.TILE_SIZE);
         this.animation = new Animation(animSpeed, this.textureRegions[0]);
         this.id = playerNumber;
-        this.collider = new Rectangle(position.x, position.y, tileSize, tileSize);
+        this.collider = new Rectangle(position.x, position.y, Settings.TILE_SIZE, Settings.TILE_SIZE);
         this.debugColor = Color.RED;
     }
 

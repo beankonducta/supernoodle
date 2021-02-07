@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class StaticEntity extends Entity {
 
+
     public StaticEntity(Vector2 position, Texture texture) {
         super(position, texture);
     }

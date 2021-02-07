@@ -40,7 +40,7 @@ public class MapLoader {
                                         new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
                                         Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED,
                                         new Texture(Gdx.files.internal("PLAYER.png")),
-                                        Settings.TILE_SIZE, 0.99f, playerCount));
+                                        0.99f, playerCount));
                         playerCount++;
                     }
                 }
