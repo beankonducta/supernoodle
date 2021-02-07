@@ -15,5 +15,6 @@ public class Settings {
     public static final boolean DEBUG_COLLISION = false;
 
     public static final int TILE_SIZE = 16;
+    public static final float FRAME_SPEED = 0.5f;
 
 }

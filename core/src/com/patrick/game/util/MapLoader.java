@@ -35,17 +35,18 @@ public class MapLoader {
                 // TODO: Figure out why this isn't loading two players (I suspect colors are off)
                 if(c.getRed() == 255 && c.getBlue() == 255) {
                     if(playerCount <= 2) {
+                        System.out.println("ADDING PLAYER AT: "+i+":"+j);
                         entities.add(
                                 new Player(
                                         new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
                                         Settings.PLAYER_SPEED, Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED,
-                                        new Texture(Gdx.files.internal("PLAYER.png")),
-                                        0.99f, playerCount));
+                                        playerCount));
                         playerCount++;
                     }
                 }
                 if(c.getBlue() == 255 && c.getGreen() == 255) {
                     if(ingredientCount <= 7) {
+                        System.out.println("ADDING INGREDIENT");
                         entities.add(
                                 new Ingredient(
                                         new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),

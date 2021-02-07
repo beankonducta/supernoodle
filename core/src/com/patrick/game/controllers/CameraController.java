@@ -31,6 +31,7 @@ public class CameraController {
     public void resetCamera() {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() /2);
+        camera.zoom = 1;
         camera.update();
     }
 

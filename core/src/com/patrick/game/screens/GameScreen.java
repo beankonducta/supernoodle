@@ -28,6 +28,7 @@ public class GameScreen implements Screen {
     private SuperNoodle game;
     private Level level;
     private int winningPlayer;
+    private float stateTime;
     private List<Entity> entities = new ArrayList<Entity>();
     private MovementController movementController;
     private CollisionController collisionController;
@@ -37,7 +38,7 @@ public class GameScreen implements Screen {
     public GameScreen(SuperNoodle game) {
         this.game = game;
         MapLoader mapLoader = new MapLoader();
-        entities = mapLoader.loadMap("map.png");
+        entities = mapLoader.loadMap("MAP_0.png");
         collisionController = new CollisionController();
         movementController = new MovementController(collisionController);
         levelController = new LevelController(collisionController);
@@ -51,6 +52,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        stateTime += Gdx.graphics.getDeltaTime() * Settings.FRAME_SPEED;
         if (level == null) return;
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);

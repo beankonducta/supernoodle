@@ -101,6 +101,8 @@ public class MovementController {
 
     public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer, float delta) {
         e1.move(new Vector2((e1.getVelocity() * delta * (e1.getGrounded() ? 1 : .5f)), ((e1.getHeightGain() - e1.getWeight()) * delta)));
+        if(e1.getPosition().x < 0) e1.moveTo(new Vector2(500, e1.getPosition().y)); // the 512 is proprietary based on map width and tile size. should make dynamic
+        if(e1.getPosition().x > 500) e1.moveTo(new Vector2(2, e1.getPosition().y));
         for (Entity e : entities) {
             if (e instanceof Floor) {
                 if (collisionController.checkBasicCollision(e1, e)) {

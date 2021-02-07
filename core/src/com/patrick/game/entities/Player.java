@@ -1,5 +1,6 @@
 package com.patrick.game.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -11,6 +12,7 @@ import com.patrick.game.util.Settings;
 public class Player extends AnimatedEntity {
 
     protected Ingredient ingredient;
+    protected Direction direction;
 
     public Ingredient getIngredient() {
         return this.ingredient;
@@ -26,13 +28,17 @@ public class Player extends AnimatedEntity {
             this.ingredient.setHeightGain(heightGain * .75f);
     }
 
-    public Player(Vector2 position, float speed, float weight, float decelSpeed, Texture texture, float animSpeed, int playerNumber) {
-        super(position, speed, weight, decelSpeed, texture);
-        this.textureRegions = Sprite.split(texture, Settings.TILE_SIZE, Settings.TILE_SIZE);
-        this.animation = new Animation(animSpeed, this.textureRegions[0]);
+    public void changeAnimation(String anim) {
+        this.textureRegions = Sprite.split(new Texture(Gdx.files.internal("PLAYER_"+anim+".png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+        this.animation = new Animation(1f, this.textureRegions[0]);
+    }
+
+    public Player(Vector2 position, float speed, float weight, float decelSpeed, int playerNumber) {
+        super(position, speed, weight, decelSpeed, null);
         this.id = playerNumber;
         this.collider = new Rectangle(position.x, position.y, Settings.TILE_SIZE, Settings.TILE_SIZE);
         this.debugColor = Color.RED;
+        this.changeAnimation("WALK");
     }
 
     public void update(float delta) {

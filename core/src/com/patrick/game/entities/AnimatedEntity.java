@@ -9,33 +9,47 @@ import com.badlogic.gdx.math.Vector2;
 
 public class AnimatedEntity extends Entity {
 
+    private final float animOffsetMax = 10f;
     protected TextureRegion[][] textureRegions; // might need to be 2d array
     protected Animation<TextureRegion> animation;
     protected int animFrame;
+    protected int animOffset;
     protected boolean playAnimation;
+
+    public void setAnimation(TextureRegion[][] textureRegions, Animation<TextureRegion> animation) {
+        this.textureRegions = textureRegions;
+        this.animation = animation;
+    }
 
     public AnimatedEntity(Vector2 position, Texture texture) {
         super(position, texture);
         this.animFrame = 0;
+        this.animOffset = 0;
         this.playAnimation = false;
     }
 
     public AnimatedEntity(Vector2 position, float speed, float weight, float decelSpeed, Texture texture) {
         super(position, speed, weight, decelSpeed, texture);
         this.animFrame = 0;
+        this.animOffset = 0;
     }
 
     public void update(float delta) {
         super.update(delta);
+        // TODO: Incorporate delta here
         if (this.playAnimation) {
-            if (this.animFrame < this.textureRegions[0].length - 1) this.animFrame++;
-            else this.animFrame = 0;
+            animOffset += 1;
+            if(animOffset >= animOffsetMax) {
+                animOffset = 0;
+                if (this.animFrame < this.textureRegions[0].length - 1) this.animFrame++;
+                else this.animFrame = 0;
+            }
         }
     }
 
     public void draw(Batch batch, ShapeRenderer renderer) {
         super.draw(batch, renderer);
-        if (this.texture == null) return;
+        if (this.textureRegions == null) return;
         batch.draw(this.animation.getKeyFrame(this.animFrame, true), this.position.x, this.position.y);
     }
 

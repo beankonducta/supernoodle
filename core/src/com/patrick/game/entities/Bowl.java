@@ -14,6 +14,7 @@ public class Bowl extends StaticEntity {
     public void addIngredient(Ingredient ingredient) {
         if(this.ingredients != null)
         this.ingredients.add(ingredient);
+        // update sprite here
     }
 
     public Entity removeIngredient(int index) {

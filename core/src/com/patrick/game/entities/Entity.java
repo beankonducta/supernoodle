@@ -172,6 +172,7 @@ public class Entity {
     }
 
     public void moveTo(Vector2 position) {
+        System.out.println(position);
         this.position = position;
     }
 }
