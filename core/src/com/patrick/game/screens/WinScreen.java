@@ -10,9 +10,11 @@ import com.patrick.game.SuperNoodle;
 public class WinScreen implements Screen {
 
     private SuperNoodle game;
+    private int winningPlayer;
 
-    public WinScreen(SuperNoodle game) {
+    public WinScreen(SuperNoodle game, int winningPlayer) {
         this.game = game;
+        this.winningPlayer = winningPlayer;
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.patrick.game.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.entities.Entity;
+import com.patrick.game.entities.Player;
 
 public class CameraController {
 
@@ -16,13 +18,21 @@ public class CameraController {
         camera.translate(destination);
     }
 
-    public void resetCamera() {
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.zoom += 1;
-        camera.update();
+    public void centerOnEntity(Entity e) {}
+
+    public void calculatedZoomPan(Entity e) {
+
     }
 
+    public void randomZoomPan() {
+
+    }
+
+    public void resetCamera() {
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false);
+        camera.update();
+    }
 
     public OrthographicCamera getCamera() {
         return camera;

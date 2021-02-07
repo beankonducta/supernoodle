@@ -35,9 +35,10 @@ public class Bowl extends StaticEntity {
         return this.ingredients.size();
         return 0;
     }
-    public Bowl(Vector2 position, Texture texture) {
+    public Bowl(Vector2 position, Texture texture, int id) {
         super(position, texture);
         this.ingredients = new ArrayList<Ingredient>();
         this.collider = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+        this.id = id;
     }
 }

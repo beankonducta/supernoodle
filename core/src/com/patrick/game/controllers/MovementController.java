@@ -16,16 +16,11 @@ import java.util.List;
 public class MovementController {
 
     /*
-    TODO:
+    TODO: When the player moves LEFT, then UP, they teleport through the wall. totally edge case.
 
-    KNOWN BUG:
+    TODO: Fix collision and movvement physics.
 
-    When the player moves LEFT, then UP, they teleport through the wall. totally edge case, doesn't seem to happen anywhere
-    else.
-
-    REFACTOR:
-
-    I should move a lot of stuff out of here and into the game controller or something
+    TODO: I should move a lot of stuff out of here and into the game controller or something
 
      */
 
@@ -40,7 +35,6 @@ public class MovementController {
 
     public void updateEntityList(List<Entity> entities) {
         for (Entity e : toRemove) {
-            System.out.println("REMOVING ENTITY");
             entities.remove(e);
         }
         toRemove = new ArrayList<>();
@@ -100,7 +94,6 @@ public class MovementController {
     public void ingredientMove(Entity e, List<Entity> entities, ShapeRenderer renderer, float delta) {
         if (e instanceof Ingredient) {
             moveEntity(e, entities, renderer, delta);
-            // try to add ingredient to bowl after it's moved
             this.attemptIngredientAdd(e, entities);
         }
     }

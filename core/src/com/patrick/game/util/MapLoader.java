@@ -17,11 +17,13 @@ public class MapLoader {
     public MapLoader() {
     }
 
+    // TODO: Consider having this return player, bowls and ingredients individually or in a different list (so we arent iterating so much)
     public List<Entity> loadMap(String path) {
         Pixmap pixmap = new Pixmap(Gdx.files.internal(path));
         List<Entity> entities = new ArrayList<Entity>();
         int playerCount = 1;
         int ingredientCount = 3;
+        int bowlCount = 8;
         for(int i = 0; i < pixmap.getWidth(); i ++) {
             for(int j = 0; j < pixmap.getHeight(); j ++) {
                 Color c = new Color(pixmap.getPixel(i, j));
@@ -30,6 +32,7 @@ public class MapLoader {
                             new Floor(
                                     new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j)));
                 }
+                // TODO: Figure out why this isn't loading two players (I suspect colors are off)
                 if(c.getRed() == 255 && c.getBlue() == 255) {
                     if(playerCount <= 2) {
                         entities.add(
@@ -55,10 +58,13 @@ public class MapLoader {
                     }
                 }
                 if(c.getRed() == 255 && c.getGreen() == 255) {
-                    entities.add(
-                            new Bowl(
-                                    new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
-                                    new Texture(Gdx.files.internal("BOWL.png"))));
+                    if (bowlCount <= 9) {
+                        entities.add(
+                                new Bowl(
+                                        new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
+                                        new Texture(Gdx.files.internal("BOWL.png")), bowlCount));
+                        bowlCount++;
+                    }
                 }
             }
         }
