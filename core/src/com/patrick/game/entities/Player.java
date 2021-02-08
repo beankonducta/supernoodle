@@ -12,7 +12,6 @@ import com.patrick.game.util.Settings;
 public class Player extends AnimatedEntity {
 
     protected Ingredient ingredient;
-    protected Direction direction;
 
     public Ingredient getIngredient() {
         return this.ingredient;

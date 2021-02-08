@@ -6,13 +6,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.util.Direction;
 import com.patrick.game.util.Settings;
 
 public class Entity {
-
-    enum Direction {
-        LEFT, RIGHT
-    }
 
     protected Direction dir;
     protected Vector2 position;
@@ -172,7 +169,6 @@ public class Entity {
     }
 
     public void moveTo(Vector2 position) {
-        System.out.println(position);
         this.position = position;
     }
 }

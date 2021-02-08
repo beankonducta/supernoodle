@@ -6,10 +6,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.util.Direction;
 
 public class AnimatedEntity extends Entity {
 
-    private final float animOffsetMax = 10f;
+    private final float animOffsetMax = 3f;
     protected TextureRegion[][] textureRegions; // might need to be 2d array
     protected Animation<TextureRegion> animation;
     protected int animFrame;
@@ -54,10 +55,20 @@ public class AnimatedEntity extends Entity {
     }
 
     public void move(Vector2 position) {
-        if (Math.abs(position.x) > 0 || Math.abs(position.y) > 0)
+        if(position.x > 0) this.dir = Direction.RIGHT;
+        if(position.x < 0) this.dir = Direction.LEFT;
+        if (Math.abs(velocity) > 0 || Math.abs(heightGain) > 0)
             this.playAnimation = true;
         else
             this.playAnimation = false;
         super.move(position);
+    }
+
+    public void start() {
+        this.playAnimation = true;
+    }
+
+    public void stop() {
+        this.playAnimation = false;
     }
 }

@@ -13,6 +13,7 @@ import com.patrick.game.controllers.LevelController;
 import com.patrick.game.controllers.MovementController;
 import com.patrick.game.entities.*;
 import com.patrick.game.levels.Level;
+import com.patrick.game.util.Direction;
 import com.patrick.game.util.MapLoader;
 import com.patrick.game.util.Settings;
 
