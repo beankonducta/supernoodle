@@ -28,6 +28,8 @@ public class Player extends AnimatedEntity {
     }
 
     public void changeAnimation(String anim) {
+        // TODO: Load textures outside of entity classes. that way they only load once.
+
         this.textureRegions = Sprite.split(new Texture(Gdx.files.internal("PLAYER_"+anim+".png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
         this.animation = new Animation(1f, this.textureRegions[0]);
     }
