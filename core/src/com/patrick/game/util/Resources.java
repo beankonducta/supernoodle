@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Resources {
@@ -80,34 +81,34 @@ public class Resources {
     // ingredients
     private static final TextureRegion[][] INGREDIENTS_REGION = Sprite.split(new Texture(Gdx.files.internal("INGREDIENTS.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
 
-    public static Texture INGREDIENT(int index) {
+    public static TextureRegion INGREDIENT(int index) {
         if(index >= INGREDIENTS_REGION[0].length) return null;
-        return INGREDIENTS_REGION[0][index].getTexture();
+        return INGREDIENTS_REGION[0][index];
     }
 
     // floor
-    private static final TextureRegion[][] FLOOR_REGION = Sprite.split(new Texture(Gdx.files.internal("FLOOR.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] FLOOR_REGION = Sprite.split(new Texture(Gdx.files.internal("GROUND.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
 
-    public static Texture FLOOR(int index) {
+    public static TextureRegion FLOOR(int index) {
         if(index >= FLOOR_REGION[0].length) return null;
-        return FLOOR_REGION[0][index].getTexture();
+        return FLOOR_REGION[0][index];
     }
 
     // bowls
     private static final TextureRegion[][] BOWLS_REGION = Sprite.split(new Texture(Gdx.files.internal("BOWLS.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
 
-    public static Texture BOWL(int index) {
+    public static TextureRegion BOWL(int index) {
         if(index >= BOWLS_REGION[0].length) return null;
-        return BOWLS_REGION[0][index].getTexture();
+        return BOWLS_REGION[0][index];
     }
 
     // clouds
     // NOTE: this should have its own size, not use tilesize
-    private static final TextureRegion[][] CLOUDS_REGION = Sprite.split(new Texture(Gdx.files.internal("CLOUDS.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] CLOUDS_REGION = Sprite.split(new Texture(Gdx.files.internal("CLOUDS.png")), Settings.TILE_SIZE, Settings.TILE_SIZE * 2);
 
-    public static Texture CLOUD(int index) {
+    public static TextureRegion CLOUD(int index) {
         if(index >= CLOUDS_REGION[0].length) return null;
-        return CLOUDS_REGION[0][index].getTexture();
+        return CLOUDS_REGION[0][index];
     }
 
     // hud

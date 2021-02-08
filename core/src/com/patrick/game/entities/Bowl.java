@@ -14,8 +14,10 @@ public class Bowl extends StaticEntity {
     protected List<Ingredient> ingredients;
 
     public void addIngredient(Ingredient ingredient) {
-        if(this.ingredients != null)
-        this.ingredients.add(ingredient);
+        if(this.ingredients != null) {
+            this.ingredients.add(ingredient);
+            this.updateTexture();
+        }
         // update sprite here
     }
 
@@ -24,6 +26,7 @@ public class Bowl extends StaticEntity {
             if(index < this.ingredients.size()) {
                 Entity e = this.ingredients.get(index);
                 this.ingredients.remove(e);
+                this.updateTexture();
                 return e;
             }
         return null;
@@ -39,9 +42,8 @@ public class Bowl extends StaticEntity {
         return 0;
     }
 
-    public Texture getTexture() {
+    public void updateTexture() {
         this.texture = Resources.BOWL(this.ingredients.size());
-        return this.texture;
     }
 
     public Bowl(Vector2 position, int id) {
@@ -49,5 +51,6 @@ public class Bowl extends StaticEntity {
         this.ingredients = new ArrayList<Ingredient>();
         this.collider = new Rectangle(position.x, position.y, Settings.TILE_SIZE, Settings.TILE_SIZE);
         this.id = id;
+        this.updateTexture();
     }
 }

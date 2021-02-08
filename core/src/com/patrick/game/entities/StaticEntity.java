@@ -2,6 +2,7 @@ package com.patrick.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -9,11 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 public class StaticEntity extends Entity {
 
 
-    public StaticEntity(Vector2 position, Texture texture) {
+    public StaticEntity(Vector2 position, TextureRegion texture) {
         super(position, texture);
     }
 
-    public StaticEntity(Vector2 position, float speed, float weight, float decelSpeed, Texture texture) {
+    public StaticEntity(Vector2 position, float speed, float weight, float decelSpeed, TextureRegion texture) {
         super(position, speed, weight, decelSpeed, texture);
     }
 
@@ -24,7 +25,7 @@ public class StaticEntity extends Entity {
     public void draw(Batch batch, ShapeRenderer renderer) {
         super.draw(batch, renderer);
         if (this.texture == null) return;
-        batch.draw(this.getTexture(), this.position.x, this.position.y);
+        batch.draw(this.texture, this.position.x, this.position.y);
     }
 
     public void move(Vector2 position) {

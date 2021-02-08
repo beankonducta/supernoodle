@@ -22,14 +22,14 @@ public class AnimatedEntity extends Entity {
         this.animation = animation;
     }
 
-    public AnimatedEntity(Vector2 position, Texture texture) {
+    public AnimatedEntity(Vector2 position, TextureRegion texture) {
         super(position, texture);
         this.animFrame = 0;
         this.animOffset = 0;
         this.playAnimation = false;
     }
 
-    public AnimatedEntity(Vector2 position, float speed, float weight, float decelSpeed, Texture texture) {
+    public AnimatedEntity(Vector2 position, float speed, float weight, float decelSpeed, TextureRegion texture) {
         super(position, speed, weight, decelSpeed, texture);
         this.animFrame = 0;
         this.animOffset = 0;

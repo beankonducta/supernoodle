@@ -3,6 +3,7 @@ package com.patrick.game.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -18,7 +19,7 @@ public class Entity {
     protected float weight;
     protected float decelSpeed;
     protected float heightGain;
-    protected Texture texture;
+    protected TextureRegion texture;
     protected Rectangle collider;
     protected int id;
     protected boolean grounded;
@@ -103,9 +104,7 @@ public class Entity {
         return -weight + heightGain;
     }
 
-    ;
-
-    public Texture getTexture() {
+    public TextureRegion getTexture() {
         return texture;
     }
 
@@ -113,7 +112,7 @@ public class Entity {
         return collider;
     }
 
-    public Entity(Vector2 position, Texture texture) {
+    public Entity(Vector2 position, TextureRegion texture) {
         this.position = position;
         this.texture = texture;
 
@@ -125,7 +124,7 @@ public class Entity {
         this.id = -1;
     }
 
-    public Entity(Vector2 position, float speed, float weight, float decelSpeed, Texture texture) {
+    public Entity(Vector2 position, float speed, float weight, float decelSpeed, TextureRegion texture) {
         this.position = position;
         this.speed = speed;
         this.decelSpeed = decelSpeed;
@@ -137,7 +136,7 @@ public class Entity {
         this.id = -1;
     }
 
-    public Entity(Vector2 position, float speed, float weight, float decelSpeed, Texture texture, int id) {
+    public Entity(Vector2 position, float speed, float weight, float decelSpeed, TextureRegion texture, int id) {
         this.position = position;
         this.speed = speed;
         this.decelSpeed = decelSpeed;
