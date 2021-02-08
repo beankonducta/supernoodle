@@ -11,7 +11,7 @@ import com.patrick.game.util.Settings;
 
 public class Entity {
 
-    protected Direction dir;
+    protected Direction dir, lastDir;
     protected Vector2 position;
     protected float speed;
     protected float velocity;
@@ -39,7 +39,16 @@ public class Entity {
     }
 
     public void setDir(Direction dir) {
+        this.lastDir = this.dir;
         this.dir = dir;
+    }
+
+    public Direction getLastDir() {
+        return lastDir;
+    }
+
+    public void setLastDir(Direction dir) {
+        this.lastDir = dir;
     }
 
     public void setGrounded(boolean grounded) {

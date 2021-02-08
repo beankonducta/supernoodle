@@ -6,6 +6,7 @@ import com.patrick.game.entities.Entity;
 import com.patrick.game.entities.Floor;
 import com.patrick.game.entities.Ingredient;
 import com.patrick.game.entities.Player;
+import com.patrick.game.util.Direction;
 
 public class CollisionController {
 
@@ -61,12 +62,12 @@ public class CollisionController {
             y = -1*(e1.getPosition().y - e1.getCollider().height - e2.getPosition().y + 1);
         }
         else if(e1.getPosition().y < e2.getPosition().y && e1.getHeightGain() > 0) {
-            y = e2.getPosition().y - e1.getCollider().height - e1.getPosition().y + 1;
+            y = 0;
         }
-        else if(e1.getPosition().x > e2.getPosition().x && e1.getVelocity() < 0) {
+        else if(e1.getPosition().x > e2.getPosition().x && e1.getVelocity() < 0 && e1.getDir() == Direction.LEFT) {
             x = -1*(e1.getPosition().x - e1.getCollider().width - e2.getPosition().x + 1);
         }
-        else if(e1.getPosition().x < e2.getPosition().x && e1.getVelocity() > 0) {
+        else if(e1.getPosition().x < e2.getPosition().x && e1.getVelocity() > 0 && e1.getDir() == Direction.RIGHT) {
             x = e2.getPosition().x - e1.getCollider().width - e1.getPosition().x + 1;
         }
         return new Vector2(x, y);

@@ -10,11 +10,11 @@ import com.patrick.game.util.Direction;
 
 public class AnimatedEntity extends Entity {
 
-    private final float animOffsetMax = 3f;
+    private final float animOffsetMax = 2f;
     protected TextureRegion[][] textureRegions; // might need to be 2d array
     protected Animation<TextureRegion> animation;
     protected int animFrame;
-    protected int animOffset;
+    protected float animOffset;
     protected boolean playAnimation;
 
     public void setAnimation(TextureRegion[][] textureRegions, Animation<TextureRegion> animation) {
@@ -37,9 +37,8 @@ public class AnimatedEntity extends Entity {
 
     public void update(float delta) {
         super.update(delta);
-        // TODO: Incorporate delta here
         if (this.playAnimation) {
-            animOffset += 1;
+            animOffset += 30*delta;
             if(animOffset >= animOffsetMax) {
                 animOffset = 0;
                 if (this.animFrame < this.textureRegions[0].length - 1) this.animFrame++;
@@ -52,14 +51,19 @@ public class AnimatedEntity extends Entity {
         super.draw(batch, renderer);
         if (this.textureRegions == null) return;
         TextureRegion t = this.animation.getKeyFrame(this.animFrame, true);
-        if(this.dir == Direction.LEFT && !t.isFlipX()) t.flip(true, false);
-        if(this.dir == Direction.RIGHT && t.isFlipX()) t.flip(true, false);
+        if(validDir(Direction.LEFT) && !t.isFlipX()) t.flip(true, false);
+        if(validDir(Direction.RIGHT) && t.isFlipX()) t.flip(true, false);
         batch.draw(t, this.position.x, this.position.y);
     }
 
+    private boolean validDir(Direction dir) {
+        return this.dir == dir || (this.dir == Direction.UP && this.lastDir == dir);
+    }
+
     public void move(Vector2 position) {
-        if(position.x > 0) this.dir = Direction.RIGHT;
-        if(position.x < 0) this.dir = Direction.LEFT;
+        if(position.x > 0) this.setDir(Direction.RIGHT);
+        if(position.x < 0) this.setDir(Direction.LEFT);
+        if(position.y > 0) this.setDir(Direction.UP);
         if (Math.abs(velocity) > 0 || Math.abs(heightGain) > 0)
             this.playAnimation = true;
         else
