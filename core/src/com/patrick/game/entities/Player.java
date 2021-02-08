@@ -1,12 +1,9 @@
 package com.patrick.game.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
 public class Player extends AnimatedEntity {
@@ -28,10 +25,8 @@ public class Player extends AnimatedEntity {
     }
 
     public void changeAnimation(String anim) {
-        // TODO: Load textures outside of entity classes. that way they only load once.
-
-        this.textureRegions = Sprite.split(new Texture(Gdx.files.internal("PLAYER_"+anim+".png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
-        this.animation = new Animation(1f, this.textureRegions[0]);
+        this.textureRegions = Resources.GET_PLAYER_TEXTURE_REGION(anim, this.getIngredient() != null);
+        this.animation = Resources.GET_PLAYER_ANIMATION(anim, this.getIngredient() != null);
     }
 
     public Player(Vector2 position, float speed, float weight, float decelSpeed, int playerNumber) {
@@ -39,7 +34,7 @@ public class Player extends AnimatedEntity {
         this.id = playerNumber;
         this.collider = new Rectangle(position.x, position.y, Settings.TILE_SIZE, Settings.TILE_SIZE);
         this.debugColor = Color.RED;
-        this.changeAnimation("WALK");
+        this.changeAnimation("RUN");
     }
 
     public void update(float delta) {

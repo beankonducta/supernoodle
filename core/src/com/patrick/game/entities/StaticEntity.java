@@ -24,7 +24,7 @@ public class StaticEntity extends Entity {
     public void draw(Batch batch, ShapeRenderer renderer) {
         super.draw(batch, renderer);
         if (this.texture == null) return;
-        batch.draw(texture, this.position.x, this.position.y);
+        batch.draw(this.getTexture(), this.position.x, this.position.y);
     }
 
     public void move(Vector2 position) {

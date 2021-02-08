@@ -6,14 +6,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.util.Math;
+import com.patrick.game.util.Resources;
+import com.patrick.game.util.Settings;
 
 public class Floor extends StaticEntity {
 
-    protected TextureRegion[][] textures;
+    public Texture getTexture() {
+        this.texture = Resources.FLOOR(Math.RANDOM_BETWEEN(0, 3)); // 3 should be actual length of the floor texture region
+        return this.texture;
+    }
 
     public Floor(Vector2 position) {
-        super(position, new Texture(Gdx.files.internal("FLOOR.png"))); // + math.random(5) (and just have multiple textures in the folder)
+        super(position, null); // + math.random(5) (and just have multiple textures in the folder)
         this.debugColor = Color.BLUE;
-        this.collider = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+        this.collider = new Rectangle(position.x, position.y, Settings.TILE_SIZE, Settings.TILE_SIZE);
     }
 }

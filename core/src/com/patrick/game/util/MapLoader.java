@@ -53,7 +53,6 @@ public class MapLoader {
                                         Settings.INGREDIENT_SPEED,
                                         Settings.INGREDIENT_WEIGHT,
                                         Settings.INGREDIENT_DECEL_SPEED,
-                                        new Texture(Gdx.files.internal("INGREDIENT.png")),
                                         ingredientCount));
                         ingredientCount++;
                     }
@@ -63,7 +62,7 @@ public class MapLoader {
                         entities.add(
                                 new Bowl(
                                         new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
-                                        new Texture(Gdx.files.internal("BOWL.png")), bowlCount));
+                                        bowlCount));
                         bowlCount++;
                     }
                 }

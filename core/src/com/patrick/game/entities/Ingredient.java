@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
 public class Ingredient extends StaticEntity {
@@ -16,18 +17,23 @@ public class Ingredient extends StaticEntity {
         return this.pickupCollider;
     }
 
-    public Ingredient(Vector2 position, float speed, float weight, float decelSpeed, Texture texture, int id) {
-        super(position, speed, weight, decelSpeed, texture);
+    public Texture getTexture() {
+        this.texture = Resources.INGREDIENT(this.id - 3); // - 3 because we start ingredient id at 3.
+        return this.texture;
+    }
+
+    public Ingredient(Vector2 position, float speed, float weight, float decelSpeed, int id) {
+        super(position, speed, weight, decelSpeed, null);
         this.id = id;
-        this.collider = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
-        this.pickupCollider = new Rectangle(position.x - (texture.getWidth() / 2), position.y - (texture.getHeight() / 2), texture.getWidth() + texture.getWidth(), texture.getHeight() + texture.getHeight());
+        this.collider = new Rectangle(position.x, position.y, Settings.TILE_SIZE, Settings.TILE_SIZE);
+        this.pickupCollider = new Rectangle(position.x - (Settings.TILE_SIZE / 2), position.y - (Settings.TILE_SIZE / 2), Settings.TILE_SIZE*2, Settings.TILE_SIZE*2);
         this.debugColor = Color.BLACK;
     }
 
     public void update(float delta) {
         super.update(delta);
         if(this.pickupCollider != null)
-            this.pickupCollider.setPosition(new Vector2(this.position.x - (this.texture.getWidth() / 2), this.position.y - (this.texture.getHeight() / 2)));
+            this.pickupCollider.setPosition(new Vector2(this.position.x - (Settings.TILE_SIZE / 2), this.position.y - (Settings.TILE_SIZE / 2)));
     }
 
     public void draw(Batch batch, ShapeRenderer renderer) {

@@ -41,7 +41,7 @@ public class Resources {
                 if(hasIngredient) return PLAYER_TEXTURE_RUN_HOLD_REGION;
                 return PLAYER_TEXTURE_RUN_REGION;
             case "JUMP":
-                if(hasIngredient) return PLAYER_TEXTURE_JUMP_HOLD_REGION;)
+                if(hasIngredient) return PLAYER_TEXTURE_JUMP_HOLD_REGION;
                 return PLAYER_TEXTURE_JUMP_REGION;
             case "FALL":
                 if(hasIngredient) return PLAYER_TEXTURE_FALL_HOLD_REGION;
@@ -62,7 +62,7 @@ public class Resources {
                 if(hasIngredient) return PLAYER_RUN_HOLD_ANIMATION;
                 return PLAYER_RUN_ANIMATION;
             case "JUMP":
-                if(hasIngredient) return PLAYER_JUMP_HOLD_ANIMATION;)
+                if(hasIngredient) return PLAYER_JUMP_HOLD_ANIMATION;
                 return PLAYER_JUMP_ANIMATION;
             case "FALL":
                 if(hasIngredient) return PLAYER_FALL_HOLD_ANIMATION;

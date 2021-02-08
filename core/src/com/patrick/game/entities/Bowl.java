@@ -3,6 +3,8 @@ package com.patrick.game.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.util.Resources;
+import com.patrick.game.util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,10 +38,16 @@ public class Bowl extends StaticEntity {
         return this.ingredients.size();
         return 0;
     }
-    public Bowl(Vector2 position, Texture texture, int id) {
-        super(position, texture);
+
+    public Texture getTexture() {
+        this.texture = Resources.BOWL(this.ingredients.size());
+        return this.texture;
+    }
+
+    public Bowl(Vector2 position, int id) {
+        super(position, null);
         this.ingredients = new ArrayList<Ingredient>();
-        this.collider = new Rectangle(position.x, position.y, texture.getWidth(), texture.getHeight());
+        this.collider = new Rectangle(position.x, position.y, Settings.TILE_SIZE, Settings.TILE_SIZE);
         this.id = id;
     }
 }
