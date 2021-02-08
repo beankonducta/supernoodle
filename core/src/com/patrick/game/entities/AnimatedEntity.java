@@ -51,7 +51,10 @@ public class AnimatedEntity extends Entity {
     public void draw(Batch batch, ShapeRenderer renderer) {
         super.draw(batch, renderer);
         if (this.textureRegions == null) return;
-        batch.draw(this.animation.getKeyFrame(this.animFrame, true), this.position.x, this.position.y);
+        TextureRegion t = this.animation.getKeyFrame(this.animFrame, true);
+        if(this.dir == Direction.LEFT && !t.isFlipX()) t.flip(true, false);
+        if(this.dir == Direction.RIGHT && t.isFlipX()) t.flip(true, false);
+        batch.draw(t, this.position.x, this.position.y);
     }
 
     public void move(Vector2 position) {
