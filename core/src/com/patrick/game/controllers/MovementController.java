@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.*;
+import com.patrick.game.util.Direction;
 import com.patrick.game.util.Settings;
 
 import java.lang.reflect.Array;
@@ -48,13 +49,16 @@ public class MovementController {
         if (e instanceof Player && KEYS != null) {
             if (Gdx.input.isKeyPressed(KEYS[0])) {
                 e.setVelocity(e.getSpeed());
+                e.setDir(Direction.RIGHT);
             }
             if (Gdx.input.isKeyPressed(KEYS[1])) {
                 e.setVelocity(-e.getSpeed());
+                e.setDir(Direction.LEFT);
             }
             if (Gdx.input.isKeyJustPressed(KEYS[2]) && e.getHeightGain() == 0 && e.getGrounded()) {
                 e.setGrounded(false);
                 e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
+                e.setDir(Direction.UP);
             }
             if (Gdx.input.isKeyJustPressed(KEYS[3]) && e.getHeightGain() == 0 && e.getGrounded()) {
                 e.setGrounded(false);
@@ -66,16 +70,18 @@ public class MovementController {
                     p.getIngredient().setHeightGain(p.getHeightGain() * 1.1f);
                     p.getIngredient().setVelocity(p.getVelocity() * .75f);
                     p.setIngredient(null);
-                }
-                else
+                    p.update(delta);
+                } else
                     for (Entity e1 : entities) {
-                        if (e1 instanceof Ingredient)
+                        if (e1 instanceof Ingredient) {
+                            p.update(delta);
                             if (collisionController.checkIngredientPickupCollision(e, e1))
                                 this.attemptPickup(e, e1);
                             else if (e1 instanceof Bowl)
                                 if (collisionController.checkBasicCollision(e, e1))
                                     // this might error since we're currently iterating through the list when we call
                                     this.attemptIngredientRemove(e, entities);
+                        }
                     }
             }
         }
@@ -101,8 +107,9 @@ public class MovementController {
 
     public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer, float delta) {
         e1.move(new Vector2((e1.getVelocity() * delta * (e1.getGrounded() ? 1 : .5f)), ((e1.getHeightGain() - e1.getWeight()) * delta)));
-        if(e1.getPosition().x < 0) e1.moveTo(new Vector2(500, e1.getPosition().y)); // the 512 is proprietary based on map width and tile size. should make dynamic
-        if(e1.getPosition().x > 500) e1.moveTo(new Vector2(2, e1.getPosition().y));
+        if (e1.getPosition().x < 0)
+            e1.moveTo(new Vector2(500, e1.getPosition().y)); // the 512 is proprietary based on map width and tile size. should make dynamic
+        if (e1.getPosition().x > 500) e1.moveTo(new Vector2(2, e1.getPosition().y));
         for (Entity e : entities) {
             if (e instanceof Floor) {
                 if (collisionController.checkBasicCollision(e1, e)) {

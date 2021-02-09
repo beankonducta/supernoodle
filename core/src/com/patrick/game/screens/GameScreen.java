@@ -1,11 +1,9 @@
 package com.patrick.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
 import com.patrick.game.controllers.CameraController;
 import com.patrick.game.controllers.CollisionController;
@@ -13,14 +11,9 @@ import com.patrick.game.controllers.LevelController;
 import com.patrick.game.controllers.MovementController;
 import com.patrick.game.entities.*;
 import com.patrick.game.levels.Level;
-import com.patrick.game.util.Direction;
 import com.patrick.game.util.MapLoader;
 import com.patrick.game.util.Settings;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +22,7 @@ public class GameScreen implements Screen {
     private SuperNoodle game;
     private Level level;
     private int winningPlayer;
-    private float stateTime;
-    private List<Entity> entities = new ArrayList<Entity>();
+    private List<Entity> entities;
     private MovementController movementController;
     private CollisionController collisionController;
     private CameraController cameraController;
@@ -53,7 +45,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        stateTime += Gdx.graphics.getDeltaTime() * Settings.FRAME_SPEED;
         if (level == null) return;
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
@@ -74,6 +65,14 @@ public class GameScreen implements Screen {
         }
         movementController.updateEntityList(entities);
         this.game.batch.end();
+        this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        for(Entity e : entities) {
+            if (Settings.DEBUG_COLLISION && e.getCollider() != null) {
+                this.game.shapeRenderer.setColor((e.getDebugColor() != null ? e.getDebugColor() : Color.BLUE));
+                this.game.shapeRenderer.rect(e.getCollider().x, e.getCollider().y, e.getCollider().width, e.getCollider().height);
+            }
+        }
+        this.game.shapeRenderer.end();
     }
 
     @Override

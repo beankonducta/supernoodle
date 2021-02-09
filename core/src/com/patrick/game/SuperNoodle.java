@@ -8,12 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.screens.TitleScreen;
 
-import java.awt.*;
-
 public class SuperNoodle extends Game {
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;
-    public BitmapFont font;
+    public BitmapFont font; 
 
     @Override
     public void create() {
@@ -27,7 +25,7 @@ public class SuperNoodle extends Game {
     public void render() {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.graphics.setWindowedMode(1200, 1000);
+        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         Gdx.graphics.setTitle(String.format("SUPER NOODLE", Gdx.graphics.getFramesPerSecond()));
         super.render();
     }

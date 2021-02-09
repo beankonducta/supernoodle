@@ -61,9 +61,6 @@ public class AnimatedEntity extends Entity {
     }
 
     public void move(Vector2 position) {
-        if(position.x > 0) this.setDir(Direction.RIGHT);
-        if(position.x < 0) this.setDir(Direction.LEFT);
-        if(position.y > 0) this.setDir(Direction.UP);
         if (Math.abs(velocity) > 0 || Math.abs(heightGain) > 0)
             this.playAnimation = true;
         else
