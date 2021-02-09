@@ -36,8 +36,7 @@ public class Player extends AnimatedEntity {
     public Player(Vector2 position, float speed, float weight, float decelSpeed, int playerNumber) {
         super(position, speed, weight, decelSpeed, null);
         this.id = playerNumber;
-        // this ain't updating correctly because our super class is moving the collider back to pos.x and pos.y (excluding the offset here)
-        this.collider = new Rectangle(position.x + (Settings.TILE_SIZE * .25f), position.y, Settings.TILE_SIZE * .5f, Settings.TILE_SIZE);
+        this.collider = new Rectangle(position.x + Settings.TILE_SIZE, position.y, 2, Settings.TILE_SIZE );
         this.debugColor = Color.RED;
         this.changeAnimation("STILL");
     }
@@ -49,13 +48,15 @@ public class Player extends AnimatedEntity {
         if(grounded && Math.abs(this.velocity) != 0) this.changeAnimation("RUN");
         if(!grounded && this.heightGain >= this.weight) this.changeAnimation("JUMP");
         if(!grounded && this.heightGain < this.weight)this.changeAnimation("FALL");
+        if (this.collider != null)
+            this.collider.setPosition(new Vector2(this.position.x + Settings.TILE_SIZE, this.position.y));
     }
 
     public void move(Vector2 position) {
         super.move(position);
         // we might want to move ingredient out of this class
         if(this.ingredient != null) {
-            this.ingredient.moveTo(new Vector2(this.getCollider().x, this.getCollider().y + this.getCollider().height + 5));
+            this.ingredient.moveTo(new Vector2(this.getCollider().x - (this.getCollider().width * 3), this.getCollider().y + (this.getCollider().height * 2)));
         }
     }
 }

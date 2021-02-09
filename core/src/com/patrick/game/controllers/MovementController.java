@@ -2,6 +2,7 @@ package com.patrick.game.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -17,20 +18,21 @@ import java.util.List;
 public class MovementController {
 
     /*
-    TODO: When the player moves LEFT, then UP, they teleport through the wall. totally edge case.
 
-    TODO: Fix collision and movvement physics.
+    TODO: Fix collision and movement physics.
 
     TODO: I should move a lot of stuff out of here and into the game controller or something
 
      */
 
     private CollisionController collisionController;
+    private CameraController cameraController;
 
     private List<Entity> toRemove;
 
-    public MovementController(CollisionController collisionController) {
+    public MovementController(CollisionController collisionController, CameraController cameraController) {
         this.collisionController = collisionController;
+        this.cameraController = cameraController;
         toRemove = new ArrayList<>();
     }
 
@@ -69,6 +71,7 @@ public class MovementController {
                 if (p.getIngredient() != null) {
                     p.getIngredient().setHeightGain(p.getHeightGain() * 1.1f);
                     p.getIngredient().setVelocity(p.getVelocity() * .75f);
+                    p.getIngredient().setHeld(false);
                     p.setIngredient(null);
                     p.update(delta);
                 } else
@@ -93,9 +96,17 @@ public class MovementController {
             Player p = (Player) e1;
             if (p.getIngredient() == null) {
                 Ingredient i = (Ingredient) e2;
+                i.setHeld(true);
                 p.setIngredient(i);
             }
         }
+    }
+
+    public void cloudMove(Entity e, float delta) {
+        e.move(new Vector2(e.getSpeed() * delta, 0));
+        if (e.getPosition().x < -e.getCollider().width)
+            e.moveTo(new Vector2(cameraController.getCamera().viewportWidth, e.getPosition().y));
+        if (e.getPosition().x > cameraController.getCamera().viewportWidth) e.moveTo(new Vector2(-e.getCollider().width, e.getPosition().y));
     }
 
     public void ingredientMove(Entity e, List<Entity> entities, ShapeRenderer renderer, float delta) {
@@ -106,15 +117,20 @@ public class MovementController {
     }
 
     public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer, float delta) {
+        // no need to calculate collisions if e1 is a held ingredient
+        if(e1 instanceof Ingredient) {
+            Ingredient i = (Ingredient)e1;
+            if(i.isHeld()) return;
+        }
         e1.move(new Vector2((e1.getVelocity() * delta * (e1.getGrounded() ? 1 : .5f)), ((e1.getHeightGain() - e1.getWeight()) * delta)));
         if (e1.getPosition().x < 0)
-            e1.moveTo(new Vector2(500, e1.getPosition().y)); // the 512 is proprietary based on map width and tile size. should make dynamic
-        if (e1.getPosition().x > 500) e1.moveTo(new Vector2(2, e1.getPosition().y));
+            e1.moveTo(new Vector2(cameraController.getCamera().viewportWidth, e1.getPosition().y));
+        if (e1.getPosition().x > cameraController.getCamera().viewportWidth) e1.moveTo(new Vector2(1, e1.getPosition().y));
         for (Entity e : entities) {
             if (e instanceof Floor) {
                 if (collisionController.checkBasicCollision(e1, e)) {
                     Vector2 offset = collisionController.calculateFloorCollisionOffset(e1, e);
-                    e1.move(offset);
+                    e1.move(new Vector2(0, offset.y));
                     if (offset.x != 0) {
                         e1.setVelocity(-e1.getVelocity() * .95f);
                     }
@@ -131,14 +147,14 @@ public class MovementController {
                     }
                 }
             }
-            if (e1.getId() != e.getId() && !(e instanceof Floor) && !(e instanceof Bowl)) {
+            if (e1.getId() != e.getId() && !(e instanceof Floor) && !(e instanceof Bowl) && !(e instanceof Cloud)) {
                 if (collisionController.checkBasicCollision(e1, e)) {
                     if (Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
                         e.move(new Vector2(e1.getVelocity() * delta, 0));
-                        e.setVelocity(e1.getVelocity() * .75f * delta);
+                        e.setVelocity(e1.getVelocity());
                     } else if (Math.abs(e.getVelocity()) > Math.abs(e1.getVelocity())) {
                         e1.move(new Vector2(e.getVelocity() * delta, 0));
-                        e1.setVelocity(e.getVelocity() * .75f * delta);
+                        e1.setVelocity(e.getVelocity());
                     }
                 }
             }

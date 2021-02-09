@@ -12,6 +12,15 @@ import com.patrick.game.util.Settings;
 public class Ingredient extends StaticEntity {
 
     protected Rectangle pickupCollider;
+    protected boolean held;
+
+    public boolean isHeld() {
+        return this.held;
+    }
+
+    public void setHeld(boolean held) {
+        this.held = held;
+    }
 
     public Rectangle getPickupCollider() {
         return this.pickupCollider;

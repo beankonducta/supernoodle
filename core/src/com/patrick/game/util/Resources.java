@@ -17,23 +17,23 @@ public class Resources {
 
     // player
     // NOTE: player should be bigger I think.
-    private static final TextureRegion[][] PLAYER_TEXTURE_RUN_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] PLAYER_TEXTURE_RUN_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_RUN_ANIMATION = new Animation(1f, PLAYER_TEXTURE_RUN_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_RUN_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN_HOLD.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] PLAYER_TEXTURE_RUN_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN_HOLD.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_RUN_HOLD_ANIMATION = new Animation(1f, PLAYER_TEXTURE_RUN_HOLD_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_JUMP_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] PLAYER_TEXTURE_JUMP_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_JUMP_ANIMATION = new Animation(1f, PLAYER_TEXTURE_JUMP_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_JUMP_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP_HOLD.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] PLAYER_TEXTURE_JUMP_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP_HOLD.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_JUMP_HOLD_ANIMATION = new Animation(1f, PLAYER_TEXTURE_JUMP_HOLD_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_FALL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] PLAYER_TEXTURE_FALL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_FALL_ANIMATION = new Animation(1f, PLAYER_TEXTURE_FALL_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_FALL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL_HOLD.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] PLAYER_TEXTURE_FALL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL_HOLD.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_FALL_HOLD_ANIMATION = new Animation(1f, PLAYER_TEXTURE_FALL_HOLD_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_STILL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] PLAYER_TEXTURE_STILL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_STILL_ANIMATION = new Animation(1f, PLAYER_TEXTURE_STILL_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_STILL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL_HOLD.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] PLAYER_TEXTURE_STILL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL_HOLD.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_STILL_HOLD_ANIMATION = new Animation(1f, PLAYER_TEXTURE_STILL_HOLD_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_DANCE_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_DANCE.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
+    private static final TextureRegion[][] PLAYER_TEXTURE_DANCE_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_DANCE.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_DANCE_ANIMATION = new Animation(1f, PLAYER_TEXTURE_DANCE_REGION[0]);
 
     public static TextureRegion[][] GET_PLAYER_TEXTURE_REGION(String name, boolean hasIngredient) {
@@ -104,7 +104,7 @@ public class Resources {
 
     // clouds
     // NOTE: this should have its own size, not use tilesize
-    private static final TextureRegion[][] CLOUDS_REGION = Sprite.split(new Texture(Gdx.files.internal("CLOUDS.png")), Settings.TILE_SIZE, Settings.TILE_SIZE * 2);
+    private static final TextureRegion[][] CLOUDS_REGION = Sprite.split(new Texture(Gdx.files.internal("CLOUDS.png")), Settings.TILE_SIZE * 4, Settings.TILE_SIZE * 2);
 
     public static TextureRegion CLOUD(int index) {
         if(index >= CLOUDS_REGION[0].length) return null;

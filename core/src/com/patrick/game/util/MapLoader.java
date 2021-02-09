@@ -2,13 +2,10 @@ package com.patrick.game.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.*;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +14,21 @@ public class MapLoader {
     public MapLoader() {
     }
 
+    private Pixmap flipPixmap(Pixmap src) {
+        final int width = src.getWidth();
+        final int height = src.getHeight();
+        Pixmap flipped = new Pixmap(width, height, src.getFormat());
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                flipped.drawPixel(x, y, src.getPixel(x, height - y - 1));
+            }
+        }
+        return flipped;
+    }
+
     // TODO: Consider having this return player, bowls and ingredients individually or in a different list (so we arent iterating so much)
     public List<Entity> loadMap(String path) {
-        Pixmap pixmap = new Pixmap(Gdx.files.internal(path));
+        Pixmap pixmap = flipPixmap(new Pixmap(Gdx.files.internal(path)));
         List<Entity> entities = new ArrayList<Entity>();
         int playerCount = 1;
         int ingredientCount = 3;
@@ -32,10 +41,8 @@ public class MapLoader {
                             new Floor(
                                     new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j)));
                 }
-                // TODO: Figure out why this isn't loading two players (I suspect colors are off)
-                if(c.getRed() == 255 && c.getBlue() == 255) {
+                if(c.getRed() == 255 && c.getBlue() == 255 && c.getGreen() < 10) {
                     if(playerCount <= 2) {
-                        System.out.println("ADDING PLAYER AT: "+i+":"+j);
                         entities.add(
                                 new Player(
                                         new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
@@ -44,9 +51,8 @@ public class MapLoader {
                         playerCount++;
                     }
                 }
-                if(c.getBlue() == 255 && c.getGreen() == 255) {
+                if(c.getBlue() == 255 && c.getGreen() == 255 && c.getRed() < 10) {
                     if(ingredientCount <= 7) {
-                        System.out.println("ADDING INGREDIENT");
                         entities.add(
                                 new Ingredient(
                                         new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
@@ -67,6 +73,11 @@ public class MapLoader {
                     }
                 }
             }
+        }
+        for(int c = 0; c < Settings.CLOUD_COUNT; c++) {
+            int x = Math.RANDOM_BETWEEN(0, pixmap.getWidth() * Settings.TILE_SIZE);
+            int y = Math.RANDOM_BETWEEN((int)(pixmap.getHeight() * Settings.TILE_SIZE * .6f), pixmap.getHeight() * Settings.TILE_SIZE);
+            entities.add(new Cloud(new Vector2(x, y), Math.RANDOM_BETWEEN(Settings.CLOUD_MIN_SPEED, Settings.CLOUD_MAX_SPEED)));
         }
         return entities;
     }

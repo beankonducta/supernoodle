@@ -23,20 +23,11 @@ public class Entity {
     protected Rectangle collider;
     protected int id;
     protected boolean grounded;
-    protected boolean collided;
 
     protected Color debugColor;
 
     public Color getDebugColor() {
         return this.debugColor;
-    }
-
-    public boolean isCollided() {
-        return this.collided;
-    }
-
-    public void setCollided(boolean collided) {
-        this.collided = collided;
     }
 
     public Direction getDir() {
@@ -164,7 +155,7 @@ public class Entity {
         if (this.velocity < 5 && this.velocity > 0) this.velocity = 0;
         if (this.velocity > -5f && this.velocity < 0) this.velocity = 0;
         if (this.collider != null)
-            this.collider.setPosition(this.position);
+                this.collider.setPosition(this.position);
     }
 
     public void draw(Batch batch, ShapeRenderer renderer) {

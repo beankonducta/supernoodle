@@ -21,17 +21,13 @@ public class CameraController {
     public void centerOnEntity(Entity e) {}
 
     public void calculatedZoomPan(Entity e) {
-
-    }
-
-    public void randomZoomPan() {
-
+        final float xDiff;
     }
 
     public void resetCamera() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() /2);
-        camera.zoom = 1;
+        camera.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        camera.zoom = 1f;
         camera.update();
     }
 

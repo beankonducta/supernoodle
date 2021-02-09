@@ -31,11 +31,11 @@ public class GameScreen implements Screen {
     public GameScreen(SuperNoodle game) {
         this.game = game;
         MapLoader mapLoader = new MapLoader();
-        entities = mapLoader.loadMap("MAP_0.png");
         collisionController = new CollisionController();
-        movementController = new MovementController(collisionController);
-        levelController = new LevelController(collisionController);
         cameraController = new CameraController();
+        movementController = new MovementController(collisionController, cameraController);
+        levelController = new LevelController(collisionController);
+        entities = mapLoader.loadMap("MAP_0.png");
         this.level = new Level(entities);
     }
 
@@ -62,6 +62,8 @@ public class GameScreen implements Screen {
                 if(winningPlayer != -1)
                     game.setScreen(new WinScreen(game, winningPlayer));
             }
+            if(e instanceof Cloud)
+                movementController.cloudMove(e, delta);
         }
         movementController.updateEntityList(entities);
         this.game.batch.end();
