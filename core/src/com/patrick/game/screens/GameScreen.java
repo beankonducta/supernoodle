@@ -40,9 +40,10 @@ public class GameScreen implements Screen {
         cameraController = new CameraController();
         movementController = new MovementController(collisionController, cameraController);
         levelController = new LevelController(collisionController);
-        entities = mapLoader.loadMap("MAP_0.png");
+        entities = mapLoader.loadMap("MAP_1.png");
         this.level = new Level(entities);
         winCutscene = false;
+        winningBowl = -1;
         winCutsceneTime = 0f;
     }
 
@@ -66,8 +67,8 @@ public class GameScreen implements Screen {
                 if (e instanceof Player) {
                     movementController.playerMove(e, entities, game.shapeRenderer, delta);
                     if (winCutscene) {
-                        Player p = (Player) e;
-                        if ((winningBowl == -3 && e.getId() == 1) || (winningBowl == -2 && e.getId() == 2)) {
+                        if (Misc.PLAYER_BOWL_MATCH_ID(e.getId(), winningBowl)) {
+                            Player p = (Player) e;
                             p.changeAnimation("DANCE", true);
                             float speed = p.getDir() == Direction.LEFT ? -Settings.PLAYER_SPEED : Settings.PLAYER_SPEED;
                             if (p.getVelocity() != speed)
@@ -89,22 +90,24 @@ public class GameScreen implements Screen {
                     this.game.batch.draw(Resources.BOWL_COUNT(levelController.getFillCount(b.getId())), cameraController.getCamera().viewportWidth - (Resources.PLAYER_2_BANNER.getWidth() / 2) - (Settings.TILE_SIZE * 1.6f), cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.32f);
                 }
                     if (levelController.checkFull(b) || winCutscene) {
-                        movementController.stop();
-                        if(winCutsceneTime == 0)
-                            levelController.increaseFillCount(b);
-                        winCutscene = true;
-                        winCutsceneTime += delta;
-                        winningBowl = b.getId();
-                        if (winCutsceneTime >= Settings.DANCE_TIME) {
-                            System.out.println(levelController.getFillCount(b.getId()));
-                            if (levelController.checkWin(b)) {
-                                game.setScreen(new WinScreen(game, winningBowl));
+                        if (winningBowl == b.getId() || winningBowl == -1) {
+                            movementController.stop();
+                            if (winCutsceneTime == 0)
+                                levelController.increaseFillCount(b);
+                            winCutscene = true;
+                            winCutsceneTime += delta;
+                            winningBowl = b.getId();
+                            if (winCutsceneTime >= Settings.DANCE_TIME) {
+                                if (levelController.checkWin(b)) {
+                                    game.setScreen(new WinScreen(game, winningBowl));
+                                }
+                                entities = mapLoader.loadMap("MAP_3.png");
+                                this.level = new Level(entities);
+                                winCutscene = false;
+                                winCutsceneTime = 0f;
+                                winningBowl = -1;
+                                movementController.start();
                             }
-                            entities = mapLoader.loadMap("MAP_0.png");
-                            this.level = new Level(entities);
-                            winCutscene = false;
-                            winCutsceneTime = 0f;
-                            movementController.start();
                         }
                     }
                 }
@@ -112,7 +115,7 @@ public class GameScreen implements Screen {
                     movementController.cloudMove(e, delta);
             }
         movementController.updateEntityList(entities);
-        this.level.draw(this.game.batch, this.game.shapeRenderer);
+        this.level.draw(this.game);
         this.level.update(delta);
         this.game.batch.end();
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

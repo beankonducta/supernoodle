@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.*;
 import com.patrick.game.util.Direction;
+import com.patrick.game.util.Misc;
 import com.patrick.game.util.Settings;
 
 import java.lang.reflect.Array;
@@ -115,13 +116,15 @@ public class MovementController {
                             } else if (e1 instanceof Bowl) {
                                 // action timer is NOT working (it's because we have two action keys)
                                 if (collisionController.checkPlayerBowlCollision(e, e1)) {
-                                    e.incrementActionTimer();
-                                    if (e.getActionTimer() >= 1) {
-                                        this.attemptIngredientRemove(e1);
-                                        e.resetActionTimer();
+                                    if (Misc.PLAYER_BOWL_MATCH(e, e1)) {
+                                        e.incrementActionTimer();
+                                        if (e.getActionTimer() >= 1) {
+                                            this.attemptIngredientRemove(e1);
+                                            e.resetActionTimer();
+                                        }
                                     }
+                                    e.resetActionTimer();
                                 }
-                                e.resetActionTimer();
                             }
                         }
                     }

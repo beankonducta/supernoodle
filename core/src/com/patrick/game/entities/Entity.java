@@ -176,12 +176,6 @@ public class Entity implements Comparable<Entity>{
     }
 
     public void draw(Batch batch, ShapeRenderer renderer) {
-//        if (Settings.DEBUG_COLLISION && this.collider != null) {
-//            renderer.begin(ShapeRenderer.ShapeType.Line);
-//            renderer.setColor((this.debugColor != null ? debugColor : Color.BLUE));
-//            renderer.rect(collider.x, collider.y, collider.width, collider.height);
-//            renderer.end();
-//        }
     }
 
     public void move(Vector2 position) {
