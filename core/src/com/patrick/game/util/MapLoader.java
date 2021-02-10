@@ -70,7 +70,7 @@ public class MapLoader {
                         entities.add(
                                 new Bowl(
                                         new Vector2(Settings.TILE_SIZE * i, Settings.TILE_SIZE * j),
-                                        bowlCount));
+                                        bowlCount-11));
                         bowlCount++;
                     }
                 }
@@ -79,7 +79,7 @@ public class MapLoader {
         for(int c = 0; c < Settings.CLOUD_COUNT; c++) {
             int x = Math.RANDOM_BETWEEN(0, pixmap.getWidth() * Settings.TILE_SIZE);
             int y = Math.RANDOM_BETWEEN((int)(pixmap.getHeight() * Settings.TILE_SIZE * .6f), pixmap.getHeight() * Settings.TILE_SIZE);
-            entities.add(new Cloud(new Vector2(x, y), Math.RANDOM_BETWEEN(Settings.CLOUD_MIN_SPEED, Settings.CLOUD_MAX_SPEED), Math.EITHER_OR(-5, 100)));
+            entities.add(new Cloud(new Vector2(x, y), Math.RANDOM_BETWEEN(Settings.CLOUD_MIN_SPEED, Settings.CLOUD_MAX_SPEED), Math.EITHER_OR(-100, 100)));
         }
         Collections.sort(entities);
         return entities;
