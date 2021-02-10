@@ -43,9 +43,15 @@ public class GameScreen implements Screen {
     public void show() {
     }
 
+    Color blue = new Color(0, .6f, .9f, 1);
+    Color green = new Color(0, .6f, .5f, 1);
+
     @Override
     public void render(float delta) {
         if (level == null) return;
+        this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        this.game.shapeRenderer.rect(0, 0, this.cameraController.getCamera().viewportWidth, this.cameraController.getCamera().viewportHeight, green, green, blue, blue);
+        this.game.shapeRenderer.end();
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
         this.level.draw(this.game.batch, this.game.shapeRenderer);
@@ -72,6 +78,10 @@ public class GameScreen implements Screen {
             if (Settings.DEBUG_COLLISION && e.getCollider() != null) {
                 this.game.shapeRenderer.setColor((e.getDebugColor() != null ? e.getDebugColor() : Color.BLUE));
                 this.game.shapeRenderer.rect(e.getCollider().x, e.getCollider().y, e.getCollider().width, e.getCollider().height);
+            }
+            if (Settings.DEBUG_COLLISION && e.getFloorCollider() != null) {
+                this.game.shapeRenderer.setColor((e.getDebugColor() != null ? e.getDebugColor() : Color.BLUE));
+                this.game.shapeRenderer.rect(e.getFloorCollider().x, e.getFloorCollider().y, e.getFloorCollider().width, e.getFloorCollider().height);
             }
         }
         this.game.shapeRenderer.end();

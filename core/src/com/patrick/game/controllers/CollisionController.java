@@ -7,6 +7,7 @@ import com.patrick.game.entities.Floor;
 import com.patrick.game.entities.Ingredient;
 import com.patrick.game.entities.Player;
 import com.patrick.game.util.Direction;
+import com.patrick.game.util.Settings;
 
 public class CollisionController {
 
@@ -15,6 +16,15 @@ public class CollisionController {
     }
 
     public boolean checkBasicCollision(Entity e1, Entity e2) {
+        if (e1.getCollider().overlaps(e2.getCollider()))
+            return true;
+        return false;
+    }
+
+    public boolean checkBasicFloorCollision(Entity e1, Entity e2) {
+        if(e1.getFloorCollider() != null && e1.getPosition().y <= Settings.TILE_SIZE * 3)
+            if (e1.getFloorCollider().overlaps(e2.getCollider()))
+                return true;
         if (e1.getCollider().overlaps(e2.getCollider()))
             return true;
         return false;

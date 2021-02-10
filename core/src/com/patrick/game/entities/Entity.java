@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Direction;
 import com.patrick.game.util.Settings;
 
-public class Entity {
+public class Entity implements Comparable<Entity>{
 
     protected Direction dir, lastDir;
     protected Vector2 position;
@@ -21,10 +21,15 @@ public class Entity {
     protected float heightGain;
     protected TextureRegion texture;
     protected Rectangle collider;
+    protected Rectangle floorCollider;
     protected int id;
     protected boolean grounded;
 
     protected Color debugColor;
+
+    public Rectangle getFloorCollider() {
+        return this.floorCollider;
+    }
 
     public Color getDebugColor() {
         return this.debugColor;
@@ -173,5 +178,15 @@ public class Entity {
 
     public void moveTo(Vector2 position) {
         this.position = position;
+    }
+
+    @Override
+    public int compareTo(Entity e) {
+        if (this.getId() == e.getId())
+            return 0;
+        else if (this.getId() > e.getId())
+            return 1;
+        else
+            return -1;
     }
 }

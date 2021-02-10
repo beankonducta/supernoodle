@@ -15,10 +15,11 @@ public class Cloud extends StaticEntity {
         this.texture = Resources.CLOUD(Math.RANDOM_BETWEEN(0, 4)); // 5 should actually be the length of the texture region
     }
 
-    public Cloud(Vector2 position, float speed) {
+    public Cloud(Vector2 position, float speed, int id) {
         super(position, speed, 0, 0, null);
         this.updateTexture();
         this.collider = new Rectangle(position.x, position.y, Settings.TILE_SIZE * 2, Settings.TILE_SIZE);
+        this.id = id;
     }
 
     @Override

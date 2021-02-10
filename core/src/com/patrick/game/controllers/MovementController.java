@@ -49,6 +49,8 @@ public class MovementController {
                 new int[]{Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S, Input.Keys.CONTROL_LEFT} :
                 new int[]{Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT};
         if (e instanceof Player && KEYS != null) {
+            if(Gdx.input.isKeyJustPressed(Input.Keys.PLUS)) this.cameraController.zoomIn();
+            if(Gdx.input.isKeyJustPressed(Input.Keys.MINUS)) this.cameraController.zoomOut();
             if (Gdx.input.isKeyPressed(KEYS[0])) {
                 e.setVelocity(e.getSpeed());
                 e.setDir(Direction.RIGHT);
@@ -104,9 +106,9 @@ public class MovementController {
 
     public void cloudMove(Entity e, float delta) {
         e.move(new Vector2(e.getSpeed() * delta, 0));
-        if (e.getPosition().x < -e.getCollider().width)
-            e.moveTo(new Vector2(cameraController.getCamera().viewportWidth, e.getPosition().y));
-        if (e.getPosition().x > cameraController.getCamera().viewportWidth) e.moveTo(new Vector2(-e.getCollider().width, e.getPosition().y));
+        if (e.getPosition().x < -e.getCollider().width * 2)
+            e.moveTo(new Vector2(cameraController.getCamera().viewportWidth + Settings.TILE_SIZE, e.getPosition().y));
+        if (e.getPosition().x > cameraController.getCamera().viewportWidth + Settings.TILE_SIZE) e.moveTo(new Vector2(-e.getCollider().width * 2, e.getPosition().y));
     }
 
     public void ingredientMove(Entity e, List<Entity> entities, ShapeRenderer renderer, float delta) {
@@ -117,6 +119,7 @@ public class MovementController {
     }
 
     public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer, float delta) {
+        boolean didGround = false;
         // no need to calculate collisions if e1 is a held ingredient
         if(e1 instanceof Ingredient) {
             Ingredient i = (Ingredient)e1;
@@ -128,14 +131,16 @@ public class MovementController {
         if (e1.getPosition().x > cameraController.getCamera().viewportWidth) e1.moveTo(new Vector2(1, e1.getPosition().y));
         for (Entity e : entities) {
             if (e instanceof Floor) {
-                if (collisionController.checkBasicCollision(e1, e)) {
+                if (collisionController.checkBasicFloorCollision(e1, e)) {
                     Vector2 offset = collisionController.calculateFloorCollisionOffset(e1, e);
                     e1.move(new Vector2(0, offset.y));
                     if (offset.x != 0) {
                         e1.setVelocity(-e1.getVelocity() * .95f);
                     }
-                    if (offset.y > 0)
+                    if (offset.y > 0) {
                         e1.setGrounded(true);
+                        didGround = true;
+                    }
                     if (offset.y < 0) {
                         e1.setHeightGain(e1.getHeightGain() / 2);
                     }
@@ -147,6 +152,7 @@ public class MovementController {
                     }
                 }
             }
+            if(!didGround) e1.setGrounded(false);
             if (e1.getId() != e.getId() && !(e instanceof Floor) && !(e instanceof Bowl) && !(e instanceof Cloud)) {
                 if (collisionController.checkBasicCollision(e1, e)) {
                     if (Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {

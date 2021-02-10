@@ -7,6 +7,7 @@ import com.patrick.game.entities.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MapLoader {
@@ -33,6 +34,7 @@ public class MapLoader {
         int playerCount = 1;
         int ingredientCount = 3;
         int bowlCount = 8;
+        int otherCount = 10;
         for(int i = 0; i < pixmap.getWidth(); i ++) {
             for(int j = 0; j < pixmap.getHeight(); j ++) {
                 Color c = new Color(pixmap.getPixel(i, j));
@@ -77,8 +79,9 @@ public class MapLoader {
         for(int c = 0; c < Settings.CLOUD_COUNT; c++) {
             int x = Math.RANDOM_BETWEEN(0, pixmap.getWidth() * Settings.TILE_SIZE);
             int y = Math.RANDOM_BETWEEN((int)(pixmap.getHeight() * Settings.TILE_SIZE * .6f), pixmap.getHeight() * Settings.TILE_SIZE);
-            entities.add(new Cloud(new Vector2(x, y), Math.RANDOM_BETWEEN(Settings.CLOUD_MIN_SPEED, Settings.CLOUD_MAX_SPEED)));
+            entities.add(new Cloud(new Vector2(x, y), Math.RANDOM_BETWEEN(Settings.CLOUD_MIN_SPEED, Settings.CLOUD_MAX_SPEED), Math.EITHER_OR(-5, 100)));
         }
+        Collections.sort(entities);
         return entities;
     }
 }
