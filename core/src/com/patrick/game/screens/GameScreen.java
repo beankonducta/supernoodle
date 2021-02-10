@@ -89,6 +89,7 @@ public class GameScreen implements Screen {
                     this.game.batch.draw(Resources.BOWL_COUNT(levelController.getFillCount(b.getId())), cameraController.getCamera().viewportWidth - (Resources.PLAYER_2_BANNER.getWidth() / 2) - (Settings.TILE_SIZE * 1.6f), cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.32f);
                 }
                     if (levelController.checkFull(b) || winCutscene) {
+                        movementController.stop();
                         if(winCutsceneTime == 0)
                             levelController.increaseFillCount(b);
                         winCutscene = true;
@@ -103,6 +104,7 @@ public class GameScreen implements Screen {
                             this.level = new Level(entities);
                             winCutscene = false;
                             winCutsceneTime = 0f;
+                            movementController.start();
                         }
                     }
                 }

@@ -102,8 +102,8 @@ public class MovementController {
                 if (Gdx.input.isKeyJustPressed(KEYS[4])) {
                     Player p = (Player) e;
                     if (p.getIngredient() != null) {
-                        p.getIngredient().setHeightGain(p.getHeightGain() * 1.1f);
-                        p.getIngredient().setVelocity(p.getVelocity() * .75f);
+                        p.getIngredient().setHeightGain(p.getHeightGain() * 1.2f);
+                        p.getIngredient().setVelocity(p.getVelocity() * 2f);
                         p.getIngredient().setHeld(false);
                         p.setIngredient(null);
                         p.update(delta);
@@ -127,8 +127,8 @@ public class MovementController {
                     }
                 }
             }
-            moveEntity(e, entities, renderer, delta);
         }
+        moveEntity(e, entities, renderer, delta);
     }
 
     public void attemptPickup(Entity e1, Entity e2) {
