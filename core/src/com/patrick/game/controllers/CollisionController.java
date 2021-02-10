@@ -30,6 +30,15 @@ public class CollisionController {
         return false;
     }
 
+    public boolean checkPlayerBowlCollision(Entity e1, Entity e2) {
+        if(e1.getFloorCollider() != null)
+            if (e1.getFloorCollider().overlaps(e2.getCollider()))
+                return true;
+        if (e1.getCollider().overlaps(e2.getCollider()))
+            return true;
+        return false;
+    }
+
     public boolean checkBasicCollision(Rectangle r1, Rectangle r2) {
         if (r1.overlaps(r2))
             return true;

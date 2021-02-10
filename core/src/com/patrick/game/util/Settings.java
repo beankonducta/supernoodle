@@ -20,4 +20,8 @@ public class Settings {
     public static final int CLOUD_MIN_SPEED = -20;
     public static final int CLOUD_MAX_SPEED = 20;
 
+    public static final float ACTION_TIME = 5f;
+
+    public static final float DANCE_TIME = 5f;
+
 }

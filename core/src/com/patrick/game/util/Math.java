@@ -13,4 +13,10 @@ public class Math {
         if(random - either > or - random) return or;
         return either;
     }
+
+    public static int RANDOM_POS_NEG(int value) {
+        int random = ThreadLocalRandom.current().nextInt(0,  2);
+        if(random == 0) return -1*value;
+        return value;
+    }
 }

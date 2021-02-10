@@ -3,6 +3,7 @@ package com.patrick.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
 import com.patrick.game.controllers.CameraController;
@@ -11,8 +12,8 @@ import com.patrick.game.controllers.LevelController;
 import com.patrick.game.controllers.MovementController;
 import com.patrick.game.entities.*;
 import com.patrick.game.levels.Level;
-import com.patrick.game.util.MapLoader;
-import com.patrick.game.util.Settings;
+import com.patrick.game.util.*;
+import com.patrick.game.util.Math;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,22 +22,28 @@ public class GameScreen implements Screen {
 
     private SuperNoodle game;
     private Level level;
-    private int winningPlayer;
+    private int winningBowl;
     private List<Entity> entities;
     private MovementController movementController;
     private CollisionController collisionController;
     private CameraController cameraController;
     private LevelController levelController;
+    private MapLoader mapLoader;
+
+    private boolean winCutscene;
+    private float winCutsceneTime;
 
     public GameScreen(SuperNoodle game) {
         this.game = game;
-        MapLoader mapLoader = new MapLoader();
+        mapLoader = new MapLoader();
         collisionController = new CollisionController();
         cameraController = new CameraController();
         movementController = new MovementController(collisionController, cameraController);
         levelController = new LevelController(collisionController);
         entities = mapLoader.loadMap("MAP_0.png");
         this.level = new Level(entities);
+        winCutscene = false;
+        winCutsceneTime = 0f;
     }
 
     @Override
@@ -54,27 +61,60 @@ public class GameScreen implements Screen {
         this.game.shapeRenderer.end();
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
+        if (entities != null)
+            for (Entity e : entities) {
+                if (e instanceof Player) {
+                    movementController.playerMove(e, entities, game.shapeRenderer, delta);
+                    if (winCutscene) {
+                        Player p = (Player) e;
+                        if ((winningBowl == -3 && e.getId() == 1) || (winningBowl == -2 && e.getId() == 2)) {
+                            p.changeAnimation("DANCE", true);
+                            float speed = p.getDir() == Direction.LEFT ? -Settings.PLAYER_SPEED : Settings.PLAYER_SPEED;
+                            if (p.getVelocity() != speed)
+                                p.setVelocity(speed);
+                        }
+                    }
+                }
+                if (e instanceof Ingredient)
+                    movementController.ingredientMove(e, entities, game.shapeRenderer, delta);
+                if (e instanceof Bowl) {
+                    Bowl b = (Bowl) e;
+                    // these are very janky and hardcoded, need to figure out a better way to update them (maybe merge the two sprites?)
+                if(b.getId() == -3) {
+                    this.game.batch.draw(Resources.PLAYER_1_BANNER, 0, cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.5f);
+                    this.game.batch.draw(Resources.BOWL_COUNT(levelController.getFillCount(b.getId())), Settings.TILE_SIZE +4, cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.32f);
+                }
+                else {
+                    this.game.batch.draw(Resources.PLAYER_2_BANNER, cameraController.getCamera().viewportWidth - Resources.PLAYER_2_BANNER.getWidth(), cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.5f);
+                    this.game.batch.draw(Resources.BOWL_COUNT(levelController.getFillCount(b.getId())), cameraController.getCamera().viewportWidth - (Resources.PLAYER_2_BANNER.getWidth() / 2) - (Settings.TILE_SIZE * 1.6f), cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.32f);
+                }
+                    if (levelController.checkFull(b) || winCutscene) {
+                        if(winCutsceneTime == 0)
+                            levelController.increaseFillCount(b);
+                        winCutscene = true;
+                        winCutsceneTime += delta;
+                        winningBowl = b.getId();
+                        if (winCutsceneTime >= Settings.DANCE_TIME) {
+                            System.out.println(levelController.getFillCount(b.getId()));
+                            if (levelController.checkWin(b)) {
+                                game.setScreen(new WinScreen(game, winningBowl));
+                            }
+                            entities = mapLoader.loadMap("MAP_0.png");
+                            this.level = new Level(entities);
+                            winCutscene = false;
+                            winCutsceneTime = 0f;
+                        }
+                    }
+                }
+                if (e instanceof Cloud)
+                    movementController.cloudMove(e, delta);
+            }
+        movementController.updateEntityList(entities);
         this.level.draw(this.game.batch, this.game.shapeRenderer);
         this.level.update(delta);
-        if(entities != null)
-        for(Entity e : entities) {
-            if(e instanceof Player)
-                movementController.playerMove(e, entities, game.shapeRenderer, delta);
-            if(e instanceof Ingredient)
-                movementController.ingredientMove(e, entities, game.shapeRenderer, delta);
-            if(e instanceof Bowl) {
-                Bowl b = (Bowl)e;
-                winningPlayer = levelController.checkWin(b);
-                if(winningPlayer != -1)
-                    game.setScreen(new WinScreen(game, winningPlayer));
-            }
-            if(e instanceof Cloud)
-                movementController.cloudMove(e, delta);
-        }
-        movementController.updateEntityList(entities);
         this.game.batch.end();
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        for(Entity e : entities) {
+        for (Entity e : entities) {
             if (Settings.DEBUG_COLLISION && e.getCollider() != null) {
                 this.game.shapeRenderer.setColor((e.getDebugColor() != null ? e.getDebugColor() : Color.BLUE));
                 this.game.shapeRenderer.rect(e.getCollider().x, e.getCollider().y, e.getCollider().width, e.getCollider().height);

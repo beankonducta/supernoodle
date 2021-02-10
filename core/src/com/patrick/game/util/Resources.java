@@ -112,6 +112,14 @@ public class Resources {
     }
 
     // hud
-    // NOTE: We still need to figure out these textures (hint: check piskelapp, I was smart and saved these from the og game)
+    public static final Texture PLAYER_1_BANNER = new Texture(Gdx.files.internal("PLAYER_1_BANNER.png"));
+    public static final Texture PLAYER_2_BANNER = new Texture(Gdx.files.internal("PLAYER_2_BANNER.png"));
+
+    public static final TextureRegion[][] BOWL_COUNT_REGION = Sprite.split(new Texture(Gdx.files.internal("BOWL_COUNT.png")), 96, 32);
+
+    public static TextureRegion BOWL_COUNT(int count) {
+        if(count >= BOWL_COUNT_REGION[0].length) return null;
+        return BOWL_COUNT_REGION[0][count];
+    }
 
 }

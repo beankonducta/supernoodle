@@ -33,7 +33,9 @@ public class Bowl extends StaticEntity {
     }
 
     public Entity removeLastIngredient() {
+        if(this.getIngredientCount() > 0)
         return this.removeIngredient(this.getIngredientCount() - 1);
+        return null;
     }
 
     public int getIngredientCount() {

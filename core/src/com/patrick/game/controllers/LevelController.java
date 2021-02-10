@@ -10,6 +10,12 @@ import java.util.List;
 public class LevelController {
 
     private CollisionController collisionController;
+    private int fillCount1;
+    private int fillCount2;
+
+    public int getFillCount(int id) {
+        return id == -3 ? fillCount1 : fillCount2;
+    }
 
     public LevelController(CollisionController collisionController) {
         this.collisionController = collisionController;
@@ -19,10 +25,18 @@ public class LevelController {
 
     }
 
-    public int checkWin(Bowl b) {
-        if(b.getIngredientCount() == 5) {
-            return b.getId();
-        }
-        return -1;
+    public boolean checkFull(Bowl b) {
+        return b.getIngredientCount() == 5;
     }
+
+    public boolean checkWin(Bowl b) {
+        return b.getId() == -3 ? fillCount1 == 3 : fillCount2 == 3;
+    }
+
+    public void increaseFillCount(Bowl b) {
+        if(b.getId() == -3) fillCount1 ++;
+        else fillCount2 ++;
+        b.removeLastIngredient();
+    }
+
 }

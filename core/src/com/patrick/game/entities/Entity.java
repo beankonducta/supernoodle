@@ -24,8 +24,20 @@ public class Entity implements Comparable<Entity>{
     protected Rectangle floorCollider;
     protected int id;
     protected boolean grounded;
-
+    protected float actionTimer;
     protected Color debugColor;
+
+    public float getActionTimer() {
+        return this.actionTimer;
+    }
+
+    public void incrementActionTimer() {
+        this.actionTimer += 1f;
+    }
+
+    public void resetActionTimer() {
+        this.actionTimer = 0;
+    }
 
     public Rectangle getFloorCollider() {
         return this.floorCollider;
