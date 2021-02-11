@@ -30,6 +30,7 @@ public class MovementController {
     private CameraController cameraController;
 
     private boolean canMove;
+    private boolean processPhysics;
 
     private List<Entity> toRemove;
     private List<Entity> toAdd;
@@ -44,10 +45,16 @@ public class MovementController {
 
     public void start() {
         this.canMove = true;
+        this.processPhysics = true;
     }
 
     public void stop() {
         this.canMove = false;
+    }
+
+    public void pause() {
+        this.canMove = false;
+        this.processPhysics = false;
     }
 
     public void updateEntityList(List<Entity> entities) {

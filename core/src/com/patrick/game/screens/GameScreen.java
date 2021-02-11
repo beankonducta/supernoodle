@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
         cameraController = new CameraController();
         movementController = new MovementController(collisionController, cameraController);
         levelController = new LevelController(collisionController);
-        entities = mapLoader.loadMap("MAP_1.png");
+        entities = mapLoader.loadMap("MAP_0.png");
         this.level = new Level(entities);
         winCutscene = false;
         winningBowl = -1;
@@ -56,6 +56,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        delta = java.lang.Math.min(1/30f, Gdx.graphics.getDeltaTime());
         if (level == null) return;
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         this.game.shapeRenderer.rect(0, 0, this.cameraController.getCamera().viewportWidth, this.cameraController.getCamera().viewportHeight, green, green, blue, blue);
@@ -101,7 +102,7 @@ public class GameScreen implements Screen {
                                 if (levelController.checkWin(b)) {
                                     game.setScreen(new WinScreen(game, winningBowl));
                                 }
-                                entities = mapLoader.loadMap("MAP_3.png");
+                                entities = mapLoader.loadMap("MAP_0.png");
                                 this.level = new Level(entities);
                                 winCutscene = false;
                                 winCutsceneTime = 0f;
@@ -134,17 +135,19 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        this.pause();
+        this.cameraController.resetCamera();
+        this.resume();
     }
 
     @Override
     public void pause() {
-
+        this.movementController.pause();
     }
 
     @Override
     public void resume() {
-
+        this.movementController.start();
     }
 
     @Override
