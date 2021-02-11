@@ -29,7 +29,7 @@ public class MovementController {
         this.cameraController = cameraController;
         this.toRemove = new ArrayList<>();
         this.toAdd = new ArrayList<>();
-        this.canMove = true;
+        this.start();
     }
 
     public void start() {
@@ -126,8 +126,7 @@ public class MovementController {
                 }
             }
         }
-        if (this.processPhysics)
-            moveEntity(e, entities, delta);
+        moveEntity(e, entities, delta);
     }
 
     public void attemptPickup(Entity e1, Entity e2) {
@@ -142,6 +141,7 @@ public class MovementController {
     }
 
     public void cloudMove(Entity e, float delta) {
+        if (!this.processPhysics) return;
         e.move(new Vector2(e.getSpeed() * delta, 0));
         if (e.x() < -e.width() * 2)
             e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth + Settings.TILE_SIZE, e.y()));
@@ -150,6 +150,7 @@ public class MovementController {
     }
 
     public void ingredientMove(Entity e, List<Entity> entities, float delta) {
+        if (!this.processPhysics) return;
         if (e instanceof Ingredient) {
             moveEntity(e, entities, delta);
             this.attemptIngredientAdd(e, entities);
@@ -157,6 +158,7 @@ public class MovementController {
     }
 
     public void moveEntity(Entity e1, List<Entity> entities, float delta) {
+        if (!this.processPhysics) return;
         boolean didGround = false;
         // no need to calculate collisions if e1 is a held ingredient
         if (e1 instanceof Ingredient) {

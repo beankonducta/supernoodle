@@ -12,6 +12,8 @@ import com.patrick.game.controllers.MovementController;
 import com.patrick.game.entities.*;
 import com.patrick.game.levels.Level;
 import com.patrick.game.util.*;
+import jdk.internal.loader.Resource;
+
 import java.util.List;
 
 public class GameScreen implements Screen {
@@ -81,12 +83,10 @@ public class GameScreen implements Screen {
                     Bowl b = (Bowl) e;
                     // these are very janky and hardcoded, need to figure out a better way to update them (maybe merge the two sprites?)
                 if(b.getId() == -3) {
-                    this.game.batch.draw(Resources.PLAYER_1_BANNER, 0, this.cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.5f);
-                    this.game.batch.draw(Resources.BOWL_COUNT(this.levelController.getFillCount(b.getId())), Settings.TILE_SIZE +4, this.cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.32f);
+                    this.game.batch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0 + (Resources.PLAQUE_WIDTH * .05f), this.cameraController.getCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.22f));
                 }
                 else {
-                    this.game.batch.draw(Resources.PLAYER_2_BANNER, this.cameraController.getCamera().viewportWidth - Resources.PLAYER_2_BANNER.getWidth(), this.cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.5f);
-                    this.game.batch.draw(Resources.BOWL_COUNT(this.levelController.getFillCount(b.getId())), this.cameraController.getCamera().viewportWidth - (Resources.PLAYER_2_BANNER.getWidth() / 2) - (Settings.TILE_SIZE * 1.6f), this.cameraController.getCamera().viewportHeight - Resources.PLAYER_1_BANNER.getHeight() * 1.32f);
+                    this.game.batch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getCamera().viewportWidth - (Resources.PLAQUE_WIDTH * 1.05f), this.cameraController.getCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.22f));
                 }
                     if (this.levelController.checkFull(b) || this.winCutscene) {
                         if (this.winningBowl == b.getId() || this.winningBowl == -1) {
@@ -133,9 +133,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        this.pause();
         this.cameraController.resetCamera();
-        this.resume();
     }
 
     @Override

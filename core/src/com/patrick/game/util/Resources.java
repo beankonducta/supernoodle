@@ -110,14 +110,15 @@ public class Resources {
     }
 
     // hud
-    public static final Texture PLAYER_1_BANNER = new Texture(Gdx.files.internal("PLAYER_1_BANNER.png"));
-    public static final Texture PLAYER_2_BANNER = new Texture(Gdx.files.internal("PLAYER_2_BANNER.png"));
+    public static final TextureRegion[][] PLAQUES_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAQUES.png")), 224, 192);
 
-    public static final TextureRegion[][] BOWL_COUNT_REGION = Sprite.split(new Texture(Gdx.files.internal("BOWL_COUNT.png")), 96, 32);
-
-    public static TextureRegion BOWL_COUNT(int count) {
-        if(count >= BOWL_COUNT_REGION[0].length) return null;
-        return BOWL_COUNT_REGION[0][count];
+    public static TextureRegion PLAQUE(int id, int count) {
+        if(id > 2) return null;
+        if(count >= PLAQUES_REGION[id-1].length) return null;
+        return PLAQUES_REGION[id-1][count];
     }
+
+    public static float PLAQUE_WIDTH = PLAQUE(1, 0).getRegionWidth();
+    public static float PLAQUE_HEIGHT = PLAQUE(1, 0).getRegionHeight();
 
 }
