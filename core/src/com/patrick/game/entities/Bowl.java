@@ -14,21 +14,20 @@ public class Bowl extends StaticEntity {
     protected List<Ingredient> ingredients;
 
     public void addIngredient(Ingredient ingredient) {
-        if(this.ingredients != null) {
+        if(this.ingredients == null) return;
             this.ingredients.add(ingredient);
             this.updateTexture();
-        }
-        // update sprite here
     }
 
     public Entity removeIngredient(int index) {
-        if(this.ingredients != null)
-            if(index < this.ingredients.size()) {
+        if(this.ingredients != null) {
+            if (index < this.ingredients.size()) {
                 Entity e = this.ingredients.get(index);
                 this.ingredients.remove(e);
                 this.updateTexture();
                 return e;
             }
+        }
         return null;
     }
 

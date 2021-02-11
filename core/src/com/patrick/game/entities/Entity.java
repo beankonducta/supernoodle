@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Direction;
 import com.patrick.game.util.Settings;
 
-public class Entity implements Comparable<Entity>{
+public class Entity implements Comparable<Entity> {
 
     protected Direction dir, lastDir;
     protected Vector2 position;
@@ -48,7 +48,7 @@ public class Entity implements Comparable<Entity>{
     }
 
     public Direction getDir() {
-        return dir;
+        return this.dir;
     }
 
     public void setDir(Direction dir) {
@@ -57,7 +57,7 @@ public class Entity implements Comparable<Entity>{
     }
 
     public Direction getLastDir() {
-        return lastDir;
+        return this.lastDir;
     }
 
     public void setLastDir(Direction dir) {
@@ -73,7 +73,25 @@ public class Entity implements Comparable<Entity>{
     }
 
     public Vector2 getPosition() {
-        return position;
+        return this.position;
+    }
+
+    public float x() {
+        return this.position.x;
+    }
+
+    public float y() {
+        return this.position.y;
+    }
+
+    public float height() {
+        if (this.collider == null) return 0;
+        return this.collider.height;
+    }
+
+    public float width() {
+        if (this.collider == null) return 0;
+        return this.collider.width;
     }
 
     public void setHeightGain(float heightGain) {
@@ -81,15 +99,15 @@ public class Entity implements Comparable<Entity>{
     }
 
     public float getHeightGain() {
-        return heightGain;
+        return this.heightGain;
     }
 
     public int getId() {
-        return id;
+        return this.id;
     }
 
     public float getSpeed() {
-        return speed;
+        return this.speed;
     }
 
     public void setVelocity(float velocity) {
@@ -97,7 +115,7 @@ public class Entity implements Comparable<Entity>{
     }
 
     public float getVelocity() {
-        return velocity;
+        return this.velocity;
     }
 
     public void setWeight(float weight) {
@@ -105,29 +123,20 @@ public class Entity implements Comparable<Entity>{
     }
 
     public float getWeight() {
-        return weight;
-    }
-
-    public float getDecelSpeed() {
-        return decelSpeed;
-    }
-
-    public float getVelocityY() {
-        return -weight + heightGain;
+        return this.weight;
     }
 
     public TextureRegion getTexture() {
-        return texture;
+        return this.texture;
     }
 
     public Rectangle getCollider() {
-        return collider;
+        return this.collider;
     }
 
     public Entity(Vector2 position, TextureRegion texture) {
         this.position = position;
         this.texture = texture;
-
         this.speed = 0;
         this.velocity = 0;
         this.weight = 0;
@@ -142,7 +151,6 @@ public class Entity implements Comparable<Entity>{
         this.decelSpeed = decelSpeed;
         this.weight = weight;
         this.texture = texture;
-
         this.velocity = 0;
         this.heightGain = 0;
         this.id = -1;
@@ -155,16 +163,13 @@ public class Entity implements Comparable<Entity>{
         this.weight = weight;
         this.texture = texture;
         this.id = id;
-
         this.velocity = 0;
         this.heightGain = 0;
     }
 
     public void update(float delta) {
-//        if(this.grounded) {
         if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
         if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
-//        }
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;
         if (this.heightGain < 0) this.heightGain += this.decelSpeed * delta;
         if (this.heightGain < 5 && this.heightGain > 0) this.heightGain = 0;
@@ -172,10 +177,10 @@ public class Entity implements Comparable<Entity>{
         if (this.velocity < 5 && this.velocity > 0) this.velocity = 0;
         if (this.velocity > -5f && this.velocity < 0) this.velocity = 0;
         if (this.collider != null)
-                this.collider.setPosition(this.position);
+            this.collider.setPosition(this.position);
     }
 
-    public void draw(Batch batch, ShapeRenderer renderer) {
+    public void draw(Batch batch) {
     }
 
     public void move(Vector2 position) {

@@ -12,7 +12,7 @@ import com.patrick.game.util.Settings;
 public class Cloud extends StaticEntity {
 
     public void updateTexture() {
-        this.texture = Resources.CLOUD(Math.RANDOM_BETWEEN(0, 4)); // 5 should actually be the length of the texture region
+        this.texture = Resources.CLOUD(Math.RANDOM_BETWEEN(0, 4)); // 4 should actually be the length of the texture region
     }
 
     public Cloud(Vector2 position, float speed, int id) {
@@ -23,12 +23,9 @@ public class Cloud extends StaticEntity {
     }
 
     @Override
-    public void draw(Batch batch, ShapeRenderer renderer) {
-        super.draw(batch, renderer);
+    public void draw(Batch batch) {
+        super.draw(batch);
         if (this.texture == null) return;
-        // not changing alpha for some reason
-        batch.setColor(batch.getColor().r, batch.getColor().g, batch.getColor().b, .7f);
         batch.draw(this.texture, this.position.x, this.position.y);
-        batch.setColor(batch.getColor().r, batch.getColor().g, batch.getColor().b, 1);
     }
 }

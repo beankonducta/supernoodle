@@ -30,12 +30,12 @@ public class LevelController {
     }
 
     public boolean checkWin(Bowl b) {
-        return b.getId() == -3 ? fillCount1 == 3 : fillCount2 == 3;
+        return b.getId() == -3 ? this.fillCount1 == 3 : this.fillCount2 == 3;
     }
 
     public void increaseFillCount(Bowl b) {
-        if(b.getId() == -3) fillCount1 ++;
-        else fillCount2 ++;
+        if (b.getId() == -3) this.fillCount1++;
+        else this.fillCount2++;
         b.removeLastIngredient();
     }
 

@@ -16,40 +16,38 @@ public class CameraController {
     }
 
     public void move(Vector2 destination) {
-        camera.translate(destination);
+        this.camera.translate(destination);
     }
 
     public void centerOnEntity(Entity e) {}
 
-    public void calculatedZoomPan(Entity e) {
-        final float xDiff;
-    }
+    public void calculatedZoomPan(Entity e) {}
 
     public void zoomIn() {
         // no work
-        camera.zoom -= .1;
-        camera.update();
+        this.camera.zoom -= .1;
+        this.camera.update();
     }
 
     public void zoomOut() {
         // work
-        camera.zoom += .1;
-        camera.update();
+        this.camera.zoom += .1;
+        this.camera.update();
     }
 
     public void resetCamera() {
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        camera.zoom = .97f;
-        camera.position.y = camera.position.y - Settings.TILE_SIZE *2;
-        camera.update();
+        this.camera = new OrthographicCamera();
+        this.camera.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        this.camera.zoom = .97f;
+        this.camera.position.y = this.camera.position.y - Settings.TILE_SIZE *2;
+        this.camera.update();
     }
 
     public OrthographicCamera getCamera() {
-        return camera;
+        return this.camera;
     }
 
     public void update() {
-        camera.update();
+        this.camera.update();
     }
 }

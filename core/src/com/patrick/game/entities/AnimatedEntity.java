@@ -38,22 +38,22 @@ public class AnimatedEntity extends Entity {
     public void update(float delta) {
         super.update(delta);
         if (this.playAnimation) {
-            animOffset += 30*delta;
-            if(animOffset >= animOffsetMax) {
-                animOffset = 0;
+            this.animOffset += 30 * delta;
+            if (this.animOffset >= this.animOffsetMax) {
+                this.animOffset = 0;
                 if (this.animFrame < this.textureRegions[0].length - 1) this.animFrame++;
                 else this.animFrame = 0;
             }
         }
     }
 
-    public void draw(Batch batch, ShapeRenderer renderer) {
-        super.draw(batch, renderer);
+    public void draw(Batch batch) {
+        super.draw(batch);
         if (this.textureRegions == null) return;
         TextureRegion t = this.animation.getKeyFrame(this.animFrame, true);
-        if(validDir(Direction.LEFT) && !t.isFlipX()) t.flip(true, false);
-        if(validDir(Direction.RIGHT) && t.isFlipX()) t.flip(true, false);
-        batch.draw(t, this.position.x, this.position.y);
+        if (validDir(Direction.LEFT) && !t.isFlipX()) t.flip(true, false);
+        if (validDir(Direction.RIGHT) && t.isFlipX()) t.flip(true, false);
+        batch.draw(t, this.x(), this.y());
     }
 
     private boolean validDir(Direction dir) {
@@ -61,7 +61,7 @@ public class AnimatedEntity extends Entity {
     }
 
     public void move(Vector2 position) {
-        if (Math.abs(velocity) > 0 || Math.abs(heightGain) > 0)
+        if (Math.abs(this.velocity) > 0 || Math.abs(this.heightGain) > 0)
             this.playAnimation = true;
         else
             this.playAnimation = false;

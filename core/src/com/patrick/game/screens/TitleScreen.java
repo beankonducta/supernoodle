@@ -32,10 +32,10 @@ public class TitleScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.begin();
-        game.font.draw(game.batch, "Temp Title Screen", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .9f);
-        game.font.draw(game.batch, "Press space to play.", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .7f);
-        game.batch.end();
+        this.game.batch.begin();
+        this.game.font.draw(this.game.batch, "Temp Title Screen", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .9f);
+        this.game.font.draw(this.game.batch, "Press space to play.", Gdx.graphics.getWidth() * .3f, Gdx.graphics.getHeight() * .7f);
+        this.game.batch.end();
     }
 
     @Override

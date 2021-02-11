@@ -2,29 +2,18 @@ package com.patrick.game.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.*;
 import com.patrick.game.util.Direction;
 import com.patrick.game.util.Misc;
 import com.patrick.game.util.Settings;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MovementController {
-
-    /*
-
-    TODO: Fix collision and movement physics.
-
-    TODO: I should move a lot of stuff out of here and into the game controller or something
-
-     */
 
     private CollisionController collisionController;
     private CameraController cameraController;
@@ -38,9 +27,9 @@ public class MovementController {
     public MovementController(CollisionController collisionController, CameraController cameraController) {
         this.collisionController = collisionController;
         this.cameraController = cameraController;
-        toRemove = new ArrayList<>();
-        toAdd = new ArrayList<>();
-        canMove = true;
+        this.toRemove = new ArrayList<>();
+        this.toAdd = new ArrayList<>();
+        this.canMove = true;
     }
 
     public void start() {
@@ -58,18 +47,17 @@ public class MovementController {
     }
 
     public void updateEntityList(List<Entity> entities) {
-        for (Entity e : toRemove) {
+        for (Entity e : this.toRemove) {
             entities.remove(e);
         }
-        toRemove = new ArrayList<>();
-        for (Entity e : toAdd) {
+        this.toRemove = new ArrayList<>();
+        for (Entity e : this.toAdd) {
             entities.add(e);
         }
-        toAdd = new ArrayList<>();
+        this.toAdd = new ArrayList<>();
     }
 
-
-    public void playerMove(Entity e, List<Entity> entities, ShapeRenderer renderer, float delta) {
+    public void playerMove(Entity e, List<Entity> entities, float delta) {
         if (this.canMove) {
             final int[] KEYS = e.getId() == 1 ?
                     new int[]{Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S, Input.Keys.CONTROL_LEFT} :
@@ -78,13 +66,13 @@ public class MovementController {
                 if (Gdx.input.isKeyJustPressed(Input.Keys.PLUS)) this.cameraController.zoomIn();
                 if (Gdx.input.isKeyJustPressed(Input.Keys.MINUS)) this.cameraController.zoomOut();
                 if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-                    for(Entity e1 : entities) {
-                        if(e1 instanceof Bowl) {
-                            for(Entity e2 : entities) {
-                                if(e2 instanceof Ingredient) {
-                                    ((Bowl) e1).addIngredient((Ingredient)e2);
-                                    toRemove.add(e2);
-                                    if(((Bowl) e1).getIngredientCount() == 5) return;
+                    for (Entity e1 : entities) {
+                        if (e1 instanceof Bowl) {
+                            for (Entity e2 : entities) {
+                                if (e2 instanceof Ingredient) {
+                                    ((Bowl) e1).addIngredient((Ingredient) e2);
+                                    this.toRemove.add(e2);
+                                    if (((Bowl) e1).getIngredientCount() == 5) return;
                                 }
                             }
                         }
@@ -118,11 +106,11 @@ public class MovementController {
                     } else {
                         for (Entity e1 : entities) {
                             if (e1 instanceof Ingredient) {
-                                if (collisionController.checkIngredientPickupCollision(e, e1))
+                                if (this.collisionController.checkIngredientPickupCollision(e, e1))
                                     this.attemptPickup(e, e1);
                             } else if (e1 instanceof Bowl) {
                                 // action timer is NOT working (it's because we have two action keys)
-                                if (collisionController.checkPlayerBowlCollision(e, e1)) {
+                                if (this.collisionController.checkPlayerBowlCollision(e, e1)) {
                                     if (Misc.PLAYER_BOWL_MATCH(e, e1)) {
                                         e.incrementActionTimer();
                                         if (e.getActionTimer() >= 1) {
@@ -138,7 +126,8 @@ public class MovementController {
                 }
             }
         }
-        moveEntity(e, entities, renderer, delta);
+        if (this.processPhysics)
+            moveEntity(e, entities, delta);
     }
 
     public void attemptPickup(Entity e1, Entity e2) {
@@ -154,20 +143,20 @@ public class MovementController {
 
     public void cloudMove(Entity e, float delta) {
         e.move(new Vector2(e.getSpeed() * delta, 0));
-        if (e.getPosition().x < -e.getCollider().width * 2)
-            e.moveTo(new Vector2(cameraController.getCamera().viewportWidth + Settings.TILE_SIZE, e.getPosition().y));
-        if (e.getPosition().x > cameraController.getCamera().viewportWidth + Settings.TILE_SIZE)
-            e.moveTo(new Vector2(-e.getCollider().width * 2, e.getPosition().y));
+        if (e.x() < -e.width() * 2)
+            e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth + Settings.TILE_SIZE, e.y()));
+        if (e.x() > cameraController.getCamera().viewportWidth + Settings.TILE_SIZE)
+            e.moveTo(new Vector2(-e.width() * 2, e.y()));
     }
 
-    public void ingredientMove(Entity e, List<Entity> entities, ShapeRenderer renderer, float delta) {
+    public void ingredientMove(Entity e, List<Entity> entities, float delta) {
         if (e instanceof Ingredient) {
-            moveEntity(e, entities, renderer, delta);
+            moveEntity(e, entities, delta);
             this.attemptIngredientAdd(e, entities);
         }
     }
 
-    public void moveEntity(Entity e1, List<Entity> entities, ShapeRenderer renderer, float delta) {
+    public void moveEntity(Entity e1, List<Entity> entities, float delta) {
         boolean didGround = false;
         // no need to calculate collisions if e1 is a held ingredient
         if (e1 instanceof Ingredient) {
@@ -175,14 +164,14 @@ public class MovementController {
             if (i.isHeld()) return;
         }
         e1.move(new Vector2((e1.getVelocity() * delta * (e1.getGrounded() ? 1 : .5f)), ((e1.getHeightGain() - e1.getWeight()) * delta)));
-        if (e1.getPosition().x < 0)
-            e1.moveTo(new Vector2(cameraController.getCamera().viewportWidth, e1.getPosition().y));
-        if (e1.getPosition().x > cameraController.getCamera().viewportWidth)
-            e1.moveTo(new Vector2(1, e1.getPosition().y));
+        if (e1.x() < 0)
+            e1.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth, e1.y()));
+        if (e1.x() > this.cameraController.getCamera().viewportWidth)
+            e1.moveTo(new Vector2(1, e1.y()));
         for (Entity e : entities) {
             if (e instanceof Floor) {
-                if (collisionController.checkBasicFloorCollision(e1, e)) {
-                    Vector2 offset = collisionController.calculateFloorCollisionOffset(e1, e);
+                if (this.collisionController.checkBasicFloorCollision(e1, e)) {
+                    Vector2 offset = this.collisionController.calculateFloorCollisionOffset(e1, e);
                     e1.move(new Vector2(0, offset.y));
                     if (offset.x != 0) {
                         e1.setVelocity(-e1.getVelocity() * .95f);
@@ -194,17 +183,11 @@ public class MovementController {
                     if (offset.y < 0) {
                         e1.setHeightGain(e1.getHeightGain() / 2);
                     }
-                    if (Settings.DEBUG_COLLISION) {
-                        renderer.begin(ShapeRenderer.ShapeType.Line);
-                        renderer.setColor(Color.WHITE);
-                        renderer.rect(e.getCollider().x, e.getCollider().y, e.getCollider().width, e.getCollider().height);
-                        renderer.end();
-                    }
                 }
             }
             if (!didGround) e1.setGrounded(false);
             if (e1.getId() != e.getId() && !(e instanceof Floor) && !(e instanceof Bowl) && !(e instanceof Cloud)) {
-                if (collisionController.checkBasicCollision(e1, e)) {
+                if (this.collisionController.checkBasicCollision(e1, e)) {
                     if (Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
                         e.move(new Vector2(e1.getVelocity() * delta, 0));
                         e.setVelocity(e1.getVelocity());
@@ -221,7 +204,7 @@ public class MovementController {
         Ingredient i = (Ingredient) e1;
         for (Entity e : entities) {
             if (e instanceof Bowl)
-                if (collisionController.checkBasicCollision(e1, e)) {
+                if (this.collisionController.checkBasicCollision(e1, e)) {
                     Bowl b = (Bowl) e;
                     b.addIngredient(i);
                     this.toRemove.add(i);
@@ -233,7 +216,7 @@ public class MovementController {
         Bowl b = (Bowl) e1;
         Entity e = b.removeLastIngredient();
         if (e != null) {
-            e.moveTo(new Vector2(e.getPosition().x, e.getPosition().y + Settings.TILE_SIZE * 2));
+            e.moveTo(new Vector2(e.x(), e.y() + Settings.TILE_SIZE * 2));
             e.setHeightGain(com.patrick.game.util.Math.RANDOM_BETWEEN((int) (Settings.PLAYER_JUMP_HEIGHT / 4), (int) (Settings.PLAYER_JUMP_HEIGHT)));
             e.setVelocity(com.patrick.game.util.Math.RANDOM_POS_NEG(com.patrick.game.util.Math.RANDOM_BETWEEN((int) (Settings.INGREDIENT_SPEED), (int) (Settings.INGREDIENT_SPEED * 2))));
             this.toAdd.add(e);

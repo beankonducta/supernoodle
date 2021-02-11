@@ -22,10 +22,10 @@ public class StaticEntity extends Entity {
         super.update(delta);
     }
 
-    public void draw(Batch batch, ShapeRenderer renderer) {
-        super.draw(batch, renderer);
+    public void draw(Batch batch) {
+        super.draw(batch);
         if (this.texture == null) return;
-        batch.draw(this.texture, this.position.x, this.position.y);
+        batch.draw(this.texture, this.x(), this.y());
     }
 
     public void move(Vector2 position) {

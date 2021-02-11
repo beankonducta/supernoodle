@@ -37,30 +37,29 @@ public class Player extends AnimatedEntity {
     public Player(Vector2 position, float speed, float weight, float decelSpeed, int playerNumber) {
         super(position, speed, weight, decelSpeed, null);
         this.id = playerNumber;
-        this.collider = new Rectangle(position.x + Settings.TILE_SIZE, position.y, 2, Settings.TILE_SIZE );
-        this.floorCollider = new Rectangle(position.x - Settings.TILE_SIZE, position.y, Settings.TILE_SIZE * 2, Settings.TILE_SIZE);
+        this.collider = new Rectangle(this.x() + Settings.TILE_SIZE, this.y(), 2, Settings.TILE_SIZE );
+        this.floorCollider = new Rectangle(this.x() - Settings.TILE_SIZE, this.y(), Settings.TILE_SIZE * 2, Settings.TILE_SIZE);
         this.debugColor = Color.RED;
         this.changeAnimation("STILL", false);
     }
 
     public void update(float delta) {
         super.update(delta);
-        if(grounded) this.heightGain = 0;
-        if(grounded && Math.abs(this.velocity) == 0) this.changeAnimation("STILL", false);
-        if(grounded && Math.abs(this.velocity) != 0) this.changeAnimation("RUN", false);
-        if(!grounded && this.heightGain >= this.weight) this.changeAnimation("JUMP", false);
-        if(!grounded && this.heightGain < this.weight)this.changeAnimation("FALL", false);
+        if(this.grounded) this.heightGain = 0;
+        if(this.grounded && Math.abs(this.velocity) == 0) this.changeAnimation("STILL", false);
+        if(this.grounded && Math.abs(this.velocity) != 0) this.changeAnimation("RUN", false);
+        if(!this.grounded && this.heightGain >= this.weight) this.changeAnimation("JUMP", false);
+        if(!this.grounded && this.heightGain < this.weight)this.changeAnimation("FALL", false);
         if (this.collider != null)
-            this.collider.setPosition(new Vector2(this.position.x + Settings.TILE_SIZE, this.position.y));
+            this.collider.setPosition(new Vector2(this.x() + Settings.TILE_SIZE, this.y()));
         if(this.floorCollider != null)
-            this.floorCollider.setPosition(new Vector2(this.position.x - Settings.TILE_SIZE, this.position.y));
+            this.floorCollider.setPosition(new Vector2(this.x(), this.y()));
     }
 
     public void move(Vector2 position) {
         super.move(position);
-        // we might want to move ingredient out of this class
         if(this.ingredient != null) {
-            this.ingredient.moveTo(new Vector2(this.getCollider().x - (this.getCollider().width * 3), this.getCollider().y + (this.getCollider().height * 2)));
+            this.ingredient.moveTo(new Vector2(this.getCollider().x - (this.width() * 3), this.getCollider().y + (this.height() * 2)));
         }
     }
 }

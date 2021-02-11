@@ -47,14 +47,8 @@ public class Ingredient extends StaticEntity {
             this.collider.setPosition(new Vector2(this.position.x + .2f, this.position.y));
     }
 
-    public void draw(Batch batch, ShapeRenderer renderer) {
-        super.draw(batch, renderer);
-//        if (Settings.DEBUG_COLLISION && this.pickupCollider != null) {
-//            renderer.begin(ShapeRenderer.ShapeType.Line);
-//            renderer.setColor(Color.GRAY);
-//            renderer.rect(pickupCollider.x, pickupCollider.y, pickupCollider.width, pickupCollider.height);
-//            renderer.end();
-//        }
+    public void draw(Batch batch) {
+        super.draw(batch);
     }
 
     public void move(Vector2 position) {

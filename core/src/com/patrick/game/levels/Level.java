@@ -2,6 +2,7 @@ package com.patrick.game.levels;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
@@ -19,17 +20,22 @@ public class Level {
     }
 
     public void draw(SuperNoodle game) {
-        for (Entity e : entities) {
-            e.draw(game.batch, game.shapeRenderer);
+        for (Entity e : this.entities) {
+            e.draw(game.batch);
             if(Settings.DEBUG_ENTITIES) {
-                game.font.draw(game.batch, ""+e.getId(), e.getPosition().x, e.getPosition().y + (e.getCollider().height * 1.2f));
-
+                game.font.draw(game.batch, ""+e.getId(), e.x(), e.y() + (e.height() * 1.2f));
+            }
+            if (Settings.DEBUG_COLLISION) {
+                game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                game.shapeRenderer.setColor(Color.WHITE);
+                game.shapeRenderer.rect(e.getCollider().x, e.getCollider().y, e.width(), e.height());
+                game.shapeRenderer.end();
             }
         }
     }
 
     public void update(float delta) {
-        for (Entity e : entities) {
+        for (Entity e : this.entities) {
             e.update(delta);
         }
     }

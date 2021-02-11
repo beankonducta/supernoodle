@@ -16,7 +16,6 @@ public class Resources {
      */
 
     // player
-    // NOTE: player should be bigger I think.
     private static final TextureRegion[][] PLAYER_TEXTURE_RUN_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
     private static final Animation<TextureRegion> PLAYER_RUN_ANIMATION = new Animation(1f, PLAYER_TEXTURE_RUN_REGION[0]);
     private static final TextureRegion[][] PLAYER_TEXTURE_RUN_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN_HOLD.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
@@ -103,7 +102,6 @@ public class Resources {
     }
 
     // clouds
-    // NOTE: this should have its own size, not use tilesize
     private static final TextureRegion[][] CLOUDS_REGION = Sprite.split(new Texture(Gdx.files.internal("CLOUDS.png")), Settings.TILE_SIZE * 4, Settings.TILE_SIZE * 2);
 
     public static TextureRegion CLOUD(int index) {
