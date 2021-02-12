@@ -10,6 +10,11 @@ public class Player extends AnimatedEntity {
 
     protected Ingredient ingredient;
     protected String currentAnim;
+    protected Rectangle bounceCollider;
+
+    public Rectangle getBounceCollider() {
+        return this.bounceCollider;
+    }
 
     public Ingredient getIngredient() {
         return this.ingredient;
@@ -39,6 +44,7 @@ public class Player extends AnimatedEntity {
         this.id = playerNumber;
         this.collider = new Rectangle(this.x() + Settings.TILE_SIZE, this.y(), 2, Settings.TILE_SIZE );
         this.floorCollider = new Rectangle(this.x() - Settings.TILE_SIZE, this.y(), Settings.TILE_SIZE * 2, Settings.TILE_SIZE);
+        this.bounceCollider = new Rectangle(this.x(), this.y(), Settings.TILE_SIZE, this.height());
         this.debugColor = Color.RED;
         this.changeAnimation("STILL", false);
     }
@@ -54,6 +60,8 @@ public class Player extends AnimatedEntity {
             this.collider.setPosition(new Vector2(this.x() + Settings.TILE_SIZE, this.y()));
         if(this.floorCollider != null)
             this.floorCollider.setPosition(new Vector2(this.x(), this.y()));
+        if(this.bounceCollider != null)
+            this.bounceCollider.setPosition(this.x(), this.y());
     }
 
     public void move(Vector2 position) {

@@ -47,6 +47,10 @@ public class CollisionController {
         return false;
     }
 
+    public boolean checkPlayerHeadBounceCollision(Player p1, Player p2) {
+        return p1.getBounceCollider().overlaps(p2.getBounceCollider());
+    }
+
     public Vector2 calculateFloorCollisionOffset(Entity e1, Entity e2) {
         float x = 0;
         float y = 0;

@@ -189,6 +189,16 @@ public class MovementController {
             }
             if (!didGround) e1.setGrounded(false);
             if (e1.getId() != e.getId() && !(e instanceof Floor) && !(e instanceof Bowl) && !(e instanceof Cloud)) {
+                if (e1 instanceof Player && e instanceof Player)
+                    if (this.collisionController.checkPlayerHeadBounceCollision((Player) e1, (Player) e)) {
+                        if (e.y() >= e1.y() + (e1.height() * .75f)) {
+                            e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
+                            e1.setHeightGain(-Settings.PLAYER_FALL_MOD);
+                        } else if (e1.y() > e.y() + (e.height() * .75f)) {
+                            e1.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
+                            e.setHeightGain(-Settings.PLAYER_FALL_MOD);
+                        }
+                    }
                 if (this.collisionController.checkBasicCollision(e1, e)) {
                     if (Math.abs(e1.getVelocity()) > Math.abs(e.getVelocity())) {
                         e.move(new Vector2(e1.getVelocity() * delta, 0));
