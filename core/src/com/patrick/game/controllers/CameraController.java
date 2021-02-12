@@ -24,16 +24,8 @@ public class CameraController {
     public void calculatedZoomPan(Entity e) {}
 
     public void moveCameraTowards(Entity e, float speed, float delta) {
-        if(this.camera.zoom < .3f) return;
-        float xDir = 0;
-        float yDir = 0;
-        float xDif = Math.abs(e.x() - this.camera.position.x);
-        float yDif = Math.abs(e.y() - this.camera.position.y);
-        xDir = e.x() > this.camera.position.x + 10 ? e.x() : -e.x();
-        yDir = e.y() > this.camera.position.y + 10 ? e.y() : -e.y();
-        xDir = xDif > 4 ? xDir : 0;
-        yDir = yDif > 4 ? yDir : 0;
-        this.camera.translate(speed * delta * xDir, speed * 20 * delta * yDir);
+        if(this.camera.zoom < .2f) return;
+        this.camera.translate((e.x() - e.width() - (this.camera.position.x * .86f)) * delta, (e.y() - this.camera.position.y) * delta);
         this.zoomIn(delta / 2);
         this.camera.update();
     }
