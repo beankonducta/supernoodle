@@ -16,6 +16,15 @@ public class AnimatedEntity extends Entity {
     protected int animFrame;
     protected float animOffset;
     protected boolean playAnimation;
+    protected boolean forcePlayAnimation;
+
+    public void setForcePlayAnimation(boolean forcePlayAnimation) {
+        this.forcePlayAnimation = forcePlayAnimation;
+    }
+
+    public boolean getForcePlayAnimation() {
+        return this.forcePlayAnimation;
+    }
 
     public void setAnimation(TextureRegion[][] textureRegions, Animation<TextureRegion> animation) {
         this.textureRegions = textureRegions;
@@ -37,7 +46,7 @@ public class AnimatedEntity extends Entity {
 
     public void update(float delta) {
         super.update(delta);
-        if (this.playAnimation) {
+        if (this.playAnimation || this.forcePlayAnimation) {
             this.animOffset += 30 * delta;
             if (this.animOffset >= this.animOffsetMax) {
                 this.animOffset = 0;

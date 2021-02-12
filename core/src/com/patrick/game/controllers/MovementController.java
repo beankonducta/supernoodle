@@ -63,8 +63,8 @@ public class MovementController {
                     new int[]{Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S, Input.Keys.CONTROL_LEFT} :
                     new int[]{Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT};
             if (e instanceof Player && KEYS != null) {
-                if (Gdx.input.isKeyJustPressed(Input.Keys.PLUS)) this.cameraController.zoomIn();
-                if (Gdx.input.isKeyJustPressed(Input.Keys.MINUS)) this.cameraController.zoomOut();
+                if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) this.cameraController.zoomIn(delta);
+                if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) this.cameraController.zoomOut(delta);
                 if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
                     for (Entity e1 : entities) {
                         if (e1 instanceof Bowl) {

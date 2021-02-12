@@ -42,7 +42,7 @@ public class Player extends AnimatedEntity {
         this.debugColor = Color.RED;
         this.changeAnimation("STILL", false);
     }
-
+ 
     public void update(float delta) {
         super.update(delta);
         if(this.grounded) this.heightGain = 0;

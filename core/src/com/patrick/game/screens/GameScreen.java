@@ -67,15 +67,15 @@ public class GameScreen implements Screen {
             for (Entity e : this.entities) {
                 if (e instanceof Player) {
                     this.movementController.playerMove(e, this.entities, delta);
+                    Player p = (Player) e;
                     if (this.winCutscene) {
                         if (Misc.PLAYER_BOWL_MATCH_ID(e.getId(), this.winningBowl)) {
-                            Player p = (Player) e;
+//                            this.cameraController.moveCameraTowards(e, 1f, delta);
                             p.changeAnimation("DANCE", true);
-                            float speed = p.getDir() == Direction.LEFT ? -Settings.PLAYER_SPEED : Settings.PLAYER_SPEED;
-                            if (p.getVelocity() != speed)
-                                p.setVelocity(speed);
+                            p.setForcePlayAnimation(true);
                         }
                     }
+                    else if(p.getForcePlayAnimation()) p.setForcePlayAnimation(false);
                 }
                 if (e instanceof Ingredient)
                     this.movementController.ingredientMove(e, this.entities, delta);
@@ -98,10 +98,12 @@ public class GameScreen implements Screen {
                             this.winningBowl = b.getId();
                             if (this.winCutsceneTime >= Settings.DANCE_TIME) {
                                 if (this.levelController.checkWin(b)) {
+                                    this.cameraController.resetCamera();
                                     this.game.setScreen(new WinScreen(this.game, this.winningBowl));
                                 }
                                 this.entities = this.mapLoader.loadMap("MAP_0.png");
                                 this.level = new Level(this.entities);
+                                this.cameraController.resetCamera();
                                 this.winCutscene = false;
                                 this.winCutsceneTime = 0f;
                                 this.winningBowl = -1;
