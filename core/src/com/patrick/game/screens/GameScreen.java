@@ -3,7 +3,10 @@ package com.patrick.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.patrick.game.SuperNoodle;
 import com.patrick.game.controllers.CameraController;
 import com.patrick.game.controllers.CollisionController;
@@ -28,11 +31,14 @@ public class GameScreen implements Screen {
     private LevelController levelController;
     private MapLoader mapLoader;
 
+    private SpriteBatch uiBatch;
+
     private boolean winCutscene;
     private float winCutsceneTime;
 
     public GameScreen(SuperNoodle game) {
         this.game = game;
+        this.uiBatch = new SpriteBatch();
         this.mapLoader = new MapLoader();
         this.collisionController = new CollisionController();
         this.cameraController = new CameraController();
@@ -63,6 +69,11 @@ public class GameScreen implements Screen {
         this.game.shapeRenderer.end();
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
+        this.level.draw(this.game);
+        this.level.update(delta);
+        this.game.batch.end();
+        this.uiBatch.begin();
+        this.uiBatch.setProjectionMatrix(this.cameraController.getUiCamera().combined);
         if (this.entities != null)
             for (Entity e : this.entities) {
                 if (e instanceof Player) {
@@ -70,7 +81,7 @@ public class GameScreen implements Screen {
                     Player p = (Player) e;
                     if (this.winCutscene) {
                         if (Misc.PLAYER_BOWL_MATCH_ID(e.getId(), this.winningBowl)) {
-//                            this.cameraController.moveCameraTowards(e, 1f, delta);
+                            this.cameraController.moveCameraTowards(e, 1f, delta);
                             p.changeAnimation("DANCE", true);
                             p.setForcePlayAnimation(true);
                         }
@@ -83,10 +94,10 @@ public class GameScreen implements Screen {
                     Bowl b = (Bowl) e;
                     // these are very janky and hardcoded, need to figure out a better way to update them (maybe merge the two sprites?)
                 if(b.getId() == -3) {
-                    this.game.batch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0 + (Resources.PLAQUE_WIDTH * .05f), this.cameraController.getCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.22f));
+                    this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0 + (Resources.PLAQUE_WIDTH * .05f), this.cameraController.getUiCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.22f));
                 }
                 else {
-                    this.game.batch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getCamera().viewportWidth - (Resources.PLAQUE_WIDTH * 1.05f), this.cameraController.getCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.22f));
+                    this.uiBatch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getUiCamera().viewportWidth - (Resources.PLAQUE_WIDTH * 1.05f), this.cameraController.getUiCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.22f));
                 }
                     if (this.levelController.checkFull(b) || this.winCutscene) {
                         if (this.winningBowl == b.getId() || this.winningBowl == -1) {
@@ -115,10 +126,8 @@ public class GameScreen implements Screen {
                 if (e instanceof Cloud)
                     this.movementController.cloudMove(e, delta);
             }
+        this.uiBatch.end();
         this.movementController.updateEntityList(this.entities);
-        this.level.draw(this.game);
-        this.level.update(delta);
-        this.game.batch.end();
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         for (Entity e : entities) {
             if (Settings.DEBUG_COLLISION && e.getCollider() != null) {

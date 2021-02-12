@@ -9,6 +9,7 @@ import com.patrick.game.util.Settings;
 public class CameraController {
 
     private OrthographicCamera camera;
+    private OrthographicCamera uiCamera;
 
     public CameraController() {
         this.resetCamera();
@@ -23,13 +24,17 @@ public class CameraController {
     public void calculatedZoomPan(Entity e) {}
 
     public void moveCameraTowards(Entity e, float speed, float delta) {
+        if(this.camera.zoom < .3f) return;
         float xDir = 0;
         float yDir = 0;
+        float xDif = Math.abs(e.x() - this.camera.position.x);
+        float yDif = Math.abs(e.y() - this.camera.position.y);
         xDir = e.x() > this.camera.position.x + 10 ? e.x() : -e.x();
         yDir = e.y() > this.camera.position.y + 10 ? e.y() : -e.y();
-        System.out.println(e.y() + " : "+this.camera.position.y);
-        this.camera.translate(speed * delta * xDir, speed * 10 * delta * yDir);
-        if(this.camera.zoom > .2f) this.zoomIn(delta / 2);
+        xDir = xDif > 4 ? xDir : 0;
+        yDir = yDif > 4 ? yDir : 0;
+        this.camera.translate(speed * delta * xDir, speed * 20 * delta * yDir);
+        this.zoomIn(delta / 2);
         this.camera.update();
     }
 
@@ -46,19 +51,29 @@ public class CameraController {
     }
 
     public void resetCamera() {
-        System.out.println("RESETTING");
         this.camera = new OrthographicCamera();
         this.camera.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         this.camera.zoom = .97f;
         this.camera.position.y = this.camera.position.y - Settings.TILE_SIZE *2;
         this.camera.update();
+
+        this.uiCamera = new OrthographicCamera();
+        this.uiCamera.setToOrtho(false, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+        this.uiCamera.zoom = .97f;
+        this.uiCamera.position.y = this.uiCamera.position.y - Settings.TILE_SIZE *2;
+        this.uiCamera.update();
     }
 
     public OrthographicCamera getCamera() {
         return this.camera;
     }
 
+    public OrthographicCamera getUiCamera() {
+        return this.uiCamera;
+    }
+
     public void update() {
         this.camera.update();
+        this.uiCamera.update();
     }
 }
