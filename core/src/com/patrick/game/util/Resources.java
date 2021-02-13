@@ -110,7 +110,7 @@ public class Resources {
     }
 
     // hud
-    public static final TextureRegion[][] PLAQUES_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAQUES.png")), 224, 192);
+    public static final TextureRegion[][] PLAQUES_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAQUES.png")), 112, 96);
 
     public static TextureRegion PLAQUE(int id, int count) {
         if(id > 2) return null;
@@ -120,5 +120,7 @@ public class Resources {
 
     public static float PLAQUE_WIDTH = PLAQUE(1, 0).getRegionWidth();
     public static float PLAQUE_HEIGHT = PLAQUE(1, 0).getRegionHeight();
+
+    public static final Texture LOGO = new Texture(Gdx.files.internal("LOGO.png"));
 
 }
