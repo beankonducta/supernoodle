@@ -139,6 +139,11 @@ public class GameScreen implements Screen {
                 this.game.shapeRenderer.setColor((e.getDebugColor() != null ? e.getDebugColor() : Color.BLUE));
                 this.game.shapeRenderer.rect(e.getFloorCollider().x, e.getFloorCollider().y, e.getFloorCollider().width, e.getFloorCollider().height);
             }
+            if (Settings.DEBUG_COLLISION && e instanceof Player) {
+                Player p = (Player)e;
+                this.game.shapeRenderer.setColor(Color.GREEN);
+                this.game.shapeRenderer.rect(p.getBounceCollider().x, p.getBounceCollider().y, p.getBounceCollider().width, p.getBounceCollider().height);
+            }
         }
         this.game.shapeRenderer.end();
     }

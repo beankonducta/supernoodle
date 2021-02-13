@@ -1,0 +1,3 @@
+-- npc that moves ingredients
+-- slow down when pickup item
+-- pow block type shit

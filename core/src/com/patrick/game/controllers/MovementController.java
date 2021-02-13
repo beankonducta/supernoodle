@@ -2,8 +2,6 @@ package com.patrick.game.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.*;
 import com.patrick.game.util.Direction;
@@ -65,6 +63,8 @@ public class MovementController {
             if (e instanceof Player && KEYS != null) {
                 if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) this.cameraController.zoomIn(delta);
                 if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) this.cameraController.zoomOut(delta);
+                if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) Settings.DEBUG_COLLISION = true;
+                if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) Settings.DEBUG_COLLISION = false;
                 if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
                     for (Entity e1 : entities) {
                         if (e1 instanceof Bowl) {
@@ -191,12 +191,15 @@ public class MovementController {
             if (e1.getId() != e.getId() && !(e instanceof Floor) && !(e instanceof Bowl) && !(e instanceof Cloud)) {
                 if (e1 instanceof Player && e instanceof Player)
                     if (this.collisionController.checkPlayerHeadBounceCollision((Player) e1, (Player) e)) {
+                        System.out.println(e1.getId() + " : " + e.getId());
                         if (e.y() >= e1.y() + (e1.height() * .75f)) {
                             e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
-                            e1.setHeightGain(-Settings.PLAYER_FALL_MOD);
-                        } else if (e1.y() > e.y() + (e.height() * .75f)) {
+                            // these glitch player 1, because he's processing twice and negating the initial bounce
+//                            e1.setHeightGain(-Settings.PLAYER_FALL_MOD);
+                        }
+                        else if (e.y() < e1.y() + (e.height() * .75f)) {
                             e1.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
-                            e.setHeightGain(-Settings.PLAYER_FALL_MOD);
+//                            e.setHeightGain(-Settings.PLAYER_FALL_MOD);
                         }
                     }
                 if (this.collisionController.checkBasicCollision(e1, e)) {
