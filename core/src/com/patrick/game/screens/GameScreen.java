@@ -74,6 +74,7 @@ public class GameScreen implements Screen {
         this.game.batch.end();
         this.uiBatch.begin();
         this.uiBatch.setProjectionMatrix(this.cameraController.getUiCamera().combined);
+        this.uiBatch.draw(Resources.LOGO, this.cameraController.getUiCamera().viewportWidth / 2 - 112, this.cameraController.getUiCamera().viewportHeight - 140);
         if (this.entities != null)
             for (Entity e : this.entities) {
                 if (e instanceof Player) {
@@ -94,10 +95,10 @@ public class GameScreen implements Screen {
                     Bowl b = (Bowl) e;
                     // these are very janky and hardcoded, need to figure out a better way to update them (maybe merge the two sprites?)
                 if(b.getId() == -3) {
-                    this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0 + (Resources.PLAQUE_WIDTH * .05f), this.cameraController.getUiCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.22f));
+                    this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0 + (Resources.PLAQUE_WIDTH * .13f), this.cameraController.getUiCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.44f));
                 }
                 else {
-                    this.uiBatch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getUiCamera().viewportWidth - (Resources.PLAQUE_WIDTH * 1.05f), this.cameraController.getUiCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.22f));
+                    this.uiBatch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getUiCamera().viewportWidth - (Resources.PLAQUE_WIDTH * 1.13f), this.cameraController.getUiCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.44f));
                 }
                     if (this.levelController.checkFull(b) || this.winCutscene) {
                         if (this.winningBowl == b.getId() || this.winningBowl == -1) {
