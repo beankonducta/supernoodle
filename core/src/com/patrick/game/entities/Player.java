@@ -51,6 +51,8 @@ public class Player extends AnimatedEntity {
  
     public void update(float delta) {
         super.update(delta);
+        // lessens player jump height when they have ingredient
+        if(this.ingredient != null) this.heightGain = this.heightGain * .99f;
         if(this.grounded) this.heightGain = 0;
         if(this.grounded && Math.abs(this.velocity) == 0) this.changeAnimation("STILL", false);
         if(this.grounded && Math.abs(this.velocity) != 0) this.changeAnimation("RUN", false);
@@ -65,7 +67,8 @@ public class Player extends AnimatedEntity {
     }
 
     public void move(Vector2 position) {
-        super.move(position);
+        // adjusts move speed depending if player has ingredient or not
+        super.move(this.ingredient == null ? position : new Vector2(position.x / 2, position.y));
         if(this.ingredient != null) {
             this.ingredient.moveTo(new Vector2(this.getCollider().x - (this.width() * 3), this.getCollider().y + (this.height() * 2)));
         }

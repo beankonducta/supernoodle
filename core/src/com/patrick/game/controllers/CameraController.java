@@ -31,13 +31,11 @@ public class CameraController {
     }
 
     public void zoomIn(float delta) {
-        // no work
         this.camera.zoom = this.camera.zoom -= delta;
         this.camera.update();
     }
 
     public void zoomOut(float delta) {
-        // work
         this.camera.zoom += delta;
         this.camera.update();
     }

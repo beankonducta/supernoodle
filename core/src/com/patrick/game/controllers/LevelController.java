@@ -21,9 +21,7 @@ public class LevelController {
         this.collisionController = collisionController;
     }
 
-    private void update(float delta) {
-
-    }
+    private void update(float delta) {}
 
     public boolean checkFull(Bowl b) {
         return b.getIngredientCount() == 5;

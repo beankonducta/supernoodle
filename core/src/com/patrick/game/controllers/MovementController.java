@@ -194,10 +194,9 @@ public class MovementController {
                         System.out.println(e1.getId() + " : " + e.getId());
                         if (e.y() >= e1.y() + (e1.height() * .75f)) {
                             e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
-                            // these glitch player 1, because he's processing twice and negating the initial bounce
+//                            these glitch player 1, because he's processing twice and negating the initial bounce
 //                            e1.setHeightGain(-Settings.PLAYER_FALL_MOD);
-                        }
-                        else if (e.y() < e1.y() + (e.height() * .75f)) {
+                        } else if (e.y() < e1.y() + (e.height() * .75f)) {
                             e1.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
 //                            e.setHeightGain(-Settings.PLAYER_FALL_MOD);
                         }
