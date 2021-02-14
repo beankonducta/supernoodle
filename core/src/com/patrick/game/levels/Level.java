@@ -4,20 +4,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
 import com.patrick.game.entities.Entity;
+import com.patrick.game.entities.Map;
 import com.patrick.game.util.Settings;
 
 import java.util.List;
 
 public class Level {
 
-    private List<Entity> entities;
+    private Map map;
 
-    public Level(List<Entity> entities) {
-        this.entities = entities;
+    public Level(Map map) {
+        this.map = map;
     }
 
     public void draw(SuperNoodle game) {
-        for (Entity e : this.entities) {
+        for (Entity e : this.map.entities()) {
             e.draw(game.batch);
             if(Settings.DEBUG_ENTITIES) {
                 game.font.draw(game.batch, ""+e.getId(), e.x(), e.y() + (e.height() * 1.2f));
@@ -32,7 +33,7 @@ public class Level {
     }
 
     public void update(float delta) {
-        for (Entity e : this.entities) {
+        for (Entity e : this.map.entities()) {
             e.update(delta);
         }
     }
