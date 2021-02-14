@@ -33,6 +33,7 @@ public class Player extends AnimatedEntity {
 
     public void changeAnimation(String anim, boolean force) {
         if(this.currentAnim != anim || force) {
+            System.out.println(this.ingredient);
             this.textureRegions = Resources.GET_PLAYER_TEXTURE_REGION(anim, this.getIngredient() != null);
             this.animation = Resources.GET_PLAYER_ANIMATION(anim, this.getIngredient() != null);
             this.currentAnim = anim;

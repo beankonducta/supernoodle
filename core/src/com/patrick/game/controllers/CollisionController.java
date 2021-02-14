@@ -60,12 +60,12 @@ public class CollisionController {
         else if(e1.y() < e2.y() && e1.getHeightGain() > 0) {
             y = 0;
         }
-        else if(e1.x() > e2.x() && e1.getVelocity() < 0 && e1.getDir() == Direction.LEFT) {
-            x = -1*(e1.x() - e1.width() - e2.x() + 1);
-        }
-        else if(e1.x() < e2.x() && e1.getVelocity() > 0 && e1.getDir() == Direction.RIGHT) {
-            x = e2.x() - e1.width() - e1.x() + 1;
-        }
+//        else if(e1.x() > e2.x() && e1.getVelocity() < 0 && e1.getDir() == Direction.LEFT) {
+//            x = -1*(e1.x() - e1.width() - e2.x() + 1);
+//        }
+//        else if(e1.x() < e2.x() && e1.getVelocity() > 0 && e1.getDir() == Direction.RIGHT) {
+//            x = e2.x() - e1.width() - e1.x() + 1;
+//        }
         return new Vector2(x, y);
     }
 }

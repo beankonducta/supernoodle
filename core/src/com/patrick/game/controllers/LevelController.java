@@ -1,11 +1,6 @@
 package com.patrick.game.controllers;
 
 import com.patrick.game.entities.Bowl;
-import com.patrick.game.entities.Entity;
-import com.patrick.game.entities.Ingredient;
-import com.patrick.game.entities.Player;
-
-import java.util.List;
 
 public class LevelController {
 

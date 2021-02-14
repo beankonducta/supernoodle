@@ -216,6 +216,7 @@ public class MovementController {
 
     private void attemptIngredientAdd(Entity e1, List<Entity> entities) {
         Ingredient i = (Ingredient) e1;
+        if(i.isHeld()) return;
         for (Entity e : entities) {
             if (e instanceof Bowl)
                 if (this.collisionController.checkBasicCollision(e1, e)) {
