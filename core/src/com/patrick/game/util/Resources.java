@@ -127,4 +127,7 @@ public class Resources {
     public static final TextureRegion[][] TIMER_REGION = Sprite.split(new Texture(Gdx.files.internal("TIMER.png")), 32, 32);
     public static final Animation<TextureRegion> TIMER_ANIMATION = new Animation(1f, TIMER_REGION[0]);
 
+    public static final TextureRegion[][] GRASS_ANIM_REGION = Sprite.split(new Texture(Gdx.files.internal("GRASS_ANIM.png")), 16, 16);
+    public static final Animation<TextureRegion> GRASS_ANIMATION = new Animation(1f, GRASS_ANIM_REGION[0]);
+
 }

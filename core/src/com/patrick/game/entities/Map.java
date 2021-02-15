@@ -12,6 +12,7 @@ public class Map {
     protected List<Player> players;
     protected List<Bowl> bowls;
     protected List<Effect> effects;
+    protected List<Particle> particles;
 
     public List<Floor> getFloors() {
         return this.floors;
@@ -61,13 +62,28 @@ public class Map {
         this.effects = effects;
     }
 
+    public List<Particle> getParticles() {
+        return this.particles;
+    }
+
+    public void setParticles(List<Particle> particles) {
+        this.particles = particles;
+    }
+
     public void addEffect(Effect e) {
         this.effects.add(e);
     }
 
     public void removeEffect(Effect e) {
-        if (e != null)
-            e.setDone();
+        this.effects.remove(e);
+    }
+
+    public void addParticle(Particle p) {
+        this.particles.add(p);
+    }
+
+    public void removeParticle(Particle p) {
+        this.particles.remove(p);
     }
 
     public Effect findEffectByParent(Entity e) {
@@ -84,6 +100,7 @@ public class Map {
         this.players = new ArrayList<>();
         this.bowls = new ArrayList<>();
         this.effects = new ArrayList<>();
+        this.particles = new ArrayList<>();
     }
 
     public List<Entity> entities() {
@@ -94,6 +111,14 @@ public class Map {
         e.addAll(this.clouds);
         e.addAll(this.players);
         e.addAll(this.effects);
+        e.addAll(this.particles);
+        return e;
+    }
+
+    public List<Entity> playersAndIngredients() {
+        List<Entity> e = new ArrayList<>();
+        e.addAll(this.ingredients);
+        e.addAll(this.players);
         return e;
     }
 }

@@ -38,8 +38,8 @@ public class Effect extends AnimatedEntity {
     }
 
     public void update(float delta) {
+        if(this.animFrame >= this.animation.getKeyFrames().length - 1) this.done = true;
         super.update(delta);
-        if(this.animFrame == this.animation.getKeyFrames().length - 1) this.done = true;
     }
 
     public void move(Vector2 position) {

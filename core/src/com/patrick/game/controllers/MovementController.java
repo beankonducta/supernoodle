@@ -77,10 +77,14 @@ public class MovementController {
                 }
             }
             if (Gdx.input.isKeyPressed(KEYS[0])) {
+                if(p.getGrounded())
+                    randomMoveParticlesAdd(map, p, 5);
                 p.setVelocity(p.getSpeed());
                 p.setDir(Direction.RIGHT);
             }
             if (Gdx.input.isKeyPressed(KEYS[1])) {
+                if(p.getGrounded())
+                    randomMoveParticlesAdd(map, p, 5);
                 p.setVelocity(-p.getSpeed());
                 p.setDir(Direction.LEFT);
             }
@@ -127,13 +131,18 @@ public class MovementController {
                     if (p.getActionTimer() == 0)
                         map.addEffect(new Effect(p.getPosition(), Resources.TIMER_ANIMATION, Resources.TIMER_REGION, p.getId(), 90));
                     p.incrementActionTimer();
-                    if (p.getActionTimer() >= 35) {
+                    if (p.getActionTimer() >= 50) {
                         this.attemptIngredientRemove(b);
                         p.resetActionTimer();
                     }
                 }
             }
         }
+    }
+
+    public void randomMoveParticlesAdd(Map map, Entity e, int max) {
+        for(int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max/3, max); i++)
+            map.addParticle(new Particle(Resources.GRASS_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.GRASS_ANIM_REGION[0].length - 1)], new Vector2(e.x(), e.y()), Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED));
     }
 
     public void attemptPickup(Player p, Ingredient i) {
@@ -152,6 +161,11 @@ public class MovementController {
             c.moveTo(new Vector2(-c.width() * 2, c.y()));
     }
 
+    public void particleMove(Particle p, Map map, float delta) {
+        if (!this.processPhysics) return;
+        moveEntity(p, map, delta);
+    }
+
     public void ingredientMove(Ingredient i, Map map, float delta) {
         if (!this.processPhysics) return;
         moveEntity(i, map, delta);
@@ -167,6 +181,9 @@ public class MovementController {
             if (i.isHeld()) return;
         }
         e.move(new Vector2((e.getVelocity() * delta * (e.getGrounded() ? 1 : .5f)), ((e.getHeightGain() - e.getWeight()) * delta)));
+        if(e instanceof Particle) {
+            return;
+        }
         if (e.x() < 0)
             e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth, e.y()));
         if (e.x() > this.cameraController.getCamera().viewportWidth)
@@ -179,6 +196,9 @@ public class MovementController {
                     e.setVelocity(-e.getVelocity() * .95f);
                 }
                 if (offset.y > 0) {
+                    if(!e.getGrounded()) {
+                       randomMoveParticlesAdd(map, e, 12);
+                    }
                     e.setGrounded(true);
                     didGround = true;
                 }
@@ -188,8 +208,8 @@ public class MovementController {
             }
         }
         if (!didGround) e.setGrounded(false);
-        for (Entity ent : map.entities())
-            if (e.getId() != ent.getId() && !(ent instanceof Floor) && !(ent instanceof Bowl) && !(ent instanceof Cloud)) {
+        for (Entity ent : map.playersAndIngredients())
+            if (e.getId() != ent.getId()) {
                 if (e instanceof Player && ent instanceof Player)
                     if (this.collisionController.checkPlayerHeadBounceCollision((Player) e, (Player) ent)) {
                         if (ent.y() >= e.y() + (ent.height() * .75f)) {

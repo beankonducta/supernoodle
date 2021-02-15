@@ -116,6 +116,9 @@ public class GameScreen implements Screen {
         for (Cloud c : this.map.getClouds()) {
             this.movementController.cloudMove(c, delta);
         }
+        for(Particle p : this.map.getParticles()) {
+            this.movementController.particleMove(p, map, delta);
+        }
         this.uiBatch.end();
         this.movementController.updateEntityList(this.map);
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
