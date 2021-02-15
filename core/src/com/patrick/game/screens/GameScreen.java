@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
-import com.patrick.game.controllers.CameraController;
-import com.patrick.game.controllers.CollisionController;
-import com.patrick.game.controllers.LevelController;
-import com.patrick.game.controllers.MovementController;
+import com.patrick.game.controllers.*;
 import com.patrick.game.entities.*;
 import com.patrick.game.levels.Level;
 import com.patrick.game.util.*;
@@ -26,6 +23,7 @@ public class GameScreen implements Screen {
     private CollisionController collisionController;
     private CameraController cameraController;
     private LevelController levelController;
+    private ParticleController particleController;
     private MapLoader mapLoader;
 
     private SpriteBatch uiBatch;
@@ -37,9 +35,10 @@ public class GameScreen implements Screen {
         this.game = game;
         this.uiBatch = new SpriteBatch();
         this.mapLoader = new MapLoader();
+        this.particleController = new ParticleController();
         this.collisionController = new CollisionController();
         this.cameraController = new CameraController();
-        this.movementController = new MovementController(collisionController, cameraController);
+        this.movementController = new MovementController(collisionController, cameraController, particleController);
         this.levelController = new LevelController(collisionController);
         this.map = mapLoader.loadMapToMap("MAP_0.png");
         this.level = new Level(map);

@@ -16,6 +16,7 @@ public class MovementController {
 
     private CollisionController collisionController;
     private CameraController cameraController;
+    private ParticleController particleController;
 
     private boolean canMove;
     private boolean processPhysics;
@@ -23,9 +24,10 @@ public class MovementController {
     private List<Entity> toRemove;
     private List<Entity> toAdd;
 
-    public MovementController(CollisionController collisionController, CameraController cameraController) {
+    public MovementController(CollisionController collisionController, CameraController cameraController, ParticleController particleController) {
         this.collisionController = collisionController;
         this.cameraController = cameraController;
+        this.particleController = particleController;
         this.toRemove = new ArrayList<>();
         this.toAdd = new ArrayList<>();
         this.start();
@@ -78,13 +80,13 @@ public class MovementController {
             }
             if (Gdx.input.isKeyPressed(KEYS[0])) {
                 if(p.getGrounded())
-                    randomMoveParticlesAdd(map, p, 2);
+                    this.particleController.randomMoveParticlesAdd(map, p, 2);
                 p.setVelocity(p.getSpeed());
                 p.setDir(Direction.RIGHT);
             }
             if (Gdx.input.isKeyPressed(KEYS[1])) {
                 if(p.getGrounded())
-                    randomMoveParticlesAdd(map, p, 2);
+                    this.particleController.randomMoveParticlesAdd(map, p, 2);
                 p.setVelocity(-p.getSpeed());
                 p.setDir(Direction.LEFT);
             }
@@ -121,6 +123,8 @@ public class MovementController {
                 }
             }
         }
+        if(p.getIngredient() != null && (p.getVelocity() != 0))
+            this.particleController.sweatParticlesAdd(map, p, 12);
         moveEntity(p, map, delta);
     }
 
@@ -138,11 +142,6 @@ public class MovementController {
                 }
             }
         }
-    }
-
-    public void randomMoveParticlesAdd(Map map, Entity e, int max) {
-        for(int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max/3, max); i++)
-            map.addParticle(new Particle(Resources.GRASS_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.GRASS_ANIM_REGION[0].length - 1)], new Vector2(e.x() + (Settings.TILE_SIZE / 2), e.y()), Settings.DEFAULT_PARTICLE_WEIGHT, Settings.PLAYER_DECEL_SPEED));
     }
 
     public void attemptPickup(Player p, Ingredient i) {
@@ -169,7 +168,7 @@ public class MovementController {
     public void ingredientMove(Ingredient i, Map map, float delta) {
         if (!this.processPhysics) return;
         moveEntity(i, map, delta);
-        this.attemptIngredientAdd(i, map.getBowls());
+        this.attemptIngredientAdd(i, map);
     }
 
     public void moveEntity(Entity e, Map map, float delta) {
@@ -197,7 +196,7 @@ public class MovementController {
                 }
                 if (offset.y > 0) {
                     if(!e.getGrounded()) {
-                       randomMoveParticlesAdd(map, e, 12);
+                       this.particleController.randomMoveParticlesAdd(map, e, 12);
                     }
                     e.setGrounded(true);
                     didGround = true;
@@ -233,11 +232,12 @@ public class MovementController {
             }
     }
 
-    private void attemptIngredientAdd(Ingredient i, List<Bowl> bowls) {
+    private void attemptIngredientAdd(Ingredient i, Map map) {
         if (i.isHeld()) return;
-        for (Bowl b : bowls) {
+        for (Bowl b : map.getBowls()) {
             if (this.collisionController.checkBasicCollision(i, b)) {
                 b.addIngredient(i);
+                this.particleController.bowlParticlesAdd(map, b, 100);
                 this.toRemove.add(i);
             }
         }

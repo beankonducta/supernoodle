@@ -130,4 +130,10 @@ public class Resources {
     public static final TextureRegion[][] GRASS_ANIM_REGION = Sprite.split(new Texture(Gdx.files.internal("GRASS_ANIM.png")), 1, 1);
     public static final Animation<TextureRegion> GRASS_ANIMATION = new Animation(1f, GRASS_ANIM_REGION[0]);
 
+    public static final TextureRegion[][] BOWL_ANIM_REGION = Sprite.split(new Texture(Gdx.files.internal("BOWL_ANIM.png")), 1, 1);
+    public static final Animation<TextureRegion> BOWL_ANIMATION = new Animation(1f, BOWL_ANIM_REGION[0]);
+
+    public static final TextureRegion[][] RAIN_ANIM_REGION = Sprite.split(new Texture(Gdx.files.internal("RAIN_ANIM.png")), 1, 1);
+    public static final Animation<TextureRegion> RAIN_ANIMATION = new Animation(1f, BOWL_ANIM_REGION[0]);
+
 }
