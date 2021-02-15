@@ -123,4 +123,8 @@ public class Resources {
 
     public static final Texture LOGO = new Texture(Gdx.files.internal("LOGO.png"));
 
+    // effects
+    public static final TextureRegion[][] TIMER_REGION = Sprite.split(new Texture(Gdx.files.internal("TIMER.png")), 32, 32);
+    public static final Animation<TextureRegion> TIMER_ANIMATION = new Animation(1f, TIMER_REGION[0]);
+
 }

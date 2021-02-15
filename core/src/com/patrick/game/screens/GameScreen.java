@@ -117,7 +117,7 @@ public class GameScreen implements Screen {
             this.movementController.cloudMove(c, delta);
         }
         this.uiBatch.end();
-        this.movementController.updateEntityList(this.map.entities());
+        this.movementController.updateEntityList(this.map);
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         for (Entity e : this.map.entities()) {
             if (Settings.DEBUG_COLLISION && e.getCollider() != null) {

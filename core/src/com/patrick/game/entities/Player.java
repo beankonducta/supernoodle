@@ -33,7 +33,6 @@ public class Player extends AnimatedEntity {
 
     public void changeAnimation(String anim, boolean force) {
         if(this.currentAnim != anim || force) {
-            System.out.println(this.ingredient);
             this.textureRegions = Resources.GET_PLAYER_TEXTURE_REGION(anim, this.getIngredient() != null);
             this.animation = Resources.GET_PLAYER_ANIMATION(anim, this.getIngredient() != null);
             this.currentAnim = anim;
@@ -48,6 +47,7 @@ public class Player extends AnimatedEntity {
         this.bounceCollider = new Rectangle(this.x() + (Settings.TILE_SIZE / 2), this.y(), Settings.TILE_SIZE, this.height());
         this.debugColor = Color.RED;
         this.changeAnimation("STILL", false);
+        this.animSpeed = 30;
     }
  
     public void update(float delta) {

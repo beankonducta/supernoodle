@@ -3,10 +3,12 @@ package com.patrick.game.levels;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
+import com.patrick.game.entities.Effect;
 import com.patrick.game.entities.Entity;
 import com.patrick.game.entities.Map;
 import com.patrick.game.util.Settings;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Level {
@@ -33,8 +35,15 @@ public class Level {
     }
 
     public void update(float delta) {
+        List<Effect> effectsToRemove = new ArrayList<>();
         for (Entity e : this.map.entities()) {
             e.update(delta);
+        }
+        for(Effect e : this.map.getEffects()) {
+            if(e.isDone()) effectsToRemove.add(e);
+        }
+        for(Entity e: effectsToRemove) {
+            this.map.getEffects().remove(e);
         }
     }
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.*;
 import com.patrick.game.util.Direction;
 import com.patrick.game.util.Misc;
+import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
 import java.util.ArrayList;
@@ -44,13 +45,13 @@ public class MovementController {
         this.processPhysics = false;
     }
 
-    public void updateEntityList(List<Entity> entities) {
+    public void updateEntityList(Map map) {
         for (Entity e : this.toRemove) {
-            entities.remove(e);
+            map.getIngredients().remove(e);
         }
         this.toRemove = new ArrayList<>();
         for (Entity e : this.toAdd) {
-            entities.add(e);
+            map.getIngredients().add((Ingredient) e);
         }
         this.toAdd = new ArrayList<>();
     }
@@ -104,23 +105,35 @@ public class MovementController {
                         if (this.collisionController.checkIngredientPickupCollision(p, i))
                             this.attemptPickup(p, i);
                     }
-                    // action timer is NOT working (it's because we have two action keys)
-                    for (Bowl b : map.getBowls()) {
-                        if (this.collisionController.checkPlayerBowlCollision(p, b)) {
-                            if (Misc.PLAYER_BOWL_MATCH(p, b)) {
-                                p.incrementActionTimer();
-                                if (p.getActionTimer() >= 1) {
-                                    this.attemptIngredientRemove(b);
-                                    p.resetActionTimer();
-                                }
-                            }
-                            p.resetActionTimer();
-                        }
-                    }
+                }
+            }
+            if (Gdx.input.isKeyPressed(KEYS[4])) {
+                this.updatePlayerRemoveAction(p, map);
+            }
+            if (!Gdx.input.isKeyPressed(KEYS[4])) {
+                if (p.getActionTimer() > 0) {
+                    map.removeEffect(map.findEffectByParent(p));
+                    p.resetActionTimer();
                 }
             }
         }
         moveEntity(p, map, delta);
+    }
+
+    private void updatePlayerRemoveAction(Player p, Map map) {
+        for (Bowl b : map.getBowls()) {
+            if (this.collisionController.checkPlayerBowlCollision(p, b)) {
+                if (!Misc.PLAYER_BOWL_MATCH(p, b) && b.getIngredientCount() > 0) {
+                    if (p.getActionTimer() == 0)
+                        map.addEffect(new Effect(p.getPosition(), Resources.TIMER_ANIMATION, Resources.TIMER_REGION, p.getId(), 90));
+                    p.incrementActionTimer();
+                    if (p.getActionTimer() >= 35) {
+                        this.attemptIngredientRemove(b);
+                        p.resetActionTimer();
+                    }
+                }
+            }
+        }
     }
 
     public void attemptPickup(Player p, Ingredient i) {
@@ -148,9 +161,9 @@ public class MovementController {
     public void moveEntity(Entity e, Map map, float delta) {
         if (!this.processPhysics) return;
         boolean didGround = false;
-        // no need to calculate collisions if e1 is a held ingredient
         if (e instanceof Ingredient) {
             Ingredient i = (Ingredient) e;
+            // no need to calculate collisions if e1 is a held ingredient
             if (i.isHeld()) return;
         }
         e.move(new Vector2((e.getVelocity() * delta * (e.getGrounded() ? 1 : .5f)), ((e.getHeightGain() - e.getWeight()) * delta)));

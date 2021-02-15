@@ -14,6 +14,7 @@ public class AnimatedEntity extends Entity {
     protected TextureRegion[][] textureRegions; // might need to be 2d array
     protected Animation<TextureRegion> animation;
     protected int animFrame;
+    protected int animSpeed;
     protected float animOffset;
     protected boolean playAnimation;
     protected boolean forcePlayAnimation;
@@ -47,7 +48,7 @@ public class AnimatedEntity extends Entity {
     public void update(float delta) {
         super.update(delta);
         if (this.playAnimation || this.forcePlayAnimation) {
-            this.animOffset += 30 * delta;
+            this.animOffset += this.animSpeed * delta;
             if (this.animOffset >= this.animOffsetMax) {
                 this.animOffset = 0;
                 if (this.animFrame < this.textureRegions[0].length - 1) this.animFrame++;
@@ -58,7 +59,7 @@ public class AnimatedEntity extends Entity {
 
     public void draw(Batch batch) {
         super.draw(batch);
-        if (this.textureRegions == null) return;
+        if (this.animation == null) return;
         TextureRegion t = this.animation.getKeyFrame(this.animFrame, true);
         if (validDir(Direction.LEFT) && !t.isFlipX()) t.flip(true, false);
         if (validDir(Direction.RIGHT) && t.isFlipX()) t.flip(true, false);
