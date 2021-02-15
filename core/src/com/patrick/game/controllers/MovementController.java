@@ -133,7 +133,7 @@ public class MovementController {
             if (this.collisionController.checkPlayerBowlCollision(p, b)) {
                 if (!Misc.PLAYER_BOWL_MATCH(p, b) && b.getIngredientCount() > 0) {
                     if (p.getActionTimer() == 0)
-                        map.addEffect(new Effect(p.getPosition(), Resources.TIMER_ANIMATION, Resources.TIMER_REGION, p.getId(), 90));
+                        map.addEffect(new Effect((new Vector2(p.x() + (Settings.TILE_SIZE / 2), p.y() + p.height() + (Settings.TILE_SIZE * 1.5f))), Resources.TIMER_ANIMATION, Resources.TIMER_REGION, p.getId(), 90));
                     p.incrementActionTimer();
                     if (p.getActionTimer() >= 50) {
                         this.attemptIngredientRemove(b);
