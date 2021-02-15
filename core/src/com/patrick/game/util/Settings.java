@@ -25,8 +25,9 @@ public class Settings {
 
     public static final float DANCE_TIME = 5f;
 
-    public static final float MAX_PARTICLE_VELOCITY = 300f;
-    public static final float MAX_PARTICLE_HEIGHT_GAIN = 400f;
-    public static final int MAX_PARTICLE_TIME_TO_LIVE = 50;
+    public static final float MAX_PARTICLE_VELOCITY = 100f;
+    public static final float MAX_PARTICLE_HEIGHT_GAIN = 200f;
+    public static final float DEFAULT_PARTICLE_WEIGHT = 50f;
+    public static final int MAX_PARTICLE_TIME_TO_LIVE = 40;
 
 }

@@ -39,7 +39,7 @@ public class Particle extends StaticEntity {
         this.heightGain = Math.RANDOM_BETWEEN((int) Settings.MAX_PARTICLE_HEIGHT_GAIN / 2, (int) Settings.MAX_PARTICLE_HEIGHT_GAIN);
         this.timeToLive = Math.RANDOM_BETWEEN(1, Settings.MAX_PARTICLE_TIME_TO_LIVE);
         this.id = Math.RANDOM_BETWEEN(100, 100000); // i think we need an id for collisions
-        this.collider = new Rectangle(position.x, position.y, 2, 2);
+        this.collider = new Rectangle(position.x, position.y, 1, 1);
         this.debugColor = Color.ORANGE;
     }
 

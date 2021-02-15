@@ -78,13 +78,13 @@ public class MovementController {
             }
             if (Gdx.input.isKeyPressed(KEYS[0])) {
                 if(p.getGrounded())
-                    randomMoveParticlesAdd(map, p, 5);
+                    randomMoveParticlesAdd(map, p, 2);
                 p.setVelocity(p.getSpeed());
                 p.setDir(Direction.RIGHT);
             }
             if (Gdx.input.isKeyPressed(KEYS[1])) {
                 if(p.getGrounded())
-                    randomMoveParticlesAdd(map, p, 5);
+                    randomMoveParticlesAdd(map, p, 2);
                 p.setVelocity(-p.getSpeed());
                 p.setDir(Direction.LEFT);
             }
@@ -142,7 +142,7 @@ public class MovementController {
 
     public void randomMoveParticlesAdd(Map map, Entity e, int max) {
         for(int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max/3, max); i++)
-            map.addParticle(new Particle(Resources.GRASS_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.GRASS_ANIM_REGION[0].length - 1)], new Vector2(e.x(), e.y()), Settings.PLAYER_WEIGHT, Settings.PLAYER_DECEL_SPEED));
+            map.addParticle(new Particle(Resources.GRASS_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.GRASS_ANIM_REGION[0].length - 1)], new Vector2(e.x() + (Settings.TILE_SIZE / 2), e.y()), Settings.DEFAULT_PARTICLE_WEIGHT, Settings.PLAYER_DECEL_SPEED));
     }
 
     public void attemptPickup(Player p, Ingredient i) {
