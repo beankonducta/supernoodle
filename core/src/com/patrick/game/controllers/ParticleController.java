@@ -1,10 +1,12 @@
 package com.patrick.game.controllers;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.Entity;
 import com.patrick.game.entities.Map;
 import com.patrick.game.entities.Particle;
 import com.patrick.game.util.Direction;
+import com.patrick.game.util.Math;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
@@ -17,7 +19,7 @@ public class ParticleController {
         for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 3, max); i++)
             map.addParticle(new Particle(
                     Resources.GRASS_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.GRASS_ANIM_REGION[0].length - 1)],
-                    new Vector2(e.x() + (Settings.TILE_SIZE / 2) + (e.getDir() == Direction.LEFT ? 12 : 0), e.y()),
+                    new Vector2(e.x() + (Settings.TILE_SIZE / 2) + (e.getDir() == Direction.LEFT ? 12 : 0), e.y() + 2),
                     Settings.DEFAULT_PARTICLE_WEIGHT,
                     Settings.PLAYER_DECEL_SPEED));
     }
@@ -41,5 +43,18 @@ public class ParticleController {
                     Settings.PLAYER_DECEL_SPEED / 10,
                     e.getVelocity(),
                     0, 30));
+    }
+
+    public void rainParticlesAdd(Map map, OrthographicCamera camera, int max) {
+        int random = com.patrick.game.util.Math.RANDOM_BETWEEN(0, max);
+        if (random == max)
+            for (int i = 0; i < max; i++)
+                map.addParticle(new Particle(
+                        Resources.RAIN_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.RAIN_ANIM_REGION[0].length - 1)],
+                        new Vector2(Math.RANDOM_BETWEEN(0, 1024), 500),
+                        Settings.DEFAULT_PARTICLE_WEIGHT,
+                        Settings.PLAYER_DECEL_SPEED,
+                        0,
+                        0, 360));
     }
 }

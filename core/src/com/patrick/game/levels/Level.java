@@ -8,6 +8,7 @@ import com.patrick.game.entities.Effect;
 import com.patrick.game.entities.Entity;
 import com.patrick.game.entities.Map;
 import com.patrick.game.entities.Particle;
+import com.patrick.game.util.Math;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
@@ -23,11 +24,14 @@ public class Level {
     }
 
     public void draw(SuperNoodle game) {
-        int cloudCount = 0;
+        Color c = game.batch.getColor();
         int multiplier = this.map.getClouds().size() / 5;
         for (int i = 0; i < 5; i++) {
-            for(int j = 1; j < multiplier; j++)
+            for(int j = 1; j < multiplier; j++) {
+                game.batch.setColor(c.r, c.g, c.b, .5f);
                 this.map.getClouds().get(i * j).draw(game.batch);
+                game.batch.setColor(c.r, c.g, c.b, 1f);
+            }
             game.batch.draw(Resources.MOUNTAIN(i), 0, 0);
         }
         for (Entity e : this.map.entitiesWithoutClouds()) {

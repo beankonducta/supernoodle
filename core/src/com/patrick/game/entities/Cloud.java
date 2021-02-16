@@ -11,8 +11,14 @@ import com.patrick.game.util.Settings;
 
 public class Cloud extends StaticEntity {
 
+
     public void updateTexture() {
-        this.texture = Resources.CLOUD(Math.RANDOM_BETWEEN(0, 4)); // 4 should actually be the length of the texture region
+        // not flipping
+        int random = Math.RANDOM_BETWEEN(0, 2);
+        this.texture = Resources.CLOUD(Math.RANDOM_BETWEEN(0, 3)); // 4 should actually be the length of the texture region
+        System.out.println(random);
+        if(random == 0)
+            this.texture.flip(true, false);
     }
 
     public Cloud(Vector2 position, float speed, int id) {
