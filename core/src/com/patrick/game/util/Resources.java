@@ -109,6 +109,14 @@ public class Resources {
         return CLOUDS_REGION[0][index];
     }
 
+    // background
+    private static final TextureRegion[][] MOUNTAIN_REGION = Sprite.split(new Texture(Gdx.files.internal("MOUNTAINS.png")), 1024, 683);
+
+    public static TextureRegion MOUNTAIN(int index) {
+        if(index >= MOUNTAIN_REGION[0].length - 1) return null;
+        return MOUNTAIN_REGION[0][index];
+    }
+
     // hud
     public static final TextureRegion[][] PLAQUES_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAQUES.png")), 112, 96);
 

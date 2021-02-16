@@ -17,7 +17,7 @@ public class Settings {
 
     public static final int TILE_SIZE = 16;
 
-    public static final int CLOUD_COUNT = 18;
+    public static final int CLOUD_COUNT = 35;
     public static final int CLOUD_MIN_SPEED = -20;
     public static final int CLOUD_MAX_SPEED = 20;
 

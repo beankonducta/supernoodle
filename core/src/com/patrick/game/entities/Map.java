@@ -1,5 +1,8 @@
 package com.patrick.game.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +112,17 @@ public class Map {
         e.addAll(this.ingredients);
         e.addAll(this.bowls);
         e.addAll(this.clouds);
+        e.addAll(this.players);
+        e.addAll(this.effects);
+        e.addAll(this.particles);
+        return e;
+    }
+
+    public List<Entity> entitiesWithoutClouds() {
+        List<Entity> e = new ArrayList<>();
+        e.addAll(this.floors);
+        e.addAll(this.ingredients);
+        e.addAll(this.bowls);
         e.addAll(this.players);
         e.addAll(this.effects);
         e.addAll(this.particles);
