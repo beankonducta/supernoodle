@@ -19,12 +19,8 @@ public class Level {
 
     private Map map;
 
-    // forces batch to only draw bg once
-    private boolean drawBg;
-
     public Level(Map map) {
         this.map = map;
-        this.drawBg = false;
     }
 
     public void draw(SuperNoodle game) {
@@ -36,8 +32,6 @@ public class Level {
                 this.map.getClouds().get(i * j).draw(game.batch);
                 game.batch.setColor(c.r, c.g, c.b, 1f);
             }
-            if (this.drawBg)
-                game.batch.draw(Resources.MOUNTAIN(i), 0, 0);
         }
         for (Entity e : this.map.entitiesWithoutClouds()) {
             e.draw(game.batch);

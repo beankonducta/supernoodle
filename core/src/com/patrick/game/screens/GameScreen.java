@@ -3,7 +3,6 @@ package com.patrick.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -12,8 +11,6 @@ import com.patrick.game.controllers.*;
 import com.patrick.game.entities.*;
 import com.patrick.game.levels.Level;
 import com.patrick.game.util.*;
-
-import java.util.List;
 
 public class GameScreen implements Screen {
 
@@ -65,8 +62,7 @@ public class GameScreen implements Screen {
         this.game.shapeRenderer.end();
         this.bgBatch.begin();
         this.bgBatch.setProjectionMatrix(this.cameraController.getCamera().combined);
-        for(int i = 0; i < 4; i++)
-            this.bgBatch.draw(Resources.MOUNTAIN(i), 0, 0);
+        this.bgBatch.draw(Resources.MOUNTAINS, 0, 0);
         this.bgBatch.end();
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
@@ -75,8 +71,8 @@ public class GameScreen implements Screen {
         this.game.batch.end();
         this.uiBatch.begin();
         this.uiBatch.setProjectionMatrix(this.cameraController.getUiCamera().combined);
-        if(Settings.SHOW_FPS)
-        this.game.font.draw(this.uiBatch, Gdx.graphics.getFramesPerSecond()+"", 500, 500);
+        if (Settings.SHOW_FPS)
+            this.game.font.draw(this.uiBatch, Gdx.graphics.getFramesPerSecond() + "", 500, 500);
         this.uiBatch.draw(Resources.LOGO, this.cameraController.getUiCamera().viewportWidth / 2 - 112, this.cameraController.getUiCamera().viewportHeight - 140);
         for (Player p : this.map.getPlayers()) {
             this.movementController.playerMove(p, this.map, delta);
@@ -92,7 +88,7 @@ public class GameScreen implements Screen {
             this.movementController.ingredientMove(i, this.map, delta);
         for (Bowl b : this.map.getBowls()) {
             if (b.getId() == -3) {
-                this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0 , this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
+                this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0, this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
             } else {
                 this.uiBatch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getUiCamera().viewportWidth - Resources.PLAQUE_WIDTH, this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
             }
@@ -123,7 +119,7 @@ public class GameScreen implements Screen {
         for (Cloud c : this.map.getClouds()) {
             this.movementController.cloudMove(c, delta);
         }
-        for(Particle p : this.map.getParticles()) {
+        for (Particle p : this.map.getParticles()) {
             this.movementController.particleMove(p, map, delta);
         }
         this.uiBatch.end();
