@@ -19,20 +19,25 @@ public class Level {
 
     private Map map;
 
+    // forces batch to only draw bg once
+    private boolean drawBg;
+
     public Level(Map map) {
         this.map = map;
+        this.drawBg = false;
     }
 
     public void draw(SuperNoodle game) {
         Color c = game.batch.getColor();
         int multiplier = this.map.getClouds().size() / 5;
         for (int i = 0; i < 5; i++) {
-            for(int j = 1; j < multiplier; j++) {
+            for (int j = 1; j < multiplier; j++) {
                 game.batch.setColor(c.r, c.g, c.b, .5f);
                 this.map.getClouds().get(i * j).draw(game.batch);
                 game.batch.setColor(c.r, c.g, c.b, 1f);
             }
-            game.batch.draw(Resources.MOUNTAIN(i), 0, 0);
+            if (this.drawBg)
+                game.batch.draw(Resources.MOUNTAIN(i), 0, 0);
         }
         for (Entity e : this.map.entitiesWithoutClouds()) {
             e.draw(game.batch);

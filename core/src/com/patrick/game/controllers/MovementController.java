@@ -20,7 +20,7 @@ public class MovementController {
     TODO: CHANGE -> Change physics to be more 'realistic'
 
     TODO: BUG -> Fix player on player jump
-    
+
     TODO: DESIGN -> Update look of HUD
 
     TODO: DESIGN -> Fix weird color bar at bottom of screen
@@ -78,9 +78,7 @@ public class MovementController {
 
     public void playerMove(Player p, Map map, float delta) {
         if (this.canMove) {
-            final int[] KEYS = p.getId() == 1 ?
-                    new int[]{Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S, Input.Keys.CONTROL_LEFT} :
-                    new int[]{Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT};
+            final int[] KEYS = p.getId() == 1 ? Settings.PLAYER_ONE_KEYS : Settings.PLAYER_TWO_KEYS;
             if (KEYS != null) {
                 if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) this.cameraController.zoomIn(delta);
                 if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) this.cameraController.zoomOut(delta);

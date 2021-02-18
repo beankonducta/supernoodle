@@ -129,6 +129,16 @@ public class Resources {
     public static float PLAQUE_WIDTH = PLAQUE(1, 0).getRegionWidth();
     public static float PLAQUE_HEIGHT = PLAQUE(1, 0).getRegionHeight();
 
+    public static final TextureRegion[][] START_PLAQUES_REGION = Sprite.split(new Texture(Gdx.files.internal("START_PLAQUES.png")), 112, 36);
+
+    public static TextureRegion START_PLAQUE(int id, boolean started) {
+        if(id > 2) return null;
+        return START_PLAQUES_REGION[id-1][started ? 1 : 0];
+    }
+
+    public static float START_PLAQUE_WIDTH = PLAQUE(1, 0).getRegionWidth();
+    public static float START_PLAQUE_HEIGHT = PLAQUE(1, 0).getRegionHeight();
+
     public static final Texture LOGO = new Texture(Gdx.files.internal("LOGO.png"));
 
     // effects

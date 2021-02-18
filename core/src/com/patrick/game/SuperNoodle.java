@@ -2,6 +2,7 @@ package com.patrick.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,8 +26,8 @@ public class SuperNoodle extends Game {
     public void render() {
         Gdx.gl.glClearColor(1, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.graphics.setWindowedMode(2048, 1400);
-        Gdx.graphics.setVSync(true);
+//        Gdx.graphics.setWindowedMode(2048, 1400);
+        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         Gdx.graphics.setTitle(String.format("SUPER NOODLE", Gdx.graphics.getFramesPerSecond()));
         super.render();
     }

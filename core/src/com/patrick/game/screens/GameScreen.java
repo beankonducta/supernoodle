@@ -3,6 +3,7 @@ package com.patrick.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -52,17 +53,14 @@ public class GameScreen implements Screen {
     public void show() {
     }
 
-    Color blue = new Color(0, .6f, .9f, 1);
-    Color green = new Color(0, .6f, .5f, 1);
-
-
     @Override
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
+
         if (level == null) return;
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        this.game.shapeRenderer.rect(0, 0, this.cameraController.getCamera().viewportWidth, this.cameraController.getCamera().viewportHeight, green, green, blue, blue);
+        this.game.shapeRenderer.rect(0, 0, this.cameraController.getCamera().viewportWidth, this.cameraController.getCamera().viewportHeight, Settings.GREEN, Settings.GREEN, Settings.BLUE, Settings.BLUE);
         this.game.shapeRenderer.end();
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
@@ -71,6 +69,8 @@ public class GameScreen implements Screen {
         this.game.batch.end();
         this.uiBatch.begin();
         this.uiBatch.setProjectionMatrix(this.cameraController.getUiCamera().combined);
+        if(Settings.SHOW_FPS)
+        this.game.font.draw(this.uiBatch, Gdx.graphics.getFramesPerSecond()+"", 500, 500);
         this.uiBatch.draw(Resources.LOGO, this.cameraController.getUiCamera().viewportWidth / 2 - 112, this.cameraController.getUiCamera().viewportHeight - 140);
         for (Player p : this.map.getPlayers()) {
             this.movementController.playerMove(p, this.map, delta);
@@ -86,9 +86,9 @@ public class GameScreen implements Screen {
             this.movementController.ingredientMove(i, this.map, delta);
         for (Bowl b : this.map.getBowls()) {
             if (b.getId() == -3) {
-                this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0 + (Resources.PLAQUE_WIDTH * .13f), this.cameraController.getUiCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.44f));
+                this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0 , this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
             } else {
-                this.uiBatch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getUiCamera().viewportWidth - (Resources.PLAQUE_WIDTH * 1.13f), this.cameraController.getUiCamera().viewportHeight - (Resources.PLAQUE_HEIGHT * 1.44f));
+                this.uiBatch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getUiCamera().viewportWidth - Resources.PLAQUE_WIDTH, this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
             }
             if (this.levelController.checkFull(b) || this.winCutscene) {
                 if (this.winningBowl == b.getId() || this.winningBowl == -1) {
