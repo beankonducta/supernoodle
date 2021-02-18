@@ -25,6 +25,8 @@ public class TitleScreen implements Screen {
     private CollisionController collisionController;
     private TitleScreenController titleScreenController;
 
+    private float deltaCounter;
+
     public TitleScreen(SuperNoodle game) {
         this.game = game;
         this.cameraController = new CameraController();
@@ -32,6 +34,7 @@ public class TitleScreen implements Screen {
         this.collisionController = new CollisionController();
         this.movementController = new MovementController(this.collisionController, this.cameraController, this.particleController);
         this.titleScreenController = new TitleScreenController(this.cameraController);
+        this.deltaCounter = 0f;
     }
 
     @Override
@@ -39,9 +42,9 @@ public class TitleScreen implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keyCode) {
-                if (keyCode == Input.Keys.SPACE && titleScreenController.isPlayerOneReady() && titleScreenController.isPlayerTwoReady()) {
-                    game.setScreen(new GameScreen(game));
-                }
+//                if (keyCode == Input.Keys.SPACE && titleScreenController.isPlayerOneReady() && titleScreenController.isPlayerTwoReady()) {
+//                    game.setScreen(new GameScreen(game));
+//                }
                 if (keyCode == Input.Keys.NUM_1) {
                     cameraController.zoomOut(.1f);
                 }
@@ -62,6 +65,14 @@ public class TitleScreen implements Screen {
     @Override
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
+        this.deltaCounter += delta;
+        if (this.deltaCounter >= 1) {
+            this.incrementTimer();
+            this.deltaCounter -= 1;
+        }
+        if (this.titleScreenController.getStartTimer() == 7) {
+            game.setScreen(new GameScreen(game));
+        }
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -69,7 +80,7 @@ public class TitleScreen implements Screen {
         this.game.shapeRenderer.end();
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
-        for(Cloud c : this.titleScreenController.getClouds()) {
+        for (Cloud c : this.titleScreenController.getClouds()) {
             c.update(delta);
             this.movementController.cloudMove(c, delta);
             c.draw(this.game.batch);
@@ -81,8 +92,18 @@ public class TitleScreen implements Screen {
         this.titleScreenController.getPlayerTwo().draw(this.game.batch);
         this.titleScreenController.getIngredientOne().draw(this.game.batch);
         this.titleScreenController.getIngredientTwo().draw(this.game.batch);
+        if (this.titleScreenController.isPlayerOneReady() && this.titleScreenController.isPlayerTwoReady()) {
+            this.game.batch.draw(Resources.COUNTDOWN(this.titleScreenController.getStartTimer()), this.cameraController.getCamera().viewportWidth / 2 - 16, this.cameraController.getCamera().viewportHeight / 2 - 16);
+        }
         this.game.batch.end();
         this.titleScreenController.updateScreenPositions(delta);
+    }
+
+    private void incrementTimer() {
+        if (this.titleScreenController.isPlayerTwoReady() && this.titleScreenController.isPlayerOneReady()) {
+            if (this.titleScreenController.getStartTimer() < 7)
+                this.titleScreenController.incrementStartTimer();
+        }
     }
 
     @Override

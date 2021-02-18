@@ -35,6 +35,20 @@ public class TitleScreenController {
 
     private float logoDirection;
 
+    private int startTimer;
+
+    public int getStartTimer() {
+        return this.startTimer;
+    }
+
+    public void setStartTimer(int startTimer) {
+        this.startTimer = startTimer;
+    }
+
+    public void incrementStartTimer() {
+        this.startTimer ++;
+    }
+
     public Vector2 getLogoPosition() {
         return this.logoPosition;
     }
@@ -105,6 +119,7 @@ public class TitleScreenController {
         this.playerOne.setIngredient(this.ingredientOne);
         this.playerTwo.setIngredient(this.ingredientTwo);
         this.logoDirection = -1;
+        this.startTimer = 0;
         this.fillClouds();
     }
 

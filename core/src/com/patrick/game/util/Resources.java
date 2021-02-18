@@ -141,6 +141,13 @@ public class Resources {
 
     public static final Texture LOGO = new Texture(Gdx.files.internal("LOGO.png"));
 
+    public static final TextureRegion[][] COUNTDOWN_REGION = Sprite.split(new Texture(Gdx.files.internal("COUNTDOWN.png")), 32, 32);
+
+    public static TextureRegion COUNTDOWN(int seconds) {
+        if(seconds > 5) return COUNTDOWN_REGION[0][6];
+        return COUNTDOWN_REGION[0][seconds];
+    }
+
     // effects
     public static final TextureRegion[][] TIMER_REGION = Sprite.split(new Texture(Gdx.files.internal("TIMER.png")), 8, 8);
     public static final Animation<TextureRegion> TIMER_ANIMATION = new Animation(1f, TIMER_REGION[0]);

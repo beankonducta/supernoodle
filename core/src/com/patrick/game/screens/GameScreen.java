@@ -29,6 +29,7 @@ public class GameScreen implements Screen {
     private MapLoader mapLoader;
 
     private SpriteBatch uiBatch;
+    private SpriteBatch bgBatch;
 
     private boolean winCutscene;
     private float winCutsceneTime;
@@ -36,6 +37,7 @@ public class GameScreen implements Screen {
     public GameScreen(SuperNoodle game) {
         this.game = game;
         this.uiBatch = new SpriteBatch();
+        this.bgBatch = new SpriteBatch();
         this.mapLoader = new MapLoader();
         this.particleController = new ParticleController();
         this.collisionController = new CollisionController();
@@ -56,12 +58,16 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
-
         if (level == null) return;
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         this.game.shapeRenderer.rect(0, 0, this.cameraController.getCamera().viewportWidth, this.cameraController.getCamera().viewportHeight, Settings.GREEN, Settings.GREEN, Settings.BLUE, Settings.BLUE);
         this.game.shapeRenderer.end();
+        this.bgBatch.begin();
+        this.bgBatch.setProjectionMatrix(this.cameraController.getCamera().combined);
+        for(int i = 0; i < 4; i++)
+            this.bgBatch.draw(Resources.MOUNTAIN(i), 0, 0);
+        this.bgBatch.end();
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
         this.level.draw(this.game);
