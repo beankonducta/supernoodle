@@ -14,24 +14,6 @@ import java.util.List;
 
 public class MovementController {
 
-    /*
-    TODO: BUG -> If you jump with ingredient then drop, player starts flipping back and forth
-
-    TODO: CHANGE -> Change physics to be more 'realistic'
-
-    TODO: BUG -> Fix player on player jump
-
-    TODO: DESIGN -> Update look of HUD
-
-    TODO: DESIGN -> Fix weird color bar at bottom of screen
-
-    TODO: BUG -> Fix camera zoom on winning player
-
-    TODO: DESIGN -> Design start and win screens
-
-    TODO: DESIGN -> Keep playing with particles
-     */
-
     private CollisionController collisionController;
     private CameraController cameraController;
     private ParticleController particleController;

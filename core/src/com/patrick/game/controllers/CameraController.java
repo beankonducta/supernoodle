@@ -31,7 +31,7 @@ public class CameraController {
 
     public void moveCameraTowards(Entity e, float speed, float delta) {
         if (this.camera.zoom < .2f) return;
-        this.camera.translate((e.x() - e.width() - (this.camera.position.x * .86f)) * delta, (e.y() - this.camera.position.y) * delta);
+        this.camera.translate((e.x() - e.width() - this.camera.position.x) * delta, (e.y() - this.camera.position.y) * delta);
         this.zoomIn(delta / 2);
         this.camera.update();
     }

@@ -10,6 +10,25 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.screens.TitleScreen;
 
 public class SuperNoodle extends Game {
+
+    /*
+   TODO: BUG -> If you jump with ingredient then drop, player starts flipping back and forth
+
+   TODO: CHANGE -> Change physics to be more 'realistic'
+
+   TODO: BUG -> Fix player on player jump
+
+   TODO: DESIGN -> Update look of HUD
+
+   TODO: BUG -> Fix camera zoom on winning player
+
+   TODO: DESIGN -> Design start and win screens
+
+   TODO: DESIGN -> Keep playing with particles
+
+   TODO: BUG -> Entity moving to opposite edge of screen has a 'jumpy' effect to it because we're moving too many pixels forward
+    */
+
     public SpriteBatch batch;
     public ShapeRenderer shapeRenderer;
     public BitmapFont font; 
@@ -26,8 +45,8 @@ public class SuperNoodle extends Game {
     public void render() {
         Gdx.gl.glClearColor(1, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        Gdx.graphics.setWindowedMode(2048, 1400);
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        Gdx.graphics.setWindowedMode(2048, 1248);
+//        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         Gdx.graphics.setTitle(String.format("SUPER NOODLE", Gdx.graphics.getFramesPerSecond()));
         super.render();
     }

@@ -46,7 +46,7 @@ public class TitleScreenController {
     }
 
     public void incrementStartTimer() {
-        this.startTimer ++;
+        this.startTimer++;
     }
 
     public Vector2 getLogoPosition() {
@@ -90,11 +90,13 @@ public class TitleScreenController {
     }
 
     public void setPlayerOneReady(boolean playerOneReady) {
-        this.playerOneReady = playerOneReady;
+        if (this.playerOneStartPlaquePosition.y < this.cameraController.getCamera().viewportHeight - 175)
+            this.playerOneReady = playerOneReady;
     }
 
     public void setPlayerTwoReady(boolean playerTwoReady) {
-        this.playerTwoReady = playerTwoReady;
+        if (this.playerTwoStartPlaquePosition.y < this.cameraController.getCamera().viewportHeight - 175)
+            this.playerTwoReady = playerTwoReady;
     }
 
     public TitleScreenController(CameraController cameraController) {
@@ -104,7 +106,7 @@ public class TitleScreenController {
         this.playerTwoStartPlaquePosition = new Vector2(cameraController.getCamera().viewportWidth / 2 + 128, cameraController.getCamera().viewportHeight);
         this.playerOneStartPlaquePosition = new Vector2(cameraController.getCamera().viewportWidth / 2 - Resources.START_PLAQUE_WIDTH - 128, cameraController.getCamera().viewportHeight);
         this.logoPosition = new Vector2(this.cameraController.getCamera().viewportWidth / 2 - 112, this.cameraController.getCamera().viewportHeight * .5f);
-        this.playerOnePosition = new Vector2(this.cameraController.getCamera().viewportWidth / 2 - 16, this.cameraController.getCamera().viewportHeight * .42f);
+        this.playerOnePosition = new Vector2(this.cameraController.getCamera().viewportWidth / 2 - 32, this.cameraController.getCamera().viewportHeight * .42f);
         this.playerTwoPosition = new Vector2(this.cameraController.getCamera().viewportWidth / 2, this.cameraController.getCamera().viewportHeight * .34f);
         this.playerOne = new Player(new Vector2(100, 100), 0, 0, 0, 1);
         this.playerTwo = new Player(new Vector2(this.cameraController.getCamera().viewportWidth - 100, 25), 0, 0, 0, 2);
@@ -125,8 +127,8 @@ public class TitleScreenController {
 
     private void fillClouds() {
         for (int c = 0; c < Settings.CLOUD_COUNT; c++) {
-            int x = com.patrick.game.util.Math.RANDOM_BETWEEN(0, (int)this.cameraController.getCamera().viewportWidth);
-            int y = com.patrick.game.util.Math.RANDOM_BETWEEN(0, (int)this.cameraController.getCamera().viewportHeight);
+            int x = com.patrick.game.util.Math.RANDOM_BETWEEN(0, (int) this.cameraController.getCamera().viewportWidth);
+            int y = com.patrick.game.util.Math.RANDOM_BETWEEN(0, (int) this.cameraController.getCamera().viewportHeight);
             this.clouds.add(new Cloud(new Vector2(x, y), com.patrick.game.util.Math.RANDOM_BETWEEN(Settings.CLOUD_MIN_SPEED, Settings.CLOUD_MAX_SPEED), com.patrick.game.util.Math.EITHER_OR(-100, 100)));
         }
     }
@@ -140,8 +142,14 @@ public class TitleScreenController {
         Vector2 playerTwoDiff = new Vector2(this.playerTwoPosition.x - this.playerTwo.x(), this.playerTwoPosition.y - this.playerTwo.y());
         if (logoDiff < 1 && this.logoDirection == 1) this.logoDirection = -1;
         if (logoDiff > 50 && this.logoDirection == -1) this.logoDirection = 1;
-        this.playerOneStartPlaquePosition.add(new Vector2(0, -plaqueDiff * delta));
-        this.playerTwoStartPlaquePosition.add(new Vector2(0, -plaqueDiff * delta));
+        if (this.startTimer == 0) {
+            this.playerOneStartPlaquePosition.add(new Vector2(0, -plaqueDiff * delta));
+            this.playerTwoStartPlaquePosition.add(new Vector2(0, -plaqueDiff * delta));
+        } else {
+            this.playerOneStartPlaquePosition.sub(new Vector2(0, -100 * delta));
+            this.playerTwoStartPlaquePosition.sub(new Vector2(0, -100 * delta));
+            this.cameraController.zoomIn(delta / 25);
+        }
         this.logoPosition.add(new Vector2(0, this.logoDirection * logoDiff * delta));
         if (playerOneDiff.x > 2 || playerOneDiff.y > 2) {
             this.playerOne.move(new Vector2(playerOneDiff.x * delta, playerOneDiff.y * delta));

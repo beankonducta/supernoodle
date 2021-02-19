@@ -125,6 +125,7 @@ public class GameScreen implements Screen {
         this.uiBatch.end();
         this.movementController.updateEntityList(this.map);
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        this.game.shapeRenderer.circle(this.cameraController.getCamera().position.x *.75f, this.cameraController.getCamera().position.y  * .75f, 5);
         for (Entity e : this.map.entities()) {
             if (Settings.DEBUG_COLLISION && e.getCollider() != null) {
                 this.game.shapeRenderer.setColor((e.getDebugColor() != null ? e.getDebugColor() : Color.BLUE));

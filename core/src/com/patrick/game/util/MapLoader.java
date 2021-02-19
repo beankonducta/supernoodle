@@ -27,7 +27,7 @@ public class MapLoader {
         return flipped;
     }
 
-    public List<Entity> loadMap(String path) {
+    public List<Entity> loadMapToEntityList(String path) {
         Pixmap pixmap = flipPixmap(new Pixmap(Gdx.files.internal(path)));
         List<Entity> entities = new ArrayList<Entity>();
         int playerCount = 1;

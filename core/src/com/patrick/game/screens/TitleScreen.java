@@ -9,12 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
 import com.patrick.game.controllers.*;
 import com.patrick.game.entities.Cloud;
-import com.patrick.game.entities.Player;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
-import org.graalvm.compiler.lir.aarch64.AArch64Move;
-
-import java.util.List;
 
 public class TitleScreen implements Screen {
 
@@ -42,9 +38,9 @@ public class TitleScreen implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keyCode) {
-//                if (keyCode == Input.Keys.SPACE && titleScreenController.isPlayerOneReady() && titleScreenController.isPlayerTwoReady()) {
-//                    game.setScreen(new GameScreen(game));
-//                }
+                if (keyCode == Input.Keys.SPACE && titleScreenController.isPlayerOneReady() && titleScreenController.isPlayerTwoReady()) {
+                    game.setScreen(new GameScreen(game));
+                }
                 if (keyCode == Input.Keys.NUM_1) {
                     cameraController.zoomOut(.1f);
                 }
