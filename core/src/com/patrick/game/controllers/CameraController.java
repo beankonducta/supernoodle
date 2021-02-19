@@ -14,8 +14,6 @@ public class CameraController {
     private OrthographicCamera uiCamera;
 
     public CameraController() {
-        this.camera = new OrthographicCamera();
-        this.uiCamera = new OrthographicCamera();
         this.resetCamera();
     }
 
@@ -30,9 +28,13 @@ public class CameraController {
     }
 
     public void moveCameraTowards(Entity e, float speed, float delta) {
-        if (this.camera.zoom < .2f) return;
-        this.camera.translate((e.x() - e.width() - this.camera.position.x) * delta, (e.y() - this.camera.position.y) * delta);
-        this.zoomIn(delta / 2);
+        if (this.camera.zoom > .2f)
+            this.zoomIn(delta / 4);
+        Vector2 diff = new Vector2(e.x() - this.camera.position.x, e.y() - this.camera.position.y);
+        if (Math.abs(diff.x) > 4)
+            this.camera.translate(diff.x * delta, 0);
+        if (Math.abs(diff.y) > 4)
+            this.camera.translate(0, diff.y * delta);
         this.camera.update();
     }
 
@@ -47,9 +49,13 @@ public class CameraController {
     }
 
     public void resetCamera() {
+        this.camera = new OrthographicCamera();
+        this.uiCamera = new OrthographicCamera();
         this.camera.setToOrtho(false, Settings.VIEWPORT_WIDTH, Settings.VIEWPORT_HEIGHT);
+        this.camera.zoom = .98f;
         this.camera.update();
         this.uiCamera.setToOrtho(false, Settings.VIEWPORT_WIDTH, Settings.VIEWPORT_HEIGHT);
+        this.uiCamera.zoom = 1;
         this.uiCamera.update();
     }
 

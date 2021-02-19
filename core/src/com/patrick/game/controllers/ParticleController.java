@@ -24,6 +24,17 @@ public class ParticleController {
                     Settings.PLAYER_DECEL_SPEED));
     }
 
+    public void randomWinParticlesAdd(Map map, Entity e, int max) {
+        for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 3, max); i++)
+            map.addParticle(new Particle(
+                    Resources.RAIN_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.RAIN_ANIM_REGION[0].length - 1)],
+                    new Vector2(e.x() + (Settings.TILE_SIZE / 2) + 8, e.y() + e.height() + 16),
+                    Math.FLOAT_RANDOM_BETWEEN(Settings.DEFAULT_PARTICLE_WEIGHT / 10, Settings.DEFAULT_PARTICLE_WEIGHT),
+                    Math.FLOAT_RANDOM_BETWEEN(Settings.PLAYER_DECEL_SPEED / 10, Settings.PLAYER_DECEL_SPEED),
+                    Math.RANDOM_BETWEEN(-700, 700),
+                    Math.RANDOM_BETWEEN(0, 700), 30));
+    }
+
     public void bowlParticlesAdd(Map map, Entity e, int max) {
         for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 2, max); i++)
             map.addParticle(new Particle(

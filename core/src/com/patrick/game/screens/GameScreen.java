@@ -11,6 +11,7 @@ import com.patrick.game.controllers.*;
 import com.patrick.game.entities.*;
 import com.patrick.game.levels.Level;
 import com.patrick.game.util.*;
+import com.patrick.game.util.Math;
 
 public class GameScreen implements Screen {
 
@@ -78,9 +79,10 @@ public class GameScreen implements Screen {
             this.movementController.playerMove(p, this.map, delta);
             if (this.winCutscene) {
                 if (Misc.PLAYER_BOWL_MATCH_ID(p.getId(), this.winningBowl)) {
-                    this.cameraController.moveCameraTowards(p, 1f, delta);
+                    this.cameraController.moveCameraTowards(p, 225f, delta);
                     p.changeAnimation("DANCE", true);
                     p.setForcePlayAnimation(true);
+                    this.particleController.randomWinParticlesAdd(this.map, p, 10);
                 }
             } else if (p.getForcePlayAnimation()) p.setForcePlayAnimation(false);
         }
@@ -125,7 +127,8 @@ public class GameScreen implements Screen {
         this.uiBatch.end();
         this.movementController.updateEntityList(this.map);
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//        this.game.shapeRenderer.circle(this.cameraController.getCamera().position.x *.75f, this.cameraController.getCamera().position.y  * .75f, 5);
+        if (Settings.DEBUG_COLLISION)
+            this.game.shapeRenderer.circle(this.cameraController.getCamera().position.x, this.cameraController.getCamera().position.y, 5);
         for (Entity e : this.map.entities()) {
             if (Settings.DEBUG_COLLISION && e.getCollider() != null) {
                 this.game.shapeRenderer.setColor((e.getDebugColor() != null ? e.getDebugColor() : Color.BLUE));

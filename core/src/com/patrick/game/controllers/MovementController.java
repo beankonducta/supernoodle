@@ -77,13 +77,13 @@ public class MovementController {
                 }
             }
             if (Gdx.input.isKeyPressed(KEYS[0])) {
-                if(p.getGrounded())
+                if (p.getGrounded())
                     this.particleController.randomMoveParticlesAdd(map, p, 2);
                 p.setVelocity(p.getSpeed());
                 p.setDir(Direction.RIGHT);
             }
             if (Gdx.input.isKeyPressed(KEYS[1])) {
-                if(p.getGrounded())
+                if (p.getGrounded())
                     this.particleController.randomMoveParticlesAdd(map, p, 2);
                 p.setVelocity(-p.getSpeed());
                 p.setDir(Direction.LEFT);
@@ -121,7 +121,7 @@ public class MovementController {
                 }
             }
         }
-        if(p.getIngredient() != null && (p.getVelocity() != 0))
+        if (p.getIngredient() != null && (p.getVelocity() != 0))
             this.particleController.sweatParticlesAdd(map, p, 12);
         moveEntity(p, map, delta);
     }
@@ -178,13 +178,13 @@ public class MovementController {
             if (i.isHeld()) return;
         }
         e.move(new Vector2((e.getVelocity() * delta * (e.getGrounded() ? 1 : .5f)), ((e.getHeightGain() - e.getWeight()) * delta)));
-        if(e instanceof Particle) {
+        if (e instanceof Particle) {
             return;
         }
-        if (e.x() < 0)
+        if (e.x() < -e.width() * 3)
             e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth, e.y()));
         if (e.x() > this.cameraController.getCamera().viewportWidth)
-            e.moveTo(new Vector2(1, e.y()));
+            e.moveTo(new Vector2(-e.width() * 3, e.y()));
         for (Floor f : map.getFloors()) {
             if (this.collisionController.checkBasicFloorCollision(e, f)) {
                 Vector2 offset = this.collisionController.calculateFloorCollisionOffset(e, f);
@@ -193,8 +193,8 @@ public class MovementController {
                     e.setVelocity(-e.getVelocity() * .95f);
                 }
                 if (offset.y > 0) {
-                    if(!e.getGrounded()) {
-                       this.particleController.randomMoveParticlesAdd(map, e, 12);
+                    if (!e.getGrounded()) {
+                        this.particleController.randomMoveParticlesAdd(map, e, 12);
                     }
                     e.setGrounded(true);
                     didGround = true;
@@ -207,17 +207,17 @@ public class MovementController {
         if (!didGround) e.setGrounded(false);
         for (Entity ent : map.playersAndIngredients())
             if (e.getId() != ent.getId()) {
-                if (e instanceof Player && ent instanceof Player)
-                    if (this.collisionController.checkPlayerHeadBounceCollision((Player) e, (Player) ent)) {
-                        if (ent.y() >= e.y() + (ent.height() * .75f)) {
-                            ent.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
+//                if (e instanceof Player && ent instanceof Player)
+//                    if (this.collisionController.checkPlayerHeadBounceCollision((Player) e, (Player) ent)) {
+//                        if (ent.y() >= e.y() + (ent.height() * .75f)) {
+//                            ent.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
 //                            these glitch player 1, because he's processing twice and negating the initial bounce
 //                            e.setHeightGain(-Settings.PLAYER_FALL_MOD);
-                        } else if (ent.y() < e.y() + (ent.height() * .75f)) {
-                            e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
+//                        } else if (ent.y() < e.y() + (ent.height() * .75f)) {
+//                            e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
 //                            ent.setHeightGain(-Settings.PLAYER_FALL_MOD);
-                        }
-                    }
+//                        }
+//                    }
                 if (this.collisionController.checkBasicCollision(e, ent)) {
                     if (Math.abs(e.getVelocity()) > Math.abs(ent.getVelocity())) {
                         ent.move(new Vector2(e.getVelocity() * delta, 0));

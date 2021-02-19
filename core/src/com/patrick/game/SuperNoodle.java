@@ -16,17 +16,11 @@ public class SuperNoodle extends Game {
 
    TODO: CHANGE -> Change physics to be more 'realistic'
 
-   TODO: BUG -> Fix player on player jump
-
    TODO: DESIGN -> Update look of HUD
-
-   TODO: BUG -> Fix camera zoom on winning player
 
    TODO: DESIGN -> Design start and win screens
 
    TODO: DESIGN -> Keep playing with particles
-
-   TODO: BUG -> Entity moving to opposite edge of screen has a 'jumpy' effect to it because we're moving too many pixels forward
     */
 
     public SpriteBatch batch;

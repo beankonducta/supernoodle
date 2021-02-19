@@ -1,6 +1,7 @@
 package com.patrick.game.util;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -155,5 +156,10 @@ public class Resources {
 
     public static final TextureRegion[][] RAIN_ANIM_REGION = Sprite.split(new Texture(Gdx.files.internal("RAIN_ANIM.png")), 1, 1);
     public static final Animation<TextureRegion> RAIN_ANIMATION = new Animation(1f, BOWL_ANIM_REGION[0]);
+
+    // sounds
+
+    // music
+    public static final Music DEFAULT_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("music/DEFAULT_MUSIC.mp3"));
 
 }
