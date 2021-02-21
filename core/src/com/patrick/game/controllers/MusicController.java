@@ -9,7 +9,7 @@ public class MusicController {
 
     public MusicController() {
         this.music = Resources.DEFAULT_MUSIC;
-        this.music.play();
+//        this.music.play();
     }
 
     public void play() {

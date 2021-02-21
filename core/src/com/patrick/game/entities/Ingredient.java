@@ -1,9 +1,7 @@
 package com.patrick.game.entities;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Resources;
@@ -35,6 +33,7 @@ public class Ingredient extends StaticEntity {
         this.id = id;
         this.collider = new Rectangle(position.x + .2f, position.y, Settings.TILE_SIZE * .6f, Settings.TILE_SIZE);
         this.pickupCollider = new Rectangle(position.x - (Settings.TILE_SIZE / 2), position.y - (Settings.TILE_SIZE / 2), Settings.TILE_SIZE*2, Settings.TILE_SIZE*2);
+        this.floorCollider = new Rectangle(this.x() - Settings.TILE_SIZE, this.y(), Settings.TILE_SIZE * 2, Settings.TILE_SIZE);
         this.debugColor = Color.BLACK;
         this.updateTexture();
     }
@@ -42,9 +41,11 @@ public class Ingredient extends StaticEntity {
     public void update(float delta) {
         super.update(delta);
         if(this.pickupCollider != null)
-            this.pickupCollider.setPosition(new Vector2(this.position.x - (Settings.TILE_SIZE / 2), this.position.y - (Settings.TILE_SIZE / 2)));
+            this.pickupCollider.setPosition(new Vector2(this.x() - (Settings.TILE_SIZE / 2), this.y() - (Settings.TILE_SIZE / 2)));
         if(this.collider != null)
-            this.collider.setPosition(new Vector2(this.position.x + .2f, this.position.y));
+            this.collider.setPosition(new Vector2(this.x() + .2f, this.y()));
+        if(this.floorCollider != null)
+            this.floorCollider.setPosition(new Vector2(this.x() - (Settings.TILE_SIZE / 2), this.y()));
     }
 
     public void draw(Batch batch) {

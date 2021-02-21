@@ -181,12 +181,12 @@ public class MovementController {
         if (e instanceof Particle) {
             return;
         }
-        if (e.x() < -e.width() * 3)
-            e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth, e.y()));
-        if (e.x() > this.cameraController.getCamera().viewportWidth)
-            e.moveTo(new Vector2(-e.width() * 3, e.y()));
+        if (e.x() < -Settings.TILE_SIZE / 2)
+            e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE, e.y()));
+        if (e.x() > this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE)
+            e.moveTo(new Vector2(-Settings.TILE_SIZE / 2, e.y()));
         for (Floor f : map.getFloors()) {
-            if (this.collisionController.checkBasicFloorCollision(e, f)) {
+            if (this.collisionController.checkBasicFloorCollision(e, f, this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE)) {
                 Vector2 offset = this.collisionController.calculateFloorCollisionOffset(e, f);
                 e.move(new Vector2(0, offset.y));
                 if (offset.x != 0) {

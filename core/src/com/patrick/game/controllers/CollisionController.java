@@ -21,8 +21,8 @@ public class CollisionController {
         return false;
     }
 
-    public boolean checkBasicFloorCollision(Entity e1, Entity e2) {
-        if(e1.getFloorCollider() != null && e1.y() <= Settings.TILE_SIZE * 3)
+    public boolean checkBasicFloorCollision(Entity e1, Entity e2, float viewWidth) {
+        if(e1.getFloorCollider() != null && (e1.y() <= Settings.TILE_SIZE * 3) || e1.x() < Settings.TILE_SIZE || e1.x() > viewWidth)
             if (e1.getFloorCollider().overlaps(e2.getCollider()))
                 return true;
         if (e1.getCollider().overlaps(e2.getCollider()))
