@@ -12,7 +12,7 @@ public class Settings {
     public static final int[] PLAYER_TWO_KEYS = new int[]{Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.CONTROL_RIGHT};
 
     public static final float PLAYER_JUMP_HEIGHT = 700f;
-    public static final float PLAYER_FALL_MOD = 120f;
+    public static final float PLAYER_FALL_MOD = 20f;
     public static final float PLAYER_SPEED = 190f;
     public static final float PLAYER_DECEL_SPEED = 550f;
     public static final float PLAYER_WEIGHT = 260f;

@@ -89,6 +89,16 @@ public class Map {
         this.particles.remove(p);
     }
 
+    public Player playerOne() {
+        if(this.players.size() >= 1) return this.players.get(0);
+        return null;
+    }
+
+    public Player playerTwo() {
+        if(this.players.size() >= 2) return this.players.get(1);
+        return null;
+    }
+
     public Effect findEffectByParent(Entity e) {
         for (Effect f : this.effects) {
             if (f.getParentId() == e.getId()) return f;

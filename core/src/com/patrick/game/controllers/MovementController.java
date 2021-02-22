@@ -170,6 +170,35 @@ public class MovementController {
         this.attemptIngredientAdd(i, map);
     }
 
+    public void checkPlayerPlayerCollisions(Player one, Player two) {
+        // hacky to randomize the order collisions are checked, for some interesting randomness.
+        Player p1, p2;
+        if(com.patrick.game.util.Math.EITHER_OR(0, 1) == 1) {
+            p1 = one;
+            p2 = two;
+        } else {
+            p1 = two;
+            p2 = one;
+        }
+        if (this.collisionController.checkPlayerHeadBounceCollision(p1, p2)) {
+            if (p1.y() >= p2.y()) {
+                p1.setHeightGain(Settings.PLAYER_JUMP_HEIGHT * .8f);
+                p1.setGrounded(false);
+                p2.setHeightGain(-Settings.PLAYER_FALL_MOD);
+            } else if (p1.y() < p2.y()) {
+                p2.setHeightGain(Settings.PLAYER_JUMP_HEIGHT * .8f);
+                p2.setGrounded(false);
+                p1.setHeightGain(-Settings.PLAYER_FALL_MOD);
+            }
+        }
+        if (this.collisionController.checkBasicCollision(p1, p2)) {
+            if((p1.getVelocity() < 0 && p2.getVelocity() > 0) || (p1.getVelocity() > 0 && p2.getVelocity() < 0)) {
+                p1.setVelocity(0);
+                p2.setVelocity(0);
+            }
+        }
+    }
+
     public void moveEntity(Entity e, Map map, float delta) {
         if (!this.processPhysics) return;
         boolean didGround = false;
@@ -215,30 +244,12 @@ public class MovementController {
         if (!didGround) e.setGrounded(false);
         for (Entity ent : map.playersAndIngredients())
             if (e.getId() != ent.getId()) {
-//                if (e instanceof Player && ent instanceof Player)
-//                    if (this.collisionController.checkPlayerHeadBounceCollision((Player) e, (Player) ent)) {
-//                        if (ent.y() >= e.y() + (ent.height() * .75f)) {
-//                            ent.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
-//                            these glitch player 1, because he's processing twice and negating the initial bounce
-//                            e.setHeightGain(-Settings.PLAYER_FALL_MOD);
-//                        } else if (ent.y() < e.y() + (ent.height() * .75f)) {
-//                            e.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
-//                            ent.setHeightGain(-Settings.PLAYER_FALL_MOD);
-//                        }
-//                    }
                 if (this.collisionController.checkBasicCollision(e, ent)) {
-                    if(e.getVelocity() == -ent.getVelocity()) {
-                        System.out.println("FACE TO FACE");
-                        ent.move(new Vector2(e.getVelocity() * delta / 4, 0));
-                        ent.setVelocity(0);
-                        e.move(new Vector2(ent.getVelocity() * delta / 4, 0));
-                        e.setVelocity(0);
-                    }
-                    else if (Math.abs(e.getVelocity()) > Math.abs(ent.getVelocity())) {
-                        ent.move(new Vector2(e.getVelocity() * delta / 4, 0));
+                    if (Math.abs(e.getVelocity()) > Math.abs(ent.getVelocity())) {
+                        ent.move(new Vector2(e.getVelocity() * delta / 3, 0));
                         ent.setVelocity(e.getVelocity());
                     } else if (Math.abs(ent.getVelocity()) > Math.abs(e.getVelocity())) {
-                        e.move(new Vector2(ent.getVelocity() * delta / 4, 0));
+                        e.move(new Vector2(ent.getVelocity() * delta / 3, 0));
                         e.setVelocity(ent.getVelocity());
                     }
                 }
