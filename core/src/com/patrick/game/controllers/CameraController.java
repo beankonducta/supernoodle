@@ -21,15 +21,10 @@ public class CameraController {
         this.camera.translate(destination);
     }
 
-    public void centerOnEntity(Entity e) {
-    }
-
-    public void calculatedZoomPan(Entity e) {
-    }
-
     public void moveCameraTowards(Entity e, float speed, float delta) {
-        if (this.camera.zoom > .2f)
+        if (this.camera.zoom > .2f) {
             this.zoomIn(delta / 4);
+        }
         Vector2 diff = new Vector2(e.x() - this.camera.position.x, e.y() - this.camera.position.y);
         if (Math.abs(diff.x) > 4)
             this.camera.translate(diff.x * delta, 0);

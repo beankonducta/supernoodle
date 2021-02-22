@@ -160,6 +160,6 @@ public class Resources {
     // sounds
 
     // music
-    public static final Music DEFAULT_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("music/DEFAULT_MUSIC.mp3"));
+//    public static final Music DEFAULT_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("music/DEFAULT_MUSIC.mp3"));
 
 }

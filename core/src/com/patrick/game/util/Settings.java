@@ -17,7 +17,7 @@ public class Settings {
     public static final float PLAYER_DECEL_SPEED = 550f;
     public static final float PLAYER_WEIGHT = 260f;
 
-    public static final float INGREDIENT_SPEED = 190f;
+    public static final float INGREDIENT_SPEED = 90f;
     public static final float INGREDIENT_DECEL_SPEED = 250f;
     public static final float INGREDIENT_WEIGHT = 340f;
 

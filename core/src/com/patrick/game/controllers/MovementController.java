@@ -101,6 +101,7 @@ public class MovementController {
                 if (p.getIngredient() != null) {
                     p.getIngredient().setHeightGain(p.getHeightGain() * 1.2f);
                     p.getIngredient().setVelocity(p.getVelocity() * 2f);
+                    p.getIngredient().move(new Vector2((p.getDir() == Direction.LEFT ? -10 : 10), 0));
                     p.getIngredient().setHeld(false);
                     p.setIngredient(null);
                     p.update(delta);
@@ -187,6 +188,13 @@ public class MovementController {
             e.moveTo(new Vector2(-Settings.TILE_SIZE / 2, e.y()));
         for (Floor f : map.getFloors()) {
             if (this.collisionController.checkBasicFloorCollision(e, f, this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE)) {
+                if (e instanceof Ingredient) {
+                    Ingredient i = (Ingredient) e;
+                    if (i.getHeightGain() == 0 && i.getGrounded() && i.wasHeld()) {
+                        i.setWasHeld(false);
+                        e.setVelocity(e.getVelocity() * .5f);
+                    }
+                }
                 Vector2 offset = this.collisionController.calculateFloorCollisionOffset(e, f);
                 e.move(new Vector2(0, offset.y));
                 if (offset.x != 0) {
@@ -219,11 +227,18 @@ public class MovementController {
 //                        }
 //                    }
                 if (this.collisionController.checkBasicCollision(e, ent)) {
-                    if (Math.abs(e.getVelocity()) > Math.abs(ent.getVelocity())) {
-                        ent.move(new Vector2(e.getVelocity() * delta, 0));
+                    if(e.getVelocity() == -ent.getVelocity()) {
+                        System.out.println("FACE TO FACE");
+                        ent.move(new Vector2(e.getVelocity() * delta / 4, 0));
+                        ent.setVelocity(0);
+                        e.move(new Vector2(ent.getVelocity() * delta / 4, 0));
+                        e.setVelocity(0);
+                    }
+                    else if (Math.abs(e.getVelocity()) > Math.abs(ent.getVelocity())) {
+                        ent.move(new Vector2(e.getVelocity() * delta / 4, 0));
                         ent.setVelocity(e.getVelocity());
                     } else if (Math.abs(ent.getVelocity()) > Math.abs(e.getVelocity())) {
-                        e.move(new Vector2(ent.getVelocity() * delta, 0));
+                        e.move(new Vector2(ent.getVelocity() * delta / 4, 0));
                         e.setVelocity(ent.getVelocity());
                     }
                 }

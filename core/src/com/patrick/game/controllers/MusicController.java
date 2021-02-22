@@ -8,7 +8,7 @@ public class MusicController {
     private Music music;
 
     public MusicController() {
-        this.music = Resources.DEFAULT_MUSIC;
+//        this.music = Resources.DEFAULT_MUSIC;
 //        this.music.play();
     }
 

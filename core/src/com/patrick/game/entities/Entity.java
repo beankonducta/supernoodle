@@ -176,7 +176,7 @@ public class Entity implements Comparable<Entity> {
         if (this.heightGain < 10 && this.heightGain > 0) this.heightGain = 0;
         if (this.heightGain > -10 && this.heightGain < 0) this.heightGain = 0;
         if (this.velocity < 10 && this.velocity > 0) this.velocity = 0;
-        if (this.velocity > -10 && this.velocity < 0) this.velocity = 0;
+        if (this.velocity > -10f && this.velocity < 0) this.velocity = 0;
         if (this.collider != null)
             this.collider.setPosition(this.position);
     }

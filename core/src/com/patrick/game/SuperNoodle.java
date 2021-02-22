@@ -22,8 +22,6 @@ public class SuperNoodle extends Game {
 
    TODO: DESIGN -> Keep playing with particles
 
-   TODO: BUG -> Zoom doesn't work on fullscreen? (on game screen only)
-
    TODO: BUG -> Performance issues on my gaming pc, but not on my laptop.. ?
 
    TODO: IDEA -> Set a max velocity on entities, so there's literally no way they can move faster than expected.
