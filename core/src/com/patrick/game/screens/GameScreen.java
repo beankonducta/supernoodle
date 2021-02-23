@@ -51,6 +51,11 @@ public class GameScreen implements Screen {
     public void show() {
     }
 
+    /**
+     * Render the game screen! Also processes movements and other 'per frame' operations.
+     *
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
@@ -79,9 +84,14 @@ public class GameScreen implements Screen {
         }
         this.moveEntities(delta);
         this.uiBatch.end();
-        this.renderDebug();
+        this.renderDebugElements();
     }
 
+    /**
+     * Draws the UI.
+     *
+     * @param b
+     */
     private void drawUi(Bowl b) {
         if (b.getId() == -3) {
             this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0, this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
@@ -90,6 +100,12 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Check and process win state.
+     *
+     * @param b
+     * @param delta
+     */
     private void processWins(Bowl b, float delta) {
         if (this.levelController.checkFull(b) || this.winCutscene) {
             if (this.winningBowl == b.getId() || this.winningBowl == -1) {
@@ -116,6 +132,11 @@ public class GameScreen implements Screen {
         }
     }
 
+    /**
+     * Move entities.
+     *
+     * @param delta
+     */
     private void moveEntities(float delta) {
         for (Player p : this.map.getPlayers()) {
             this.movementController.playerMove(p, this.map, delta);
@@ -129,6 +150,12 @@ public class GameScreen implements Screen {
             this.movementController.particleMove(p, this.map, delta);
     }
 
+    /**
+     * Handles the animations etc for a successful player win state.
+     *
+     * @param p
+     * @param delta
+     */
     private void processPlayerWins(Player p, float delta) {
         if (this.winCutscene) {
             if (Misc.PLAYER_BOWL_MATCH_ID(p.getId(), this.winningBowl)) {
@@ -140,7 +167,11 @@ public class GameScreen implements Screen {
         } else if (p.getForcePlayAnimation()) p.setForcePlayAnimation(false);
     }
 
-    private void renderDebug() {
+    /**
+     * Renders debug elements, specifically collision rectangles.
+     *
+     */
+    private void renderDebugElements() {
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         if (Settings.DEBUG_COLLISION)
             this.game.shapeRenderer.circle(this.cameraController.getCamera().position.x, this.cameraController.getCamera().position.y, 5);

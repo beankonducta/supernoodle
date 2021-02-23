@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
 import com.patrick.game.controllers.*;
 import com.patrick.game.entities.Cloud;
-import com.patrick.game.entities.Player;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
@@ -38,6 +37,10 @@ public class TitleScreen implements Screen {
         this.deltaCounter = 0f;
     }
 
+    /**
+     * Handles our inputs upon screen being shown. Our inputs are pretty simple for this screen so we can manage
+     * them here.
+     */
     @Override
     public void show() {
         Gdx.input.setInputProcessor(new InputAdapter() {
@@ -63,29 +66,23 @@ public class TitleScreen implements Screen {
         });
     }
 
+    /**
+     * Renders the title screen. Handles any 'per frame' operations as well.
+     *
+     * @param delta
+     */
     @Override
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
-        this.deltaCounter += delta;
-        if (this.deltaCounter >= 1) {
-            this.incrementTimer();
-            this.deltaCounter -= 1;
-        }
-        if (this.titleScreenController.getStartTimer() == 7) {
-            this.game.setScreen(new GameScreen(this.game, this.musicController));
-        }
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        this.processTimer(delta);
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         this.game.shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), Settings.BLUE, Settings.BLUE, Settings.GREEN, Settings.GREEN);
         this.game.shapeRenderer.end();
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
-        for (Cloud c : this.titleScreenController.getClouds()) {
-            c.update(delta);
-            this.movementController.cloudMove(c, delta);
-            c.draw(this.game.batch);
-        }
+        this.processAndDrawClouds(delta);
         this.game.batch.draw(Resources.LOGO, this.titleScreenController.getLogoPosition().x, this.titleScreenController.getLogoPosition().y);
         this.game.batch.draw(Resources.START_PLAQUE(1, this.titleScreenController.isPlayerOneReady()), this.titleScreenController.getPlayerOneStartPlaquePosition().x, this.titleScreenController.getPlayerOneStartPlaquePosition().y);
         this.game.batch.draw(Resources.START_PLAQUE(2, this.titleScreenController.isPlayerTwoReady()), this.titleScreenController.getPlayerTwoStartPlaquePosition().x, this.titleScreenController.getPlayerTwoStartPlaquePosition().y);
@@ -100,6 +97,39 @@ public class TitleScreen implements Screen {
         this.titleScreenController.updateScreenPositions(delta);
     }
 
+    /**
+     * Updates, moves and renders the clouds on screen.
+     *
+     * @param delta
+     */
+    private void processAndDrawClouds(float delta) {
+        for (Cloud c : this.titleScreenController.getClouds()) {
+            c.update(delta);
+            this.movementController.cloudMove(c, delta);
+            c.draw(this.game.batch);
+        }
+    }
+
+    /**
+     * Updates the timer and processes events triggered by it.
+     *
+     * @param delta
+     */
+    private void processTimer(float delta) {
+        this.deltaCounter += delta;
+        if (this.deltaCounter >= 1) {
+            this.incrementTimer();
+            this.deltaCounter -= 1;
+        }
+        if (this.titleScreenController.getStartTimer() == 7) {
+            this.game.setScreen(new GameScreen(this.game, this.musicController));
+        }
+    }
+
+    /**
+     * Increments the timer.
+     *
+     */
     private void incrementTimer() {
         if (this.titleScreenController.isPlayerTwoReady() && this.titleScreenController.isPlayerOneReady()) {
             if (this.titleScreenController.getStartTimer() < 7)
