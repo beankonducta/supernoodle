@@ -134,7 +134,8 @@ public class MovementController {
         final Direction direction = p2 == null ? p1.getDir() : p2.getDir();
         p1.getIngredient().setHeightGain(p1.getHeightGain() * 1.2f);
         p1.getIngredient().setVelocity(velocity * 2f);
-        p1.getIngredient().move(new Vector2((direction == Direction.LEFT ? -10 : 10), 0));
+        if (p1.getGrounded() && p1.getHeightGain() == 0)
+            p1.getIngredient().move(new Vector2((direction == Direction.LEFT ? -10 : 10), 0));
         p1.getIngredient().setHeld(false);
         p1.setIngredient(null);
     }
@@ -212,7 +213,7 @@ public class MovementController {
                 p2.setGrounded(false);
                 p1.setHeightGain(-Settings.PLAYER_FALL_MOD);
             }
-            if(Math.abs(p1.getVelocity()) > Math.abs(p2.getVelocity())) {
+            if (Math.abs(p1.getVelocity()) > Math.abs(p2.getVelocity())) {
                 this.removeIngredient(p2, p1);
             } else {
                 this.removeIngredient(p1, p2);

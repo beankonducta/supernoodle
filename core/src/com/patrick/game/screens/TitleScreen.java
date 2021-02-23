@@ -41,7 +41,7 @@ public class TitleScreen implements Screen {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new GameScreen(game, musicController));
                 }
                 if (keyCode == Input.Keys.NUM_1) {
                     cameraController.zoomOut(.1f);
@@ -69,7 +69,7 @@ public class TitleScreen implements Screen {
             this.deltaCounter -= 1;
         }
         if (this.titleScreenController.getStartTimer() == 7) {
-            game.setScreen(new GameScreen(game));
+            this.game.setScreen(new GameScreen(this.game, this.musicController));
         }
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -106,17 +106,14 @@ public class TitleScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override

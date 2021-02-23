@@ -99,6 +99,16 @@ public class Map {
         return null;
     }
 
+    public Bowl bowlOne() {
+        if(this.bowls.size() >= 1) return this.bowls.get(0);
+        return null;
+    }
+
+    public Bowl bowlTwo() {
+        if(this.bowls.size() >= 2) return this.bowls.get(1);
+        return null;
+    }
+
     public Effect findEffectByParent(Entity e) {
         for (Effect f : this.effects) {
             if (f.getParentId() == e.getId()) return f;

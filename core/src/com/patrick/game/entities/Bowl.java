@@ -38,9 +38,8 @@ public class Bowl extends StaticEntity {
     }
 
     public int getIngredientCount() {
-        if(this.ingredients != null)
+        if(this.ingredients == null) return 0;
         return this.ingredients.size();
-        return 0;
     }
 
     public void updateTexture() {

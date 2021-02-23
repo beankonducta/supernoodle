@@ -58,18 +58,22 @@ public class Resources {
     private static final Animation<TextureRegion> PLAYER_TWO_DANCE_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_DANCE_REGION[0]);
 
     public static TextureRegion[][] GET_PLAYER_TEXTURE_REGION(String name, boolean hasIngredient, int id) {
-        switch(name) {
+        switch (name) {
             case "RUN":
-                if(hasIngredient) return id == 1 ? PLAYER_ONE_TEXTURE_RUN_HOLD_REGION : PLAYER_TWO_TEXTURE_RUN_HOLD_REGION;
+                if (hasIngredient)
+                    return id == 1 ? PLAYER_ONE_TEXTURE_RUN_HOLD_REGION : PLAYER_TWO_TEXTURE_RUN_HOLD_REGION;
                 return id == 1 ? PLAYER_ONE_TEXTURE_RUN_REGION : PLAYER_TWO_TEXTURE_RUN_REGION;
             case "JUMP":
-                if(hasIngredient) return id == 1 ? PLAYER_ONE_TEXTURE_JUMP_HOLD_REGION : PLAYER_TWO_TEXTURE_JUMP_HOLD_REGION;
+                if (hasIngredient)
+                    return id == 1 ? PLAYER_ONE_TEXTURE_JUMP_HOLD_REGION : PLAYER_TWO_TEXTURE_JUMP_HOLD_REGION;
                 return id == 1 ? PLAYER_ONE_TEXTURE_JUMP_REGION : PLAYER_TWO_TEXTURE_JUMP_REGION;
             case "FALL":
-                if(hasIngredient) return id == 1 ? PLAYER_ONE_TEXTURE_FALL_HOLD_REGION : PLAYER_TWO_TEXTURE_FALL_HOLD_REGION;
+                if (hasIngredient)
+                    return id == 1 ? PLAYER_ONE_TEXTURE_FALL_HOLD_REGION : PLAYER_TWO_TEXTURE_FALL_HOLD_REGION;
                 return id == 1 ? PLAYER_ONE_TEXTURE_FALL_REGION : PLAYER_TWO_TEXTURE_FALL_REGION;
             case "STILL":
-                if(hasIngredient)return id == 1 ? PLAYER_ONE_TEXTURE_STILL_HOLD_REGION : PLAYER_TWO_TEXTURE_STILL_HOLD_REGION;
+                if (hasIngredient)
+                    return id == 1 ? PLAYER_ONE_TEXTURE_STILL_HOLD_REGION : PLAYER_TWO_TEXTURE_STILL_HOLD_REGION;
                 return id == 1 ? PLAYER_ONE_TEXTURE_STILL_REGION : PLAYER_TWO_TEXTURE_STILL_REGION;
             case "DANCE":
                 return id == 1 ? PLAYER_ONE_TEXTURE_DANCE_REGION : PLAYER_TWO_TEXTURE_DANCE_REGION;
@@ -79,18 +83,18 @@ public class Resources {
     }
 
     public static Animation<TextureRegion> GET_PLAYER_ANIMATION(String name, boolean hasIngredient, int id) {
-        switch(name) {
+        switch (name) {
             case "RUN":
-                if(hasIngredient) return id == 1 ? PLAYER_ONE_RUN_HOLD_ANIMATION : PLAYER_TWO_RUN_HOLD_ANIMATION;
+                if (hasIngredient) return id == 1 ? PLAYER_ONE_RUN_HOLD_ANIMATION : PLAYER_TWO_RUN_HOLD_ANIMATION;
                 return id == 1 ? PLAYER_ONE_RUN_ANIMATION : PLAYER_TWO_RUN_ANIMATION;
             case "JUMP":
-                if(hasIngredient) return id == 1 ? PLAYER_ONE_JUMP_HOLD_ANIMATION : PLAYER_TWO_JUMP_HOLD_ANIMATION;
+                if (hasIngredient) return id == 1 ? PLAYER_ONE_JUMP_HOLD_ANIMATION : PLAYER_TWO_JUMP_HOLD_ANIMATION;
                 return id == 1 ? PLAYER_ONE_JUMP_ANIMATION : PLAYER_TWO_JUMP_ANIMATION;
             case "FALL":
-                if(hasIngredient) return id == 1 ? PLAYER_ONE_FALL_HOLD_ANIMATION : PLAYER_TWO_FALL_HOLD_ANIMATION;
+                if (hasIngredient) return id == 1 ? PLAYER_ONE_FALL_HOLD_ANIMATION : PLAYER_TWO_FALL_HOLD_ANIMATION;
                 return id == 1 ? PLAYER_ONE_FALL_ANIMATION : PLAYER_TWO_FALL_ANIMATION;
             case "STILL":
-                if(hasIngredient) return id == 1 ? PLAYER_ONE_STILL_HOLD_ANIMATION : PLAYER_TWO_STILL_HOLD_ANIMATION;
+                if (hasIngredient) return id == 1 ? PLAYER_ONE_STILL_HOLD_ANIMATION : PLAYER_TWO_STILL_HOLD_ANIMATION;
                 return id == 1 ? PLAYER_ONE_STILL_ANIMATION : PLAYER_TWO_STILL_ANIMATION;
             case "DANCE":
                 return id == 1 ? PLAYER_ONE_DANCE_ANIMATION : PLAYER_TWO_DANCE_ANIMATION;
@@ -103,7 +107,7 @@ public class Resources {
     private static final TextureRegion[][] INGREDIENTS_REGION = Sprite.split(new Texture(Gdx.files.internal("INGREDIENTS.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
 
     public static TextureRegion INGREDIENT(int index) {
-        if(index >= INGREDIENTS_REGION[0].length) return null;
+        if (index >= INGREDIENTS_REGION[0].length) return null;
         return INGREDIENTS_REGION[0][index];
     }
 
@@ -111,7 +115,7 @@ public class Resources {
     private static final TextureRegion[][] FLOOR_REGION = Sprite.split(new Texture(Gdx.files.internal("GROUND.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
 
     public static TextureRegion FLOOR(int index) {
-        if(index >= FLOOR_REGION[0].length) return null;
+        if (index >= FLOOR_REGION[0].length) return null;
         return FLOOR_REGION[0][index];
     }
 
@@ -119,7 +123,7 @@ public class Resources {
     private static final TextureRegion[][] BOWLS_REGION = Sprite.split(new Texture(Gdx.files.internal("BOWLS.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
 
     public static TextureRegion BOWL(int index) {
-        if(index >= BOWLS_REGION[0].length) return null;
+        if (index >= BOWLS_REGION[0].length) return null;
         return BOWLS_REGION[0][index];
     }
 
@@ -127,7 +131,7 @@ public class Resources {
     private static final TextureRegion[][] CLOUDS_REGION = Sprite.split(new Texture(Gdx.files.internal("CLOUDS.png")), Settings.TILE_SIZE * 4, Settings.TILE_SIZE * 2);
 
     public static TextureRegion CLOUD(int index) {
-        if(index >= CLOUDS_REGION[0].length) return null;
+        if (index >= CLOUDS_REGION[0].length) return null;
         return CLOUDS_REGION[0][index];
     }
 
@@ -138,9 +142,9 @@ public class Resources {
     public static final TextureRegion[][] PLAQUES_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAQUES.png")), 112, 96);
 
     public static TextureRegion PLAQUE(int id, int count) {
-        if(id > 2) return null;
-        if(count >= PLAQUES_REGION[id-1].length) return null;
-        return PLAQUES_REGION[id-1][count];
+        if (id > 2) return null;
+        if (count >= PLAQUES_REGION[id - 1].length) return null;
+        return PLAQUES_REGION[id - 1][count];
     }
 
     public static float PLAQUE_WIDTH = PLAQUE(1, 0).getRegionWidth();
@@ -149,8 +153,8 @@ public class Resources {
     public static final TextureRegion[][] START_PLAQUES_REGION = Sprite.split(new Texture(Gdx.files.internal("START_PLAQUES.png")), 112, 36);
 
     public static TextureRegion START_PLAQUE(int id, boolean started) {
-        if(id > 2) return null;
-        return START_PLAQUES_REGION[id-1][started ? 1 : 0];
+        if (id > 2) return null;
+        return START_PLAQUES_REGION[id - 1][started ? 1 : 0];
     }
 
     public static float START_PLAQUE_WIDTH = PLAQUE(1, 0).getRegionWidth();
@@ -161,7 +165,7 @@ public class Resources {
     public static final TextureRegion[][] COUNTDOWN_REGION = Sprite.split(new Texture(Gdx.files.internal("COUNTDOWN.png")), 32, 32);
 
     public static TextureRegion COUNTDOWN(int seconds) {
-        if(seconds > 5) return COUNTDOWN_REGION[0][6];
+        if (seconds > 5) return COUNTDOWN_REGION[0][6];
         return COUNTDOWN_REGION[0][seconds];
     }
 
@@ -179,8 +183,13 @@ public class Resources {
     public static final Animation<TextureRegion> RAIN_ANIMATION = new Animation(1f, BOWL_ANIM_REGION[0]);
 
     // sounds
-
-    // music
-//    public static final Music DEFAULT_MUSIC = Gdx.audio.newMusic(Gdx.files.internal("music/DEFAULT_MUSIC.mp3"));
-
+    public static final Music[] MUSIC = new Music[]{
+            Gdx.audio.newMusic(Gdx.files.internal("music/DRUMS.wav")),
+            Gdx.audio.newMusic(Gdx.files.internal("music/INTRO_1.wav")),
+            Gdx.audio.newMusic(Gdx.files.internal("music/INTRO_2.wav")),
+            Gdx.audio.newMusic(Gdx.files.internal("music/MAIN_1.wav")),
+            Gdx.audio.newMusic(Gdx.files.internal("music/MAIN_2.wav")),
+            Gdx.audio.newMusic(Gdx.files.internal("music/MAIN_3_HIGH.wav")),
+            Gdx.audio.newMusic(Gdx.files.internal("music/MAIN_4_MELODY.wav"))
+    };
 }

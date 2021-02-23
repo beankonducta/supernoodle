@@ -2,7 +2,6 @@ package com.patrick.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,9 +21,13 @@ public class SuperNoodle extends Game {
 
    TODO: DESIGN -> Keep playing with particles
 
-   TODO: BUG -> Performance issues on my gaming pc, but not on my laptop.. ?
-
    TODO: IDEA -> Set a max velocity on entities, so there's literally no way they can move faster than expected.
+
+   TODO: DESIGN -> Add particles when player jumps on players head for feedback (sweat maybe?)
+
+   TODO: AUDIO -> Add sounds
+
+   TODO: AUDIO -> Polish music playback timing and buildup
     */
 
     public SpriteBatch batch;
