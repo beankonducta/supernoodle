@@ -9,14 +9,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
 import com.patrick.game.controllers.*;
 import com.patrick.game.entities.*;
-import com.patrick.game.levels.Level;
 import com.patrick.game.util.*;
 import com.patrick.game.util.Math;
 
 public class GameScreen implements Screen {
 
     private SuperNoodle game;
-    private Level level;
     private int winningBowl;
     private Map map;
     private MovementController movementController;
@@ -39,13 +37,12 @@ public class GameScreen implements Screen {
         this.uiBatch = new SpriteBatch();
         this.bgBatch = new SpriteBatch();
         this.mapLoader = new MapLoader();
+        this.map = mapLoader.loadMapToMap("MAP_0.png");
         this.particleController = new ParticleController();
         this.collisionController = new CollisionController();
         this.cameraController = new CameraController();
         this.movementController = new MovementController(collisionController, cameraController, particleController);
-        this.levelController = new LevelController(collisionController);
-        this.map = mapLoader.loadMapToMap("MAP_0.png");
-        this.level = new Level(map);
+        this.levelController = new LevelController(collisionController, map);
         this.winCutscene = false;
         this.winningBowl = -1;
         this.winCutsceneTime = 0f;
@@ -58,7 +55,6 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
-        if (level == null) return;
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.musicController.adjustMusic(this.map.bowlOne(), this.map.bowlTwo());
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -70,8 +66,8 @@ public class GameScreen implements Screen {
         this.bgBatch.end();
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
-        this.level.draw(this.game);
-        this.level.update(delta);
+        this.levelController.draw(this.game);
+        this.levelController.update(delta);
         this.game.batch.end();
         this.uiBatch.begin();
         this.uiBatch.setProjectionMatrix(this.cameraController.getUiCamera().combined);
@@ -111,7 +107,7 @@ public class GameScreen implements Screen {
                             this.game.setScreen(new WinScreen(this.game, this.winningBowl));
                         }
                         this.map = this.mapLoader.loadMapToMap("MAP_0.png");
-                        this.level = new Level(this.map);
+                        this.levelController.setMap(this.map);
                         this.cameraController.resetCamera();
                         this.winCutscene = false;
                         this.winCutsceneTime = 0f;
