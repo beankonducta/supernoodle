@@ -4,9 +4,6 @@ import com.badlogic.gdx.audio.Music;
 import com.patrick.game.entities.Bowl;
 import com.patrick.game.util.Resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MusicController {
 
     private Music music;
@@ -16,6 +13,11 @@ public class MusicController {
         this.setMusic(0);
     }
 
+    /**
+     * Sets the current music, and starts it at the position of the previous music (if applicable).
+     *
+     * @param id
+     */
     public void setMusic(int id) {
         if(id > Resources.MUSIC.length - 1) return;
         final float pos = this.music == null? 0 : this.music.getPosition();
@@ -28,27 +30,49 @@ public class MusicController {
         this.play();
     }
 
+    /**
+     * Changes the music based on the bowl with the most ingredients.
+     *
+     * @param b1
+     * @param b2
+     */
     public void adjustMusic(Bowl b1, Bowl b2) {
         if(b1 == null || b2 == null) return;
         final int count = b1.getIngredientCount() > b2.getIngredientCount() ? b1.getIngredientCount() + 1: b2.getIngredientCount() + 1;
         if(count != this.musicId) this.setMusic(count);
     }
 
+    /**
+     * Stops the music.
+     *
+     */
     public void stop() {
         if(this.music == null) return;
         this.music.stop();
     }
 
+    /**
+     * Plays the music.
+     *
+     */
     public void play() {
         if(this.music == null) return;
         this.music.play();
     }
 
+    /**
+     * Pauses the music.
+     *
+     */
     public void pause() {
         if(this.music == null) return;
         this.music.pause();
     }
 
+    /**
+     * Disposes the music.
+     *
+     */
     public void dispose() {
         if(this.music == null) return;
         this.music.dispose();

@@ -122,7 +122,6 @@ public class GameScreen implements Screen {
         for (Particle p : this.map.getParticles()) {
             this.movementController.particleMove(p, this.map, delta);
         }
-        this.movementController.processPlayerPlayerCollisions(this.map.playerOne(), this.map.playerTwo());
         this.uiBatch.end();
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         if (Settings.DEBUG_COLLISION)

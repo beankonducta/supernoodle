@@ -15,6 +15,13 @@ public class ParticleController {
     public ParticleController() {
     }
 
+    /**
+     * Adds randomized movement particles (basically the entity kicking up grass / dirt).
+     *
+     * @param map
+     * @param e
+     * @param max
+     */
     public void randomMoveParticlesAdd(Map map, Entity e, int max) {
         for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 3, max); i++)
             map.addParticle(new Particle(
@@ -24,6 +31,13 @@ public class ParticleController {
                     Settings.PLAYER_DECEL_SPEED));
     }
 
+    /**
+     * Adds randomized win particles. Just some fun visualization over the winning player.
+     *
+     * @param map
+     * @param e
+     * @param max
+     */
     public void randomWinParticlesAdd(Map map, Entity e, int max) {
         for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 3, max); i++)
             map.addParticle(new Particle(
@@ -35,6 +49,13 @@ public class ParticleController {
                     Math.RANDOM_BETWEEN(0, 700), 30));
     }
 
+    /**
+     * Adds particles when an ingredient is added to the bowl.
+     *
+     * @param map
+     * @param e
+     * @param max
+     */
     public void bowlParticlesAdd(Map map, Entity e, int max) {
         for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 2, max); i++)
             map.addParticle(new Particle(
@@ -44,6 +65,13 @@ public class ParticleController {
                     Settings.PLAYER_DECEL_SPEED / 3));
     }
 
+    /**
+     * Adds sweat particles. Used for when the player has an ingredient and is moving slow to symbolize their struggle.
+     *
+     * @param map
+     * @param e
+     * @param max
+     */
     public void sweatParticlesAdd(Map map, Entity e, int max) {
         int random = com.patrick.game.util.Math.RANDOM_BETWEEN(0, max);
         if (random == max)
@@ -56,6 +84,13 @@ public class ParticleController {
                     0, 30));
     }
 
+    /**
+     * Adds rain!
+     *
+     * @param map
+     * @param camera
+     * @param max
+     */
     public void rainParticlesAdd(Map map, OrthographicCamera camera, int max) {
         int random = com.patrick.game.util.Math.RANDOM_BETWEEN(0, max);
         if (random == max)

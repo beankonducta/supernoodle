@@ -1,17 +1,15 @@
 package com.patrick.game.entities;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Direction;
 
 public class AnimatedEntity extends Entity {
 
     private final float animOffsetMax = 2f;
-    protected TextureRegion[][] textureRegions; // might need to be 2d array
+    protected TextureRegion[][] textureRegions;
     protected Animation<TextureRegion> animation;
     protected int animFrame;
     protected int animSpeed;
@@ -60,7 +58,7 @@ public class AnimatedEntity extends Entity {
     public void draw(Batch batch) {
         super.draw(batch);
         if (this.animation == null) return;
-        TextureRegion t = this.animation.getKeyFrame(this.animFrame, true);
+        final TextureRegion t = this.animation.getKeyFrame(this.animFrame, true);
         if (validDir(Direction.LEFT) && !t.isFlipX()) t.flip(true, false);
         if (validDir(Direction.RIGHT) && t.isFlipX()) t.flip(true, false);
         batch.draw(t, this.x(), this.y());

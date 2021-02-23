@@ -24,16 +24,6 @@ public class LevelController {
     private List<Entity> toRemove;
     private List<Entity> toAdd;
 
-    public void addToRemove(Entity e) {
-        if (this.toRemove == null) return;
-        this.toRemove.add(e);
-    }
-
-    public void addToAdd(Entity e) {
-        if (this.toAdd == null) return;
-        this.toAdd.add(e);
-    }
-
     public int getFillCount(int id) {
         return id == -3 ? fillCount1 : fillCount2;
     }
@@ -50,11 +40,41 @@ public class LevelController {
         this.toAdd = new ArrayList<>();
     }
 
+    /**
+     * Adds one entity to the toRemove list.
+     *
+     * @param e
+     */
+    public void addToRemove(Entity e) {
+        if (this.toRemove == null) return;
+        this.toRemove.add(e);
+    }
+
+    /**
+     * Adds one entity to the toAdd list.
+     *
+     * @param e
+     */
+    public void addToAdd(Entity e) {
+        if (this.toAdd == null) return;
+        this.toAdd.add(e);
+    }
+
+    /**
+     * Updates the level.
+     *
+     * @param delta
+     */
     public void update(float delta) {
         this.removeEffectsAndParticles(delta);
         this.updateEntityList(this.map);
     }
 
+    /**
+     * Draws the level.
+     *
+     * @param game
+     */
     public void draw(SuperNoodle game) {
         Color c = game.batch.getColor();
         int multiplier = this.map.getClouds().size() / 5;
@@ -79,20 +99,42 @@ public class LevelController {
         }
     }
 
+    /**
+     * Returns whether or not we have a full bowl, based on provided bowl.
+     *
+     * @param b
+     * @return
+     */
     public boolean checkFull(Bowl b) {
         return b.getIngredientCount() == 5;
     }
 
+    /**
+     * Returns whether or not we have a winner, based on provided bowl.
+     *
+     * @param b
+     * @return
+     */
     public boolean checkWin(Bowl b) {
         return b.getId() == -3 ? this.fillCount1 == 3 : this.fillCount2 == 3;
     }
 
+    /**
+     * Increases the local fillCount variable based on provided bowl's id.
+     *
+     * @param b
+     */
     public void increaseFillCount(Bowl b) {
         if (b.getId() == -3) this.fillCount1++;
         else this.fillCount2++;
-        b.removeLastIngredient();
     }
 
+    /**
+     * Attempts to add an ingredient to a bowl.
+     *
+     * @param i
+     * @param map
+     */
     public void attemptIngredientAdd(Ingredient i, Map map) {
         if (i.isHeld()) return;
         for (Bowl b : map.getBowls()) {
@@ -104,6 +146,11 @@ public class LevelController {
         }
     }
 
+    /**
+     * Attempts to remove the last ingredient from a bowl.
+     *
+     * @param b
+     */
     public void attemptIngredientRemove(Bowl b) {
         Entity e = b.removeLastIngredient();
         if (e != null) {
@@ -114,6 +161,12 @@ public class LevelController {
         }
     }
 
+    /**
+     * Attempts to let player pick up ingredient.
+     *
+     * @param p
+     * @param i
+     */
     public void attemptPickup(Player p, Ingredient i) {
         if (p.getIngredient() == null) {
             i.setHeld(true);
@@ -121,6 +174,12 @@ public class LevelController {
         }
     }
 
+    /**
+     * Updates the action timer on provided player, so long as they're colliding with something that has an action.
+     *
+     * @param p
+     * @param map
+     */
     public void updatePlayerRemoveAction(Player p, Map map) {
         for (Bowl b : map.getBowls()) {
             if (this.collisionController.checkPlayerBowlCollision(p, b)) {
@@ -138,7 +197,9 @@ public class LevelController {
     }
 
     /**
-     * P1 is holding the ingredient, p2 is optional for player player collision calculations.
+     * Removes ingredient from player's hands. P2 is used for optional player player collision checks,
+     * in which case the removed ingredient gains it's velocity and height gain from the player
+     * running into the other one.
      *
      * @param p1
      * @param p2
@@ -155,6 +216,12 @@ public class LevelController {
         p1.setIngredient(null);
     }
 
+    /**
+     * Updates the active map's entity list with the values queued up in our toAdd and toRemove
+     * lists.
+     *
+     * @param map
+     */
     public void updateEntityList(Map map) {
         for (Entity e : this.toRemove) {
             map.getIngredients().remove(e);
@@ -166,6 +233,12 @@ public class LevelController {
         this.toAdd = new ArrayList<>();
     }
 
+    /**
+     * Updates the active map's particle and effects list by removing any 'dead' particles and any
+     * 'finished' effects.
+     *
+     * @param delta
+     */
     private void removeEffectsAndParticles(float delta) {
         List<Effect> effectsToRemove = new ArrayList<>();
         List<Particle> particlesToRemove = new ArrayList<>();

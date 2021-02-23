@@ -89,11 +89,21 @@ public class TitleScreenController {
         return this.playerTwoReady;
     }
 
+    /**
+     * Sets player one ready if player one's plaque has fully animated / lowered.
+     *
+     * @param playerOneReady
+     */
     public void setPlayerOneReady(boolean playerOneReady) {
         if (this.playerOneStartPlaquePosition.y < this.cameraController.getCamera().viewportHeight - 175)
             this.playerOneReady = playerOneReady;
     }
 
+    /**
+     * Sets player two ready if player two's plaque has fully animated / lowered.
+     *
+     * @param playerTwoReady
+     */
     public void setPlayerTwoReady(boolean playerTwoReady) {
         if (this.playerTwoStartPlaquePosition.y < this.cameraController.getCamera().viewportHeight - 175)
             this.playerTwoReady = playerTwoReady;
@@ -108,10 +118,21 @@ public class TitleScreenController {
         this.logoPosition = new Vector2(this.cameraController.getCamera().viewportWidth / 2 - 112, this.cameraController.getCamera().viewportHeight * .5f);
         this.playerOnePosition = new Vector2(this.cameraController.getCamera().viewportWidth / 2 - 32, this.cameraController.getCamera().viewportHeight * .42f);
         this.playerTwoPosition = new Vector2(this.cameraController.getCamera().viewportWidth / 2, this.cameraController.getCamera().viewportHeight * .34f);
-        this.playerOne = new Player(new Vector2(100, 100), 0, 0, 0, 1);
-        this.playerTwo = new Player(new Vector2(this.cameraController.getCamera().viewportWidth - 100, 25), 0, 0, 0, 2);
         this.ingredientOne = new Ingredient(new Vector2(100, 100), 0, 0, 0, 3);
         this.ingredientTwo = new Ingredient(new Vector2(this.cameraController.getCamera().viewportWidth - 100, 25), 0, 0, 0, 4);
+        this.logoDirection = -1;
+        this.startTimer = 0;
+        this.initPlayers();
+        this.fillClouds();
+    }
+
+    /**
+     * Inits the players.
+     *
+     */
+    private void initPlayers() {
+        this.playerOne = new Player(new Vector2(100, 100), 0, 0, 0, 1);
+        this.playerTwo = new Player(new Vector2(this.cameraController.getCamera().viewportWidth - 100, 25), 0, 0, 0, 2);
         this.playerTwo.setDir(Direction.LEFT);
         this.playerOne.setDir(Direction.RIGHT);
         this.playerOne.setForcePlayAnimation(true);
@@ -120,26 +141,32 @@ public class TitleScreenController {
         this.playerTwo.changeAnimation("JUMP", true);
         this.playerOne.setIngredient(this.ingredientOne);
         this.playerTwo.setIngredient(this.ingredientTwo);
-        this.logoDirection = -1;
-        this.startTimer = 0;
-        this.fillClouds();
     }
 
+    /**
+     * Adds the clouds to our title screen.
+     *
+     */
     private void fillClouds() {
         for (int c = 0; c < Settings.CLOUD_COUNT; c++) {
-            int x = com.patrick.game.util.Math.RANDOM_BETWEEN(0, (int) this.cameraController.getCamera().viewportWidth);
-            int y = com.patrick.game.util.Math.RANDOM_BETWEEN(0, (int) this.cameraController.getCamera().viewportHeight);
+            final int x = com.patrick.game.util.Math.RANDOM_BETWEEN(0, (int) this.cameraController.getCamera().viewportWidth);
+            final int y = com.patrick.game.util.Math.RANDOM_BETWEEN(0, (int) this.cameraController.getCamera().viewportHeight);
             this.clouds.add(new Cloud(new Vector2(x, y), com.patrick.game.util.Math.RANDOM_BETWEEN(Settings.CLOUD_MIN_SPEED, Settings.CLOUD_MAX_SPEED), com.patrick.game.util.Math.EITHER_OR(-100, 100)));
         }
     }
 
+    /**
+     * Updates the positions of our title screens elements. Used for bouncing effects, pulling graphics on screen, etc.
+     *
+     * @param delta
+     */
     public void updateScreenPositions(float delta) {
         this.playerOne.update(delta);
         this.playerTwo.update(delta);
-        float logoDiff = Math.abs(this.logoPosition.y - (this.cameraController.getCamera().viewportHeight * .51f));
-        float plaqueDiff = Math.abs(this.playerOneStartPlaquePosition.y - (this.cameraController.getCamera().viewportHeight * .675f));
-        Vector2 playerOneDiff = new Vector2(this.playerOnePosition.x - this.playerOne.x(), this.playerOnePosition.y - this.playerOne.y());
-        Vector2 playerTwoDiff = new Vector2(this.playerTwoPosition.x - this.playerTwo.x(), this.playerTwoPosition.y - this.playerTwo.y());
+        final float logoDiff = Math.abs(this.logoPosition.y - (this.cameraController.getCamera().viewportHeight * .51f));
+        final float plaqueDiff = Math.abs(this.playerOneStartPlaquePosition.y - (this.cameraController.getCamera().viewportHeight * .675f));
+        final Vector2 playerOneDiff = new Vector2(this.playerOnePosition.x - this.playerOne.x(), this.playerOnePosition.y - this.playerOne.y());
+        final Vector2 playerTwoDiff = new Vector2(this.playerTwoPosition.x - this.playerTwo.x(), this.playerTwoPosition.y - this.playerTwo.y());
         if (logoDiff < 1 && this.logoDirection == 1) this.logoDirection = -1;
         if (logoDiff > 50 && this.logoDirection == -1) this.logoDirection = 1;
         if (this.startTimer == 0) {
@@ -158,5 +185,4 @@ public class TitleScreenController {
             this.playerTwo.move(new Vector2(playerTwoDiff.x * delta, playerTwoDiff.y * delta));
         }
     }
-
 }

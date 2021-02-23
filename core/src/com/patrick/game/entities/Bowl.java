@@ -1,6 +1,5 @@
 package com.patrick.game.entities;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Resources;
@@ -22,7 +21,7 @@ public class Bowl extends StaticEntity {
     public Entity removeIngredient(int index) {
         if(this.ingredients != null) {
             if (index < this.ingredients.size()) {
-                Entity e = this.ingredients.get(index);
+                final Entity e = this.ingredients.get(index);
                 this.ingredients.remove(e);
                 this.updateTexture();
                 return e;

@@ -30,20 +30,40 @@ public class MovementController {
         this.start();
     }
 
+    /**
+     * Starts reading movement and processing physics.
+     *
+     */
     public void start() {
         this.canMove = true;
         this.processPhysics = true;
     }
 
+    /**
+     * Stops reading movements.
+     *
+     */
     public void stop() {
         this.canMove = false;
     }
 
+    /**
+     * Pauses reading movements and processing physics.
+     *
+     */
     public void pause() {
         this.canMove = false;
         this.processPhysics = false;
     }
 
+    /**
+     * Process user input and moves the player.
+     *
+     * @param p
+     * @param map
+     * @param delta
+     */
+    // TODO: Move the "player movement" to it's own method and the "user input" to it's own method
     public void playerMove(Player p, Map map, float delta) {
         if (this.canMove) {
             final int[] KEYS = p.getId() == 1 ? Settings.PLAYER_ONE_KEYS : Settings.PLAYER_TWO_KEYS;
@@ -108,6 +128,12 @@ public class MovementController {
         moveEntity(p, map, delta);
     }
 
+    /**
+     * Processes cloud movement.
+     *
+     * @param c
+     * @param delta
+     */
     public void cloudMove(Cloud c, float delta) {
         if (!this.processPhysics) return;
         c.move(new Vector2(c.getSpeed() * delta, 0));
@@ -117,17 +143,38 @@ public class MovementController {
             c.moveTo(new Vector2(-c.width() * 2, c.y()));
     }
 
+    /**
+     * Processes particle movement.
+     *
+     * @param p
+     * @param map
+     * @param delta
+     */
     public void particleMove(Particle p, Map map, float delta) {
         if (!this.processPhysics) return;
         moveEntity(p, map, delta);
     }
 
+    /**
+     * Processes ingredient movement.
+     *
+     * @param i
+     * @param map
+     * @param delta
+     */
     public void ingredientMove(Ingredient i, Map map, float delta) {
         if (!this.processPhysics) return;
         moveEntity(i, map, delta);
         this.levelController.attemptIngredientAdd(i, map);
     }
 
+    /**
+     * Actually moves the entity. Calculates for screen looping and collisions.
+     *
+     * @param e
+     * @param map
+     * @param delta
+     */
     public void moveEntity(Entity e, Map map, float delta) {
         if (!this.processPhysics) return;
         if (e instanceof Ingredient) {
@@ -143,10 +190,18 @@ public class MovementController {
             e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE, e.y()));
         if (e.x() > this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE)
             e.moveTo(new Vector2(-Settings.TILE_SIZE / 2, e.y()));
+        this.processPlayerPlayerCollisions(map.playerOne(), map.playerTwo());
         this.processEntityFloorCollisions(e, map, delta);
         this.processEntityEntityCollisions(e, map, delta);
     }
 
+    /**
+     * Handles a collision in which an entity is on the floor.
+     *
+     * @param e
+     * @param map
+     * @param delta
+     */
     public void processEntityFloorCollisions(Entity e, Map map, float delta) {
         boolean didGround = false;
         for (Floor f : map.getFloors()) {
@@ -178,6 +233,13 @@ public class MovementController {
         if (!didGround) e.setGrounded(false);
     }
 
+    /**
+     * Handles a collision in which an entity runs into another non floor entity (only movable entities apply here).
+     *
+     * @param e
+     * @param map
+     * @param delta
+     */
     public void processEntityEntityCollisions(Entity e, Map map, float delta) {
         for (Entity ent : map.playersAndIngredients())
             if (e.getId() != ent.getId()) {
@@ -193,35 +255,25 @@ public class MovementController {
             }
     }
 
-    public void processPlayerPlayerCollisions(Player one, Player two) {
-        // TODO: refactor
-        Player p1, p2;
-        if (Math.abs(one.getVelocity()) > Math.abs(two.getVelocity())) {
-            p1 = one;
-            p2 = two;
-        } else if (Math.abs(two.getVelocity()) > Math.abs(one.getVelocity())) {
-            p1 = two;
-            p2 = one;
-        } else {
-            // if velos are equal, randomize. this needs refactor
-            // this does seem to create sort of unpredictable results.
-            if (com.patrick.game.util.Math.EITHER_OR(0, 1) == 1) {
-                p1 = one;
-                p2 = two;
-            } else {
-                p1 = two;
-                p2 = one;
-            }
-        }
+    /**
+     * Processes player to player collisions, specifically to handle physics between the players including
+     * 'bouncing' off of each other, forcing ingredient drops, etc.
+     *
+     * @param p1
+     * @param p2
+     */
+    public void processPlayerPlayerCollisions(Player p1, Player p2) {
         if (this.collisionController.checkPlayerHeadBounceCollision(p1, p2)) {
-            if (p1.y() >= p2.y()) {
+            if (p1.y() >= p2.y() || Math.abs(p1.getVelocity()) > Math.abs(p2.getVelocity())) {
                 p1.setHeightGain(Settings.PLAYER_JUMP_HEIGHT * .8f);
                 p1.setGrounded(false);
-                p2.setHeightGain(-Settings.PLAYER_FALL_MOD);
-            } else if (p1.y() < p2.y()) {
+                if (p2.y() > this.cameraController.getCamera().viewportHeight / 10)
+                    p2.setHeightGain(-Settings.PLAYER_FALL_MOD);
+            } else if (p1.y() < p2.y() | Math.abs(p2.getVelocity()) > Math.abs(p1.getVelocity())) {
                 p2.setHeightGain(Settings.PLAYER_JUMP_HEIGHT * .8f);
                 p2.setGrounded(false);
-                p1.setHeightGain(-Settings.PLAYER_FALL_MOD);
+                if (p1.y() > this.cameraController.getCamera().viewportHeight / 10)
+                    p1.setHeightGain(-Settings.PLAYER_FALL_MOD);
             }
             if (Math.abs(p1.getVelocity()) > Math.abs(p2.getVelocity())) {
                 this.levelController.removeIngredient(p2, p1);

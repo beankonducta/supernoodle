@@ -1,17 +1,13 @@
 package com.patrick.game.entities;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Direction;
-import com.patrick.game.util.Settings;
 
-public class Entity implements Comparable<Entity> {
+public class Entity {
 
     protected Direction dir, lastDir;
     protected Vector2 position;
@@ -192,13 +188,4 @@ public class Entity implements Comparable<Entity> {
         this.position = position;
     }
 
-    @Override
-    public int compareTo(Entity e) {
-        if (this.getId() == e.getId())
-            return 0;
-        else if (this.getId() > e.getId())
-            return 1;
-        else
-            return -1;
-    }
 }
