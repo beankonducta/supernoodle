@@ -44,8 +44,8 @@ public class SuperNoodle extends Game {
         Gdx.gl.glClearColor(1, 1, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.graphics.setVSync(true);
-//        Gdx.graphics.setWindowedMode(2048, 1248);
-        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+        Gdx.graphics.setWindowedMode(2048, 1248);
+//        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         Gdx.graphics.setTitle(String.format("SUPER NOODLE", Gdx.graphics.getFramesPerSecond()));
         super.render();
     }

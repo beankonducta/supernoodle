@@ -17,64 +17,85 @@ public class Resources {
      */
 
     // player
-    private static final TextureRegion[][] PLAYER_TEXTURE_RUN_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
-    private static final Animation<TextureRegion> PLAYER_RUN_ANIMATION = new Animation(1f, PLAYER_TEXTURE_RUN_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_RUN_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN_HOLD.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
-    private static final Animation<TextureRegion> PLAYER_RUN_HOLD_ANIMATION = new Animation(1f, PLAYER_TEXTURE_RUN_HOLD_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_JUMP_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
-    private static final Animation<TextureRegion> PLAYER_JUMP_ANIMATION = new Animation(1f, PLAYER_TEXTURE_JUMP_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_JUMP_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP_HOLD.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
-    private static final Animation<TextureRegion> PLAYER_JUMP_HOLD_ANIMATION = new Animation(1f, PLAYER_TEXTURE_JUMP_HOLD_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_FALL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
-    private static final Animation<TextureRegion> PLAYER_FALL_ANIMATION = new Animation(1f, PLAYER_TEXTURE_FALL_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_FALL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL_HOLD.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
-    private static final Animation<TextureRegion> PLAYER_FALL_HOLD_ANIMATION = new Animation(1f, PLAYER_TEXTURE_FALL_HOLD_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_STILL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
-    private static final Animation<TextureRegion> PLAYER_STILL_ANIMATION = new Animation(1f, PLAYER_TEXTURE_STILL_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_STILL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL_HOLD.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
-    private static final Animation<TextureRegion> PLAYER_STILL_HOLD_ANIMATION = new Animation(1f, PLAYER_TEXTURE_STILL_HOLD_REGION[0]);
-    private static final TextureRegion[][] PLAYER_TEXTURE_DANCE_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_DANCE.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
-    private static final Animation<TextureRegion> PLAYER_DANCE_ANIMATION = new Animation(1f, PLAYER_TEXTURE_DANCE_REGION[0]);
+    // one
+    private static final TextureRegion[][] PLAYER_ONE_TEXTURE_RUN_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN_1.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_ONE_RUN_ANIMATION = new Animation(1f, PLAYER_ONE_TEXTURE_RUN_REGION[0]);
+    private static final TextureRegion[][] PLAYER_ONE_TEXTURE_RUN_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN_HOLD_1.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_ONE_RUN_HOLD_ANIMATION = new Animation(1f, PLAYER_ONE_TEXTURE_RUN_HOLD_REGION[0]);
+    private static final TextureRegion[][] PLAYER_ONE_TEXTURE_JUMP_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP_1.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_ONE_JUMP_ANIMATION = new Animation(1f, PLAYER_ONE_TEXTURE_JUMP_REGION[0]);
+    private static final TextureRegion[][] PLAYER_ONE_TEXTURE_JUMP_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP_HOLD_1.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_ONE_JUMP_HOLD_ANIMATION = new Animation(1f, PLAYER_ONE_TEXTURE_JUMP_HOLD_REGION[0]);
+    private static final TextureRegion[][] PLAYER_ONE_TEXTURE_FALL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL_1.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_ONE_FALL_ANIMATION = new Animation(1f, PLAYER_ONE_TEXTURE_FALL_REGION[0]);
+    private static final TextureRegion[][] PLAYER_ONE_TEXTURE_FALL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL_HOLD_1.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_ONE_FALL_HOLD_ANIMATION = new Animation(1f, PLAYER_ONE_TEXTURE_FALL_HOLD_REGION[0]);
+    private static final TextureRegion[][] PLAYER_ONE_TEXTURE_STILL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL_1.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_ONE_STILL_ANIMATION = new Animation(1f, PLAYER_ONE_TEXTURE_STILL_REGION[0]);
+    private static final TextureRegion[][] PLAYER_ONE_TEXTURE_STILL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL_HOLD_1.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_ONE_STILL_HOLD_ANIMATION = new Animation(1f, PLAYER_ONE_TEXTURE_STILL_HOLD_REGION[0]);
+    private static final TextureRegion[][] PLAYER_ONE_TEXTURE_DANCE_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_DANCE_1.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_ONE_DANCE_ANIMATION = new Animation(1f, PLAYER_ONE_TEXTURE_DANCE_REGION[0]);
 
-    public static TextureRegion[][] GET_PLAYER_TEXTURE_REGION(String name, boolean hasIngredient) {
+    // two
+    private static final TextureRegion[][] PLAYER_TWO_TEXTURE_RUN_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN_2.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_TWO_RUN_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_RUN_REGION[0]);
+    private static final TextureRegion[][] PLAYER_TWO_TEXTURE_RUN_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_RUN_HOLD_2.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_TWO_RUN_HOLD_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_RUN_HOLD_REGION[0]);
+    private static final TextureRegion[][] PLAYER_TWO_TEXTURE_JUMP_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP_2.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_TWO_JUMP_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_JUMP_REGION[0]);
+    private static final TextureRegion[][] PLAYER_TWO_TEXTURE_JUMP_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_JUMP_HOLD_2.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_TWO_JUMP_HOLD_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_JUMP_HOLD_REGION[0]);
+    private static final TextureRegion[][] PLAYER_TWO_TEXTURE_FALL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL_2.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_TWO_FALL_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_FALL_REGION[0]);
+    private static final TextureRegion[][] PLAYER_TWO_TEXTURE_FALL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_FALL_HOLD_2.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_TWO_FALL_HOLD_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_FALL_HOLD_REGION[0]);
+    private static final TextureRegion[][] PLAYER_TWO_TEXTURE_STILL_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL_2.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_TWO_STILL_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_STILL_REGION[0]);
+    private static final TextureRegion[][] PLAYER_TWO_TEXTURE_STILL_HOLD_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_STILL_HOLD_2.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_TWO_STILL_HOLD_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_STILL_HOLD_REGION[0]);
+    private static final TextureRegion[][] PLAYER_TWO_TEXTURE_DANCE_REGION = Sprite.split(new Texture(Gdx.files.internal("PLAYER_DANCE_2.png")), Settings.TILE_SIZE * 2, Settings.TILE_SIZE * 2);
+    private static final Animation<TextureRegion> PLAYER_TWO_DANCE_ANIMATION = new Animation(1f, PLAYER_TWO_TEXTURE_DANCE_REGION[0]);
+
+    public static TextureRegion[][] GET_PLAYER_TEXTURE_REGION(String name, boolean hasIngredient, int id) {
         switch(name) {
             case "RUN":
-                if(hasIngredient) return PLAYER_TEXTURE_RUN_HOLD_REGION;
-                return PLAYER_TEXTURE_RUN_REGION;
+                if(hasIngredient) return id == 1 ? PLAYER_ONE_TEXTURE_RUN_HOLD_REGION : PLAYER_TWO_TEXTURE_RUN_HOLD_REGION;
+                return id == 1 ? PLAYER_ONE_TEXTURE_RUN_REGION : PLAYER_TWO_TEXTURE_RUN_REGION;
             case "JUMP":
-                if(hasIngredient) return PLAYER_TEXTURE_JUMP_HOLD_REGION;
-                return PLAYER_TEXTURE_JUMP_REGION;
+                if(hasIngredient) return id == 1 ? PLAYER_ONE_TEXTURE_JUMP_HOLD_REGION : PLAYER_TWO_TEXTURE_JUMP_HOLD_REGION;
+                return id == 1 ? PLAYER_ONE_TEXTURE_JUMP_REGION : PLAYER_TWO_TEXTURE_JUMP_REGION;
             case "FALL":
-                if(hasIngredient) return PLAYER_TEXTURE_FALL_HOLD_REGION;
-                return PLAYER_TEXTURE_FALL_REGION;
+                if(hasIngredient) return id == 1 ? PLAYER_ONE_TEXTURE_FALL_HOLD_REGION : PLAYER_TWO_TEXTURE_FALL_HOLD_REGION;
+                return id == 1 ? PLAYER_ONE_TEXTURE_FALL_REGION : PLAYER_TWO_TEXTURE_FALL_REGION;
             case "STILL":
-                if(hasIngredient)return PLAYER_TEXTURE_STILL_HOLD_REGION;
-                return PLAYER_TEXTURE_STILL_REGION;
+                if(hasIngredient)return id == 1 ? PLAYER_ONE_TEXTURE_STILL_HOLD_REGION : PLAYER_TWO_TEXTURE_STILL_HOLD_REGION;
+                return id == 1 ? PLAYER_ONE_TEXTURE_STILL_REGION : PLAYER_TWO_TEXTURE_STILL_REGION;
             case "DANCE":
-                return PLAYER_TEXTURE_DANCE_REGION;
+                return id == 1 ? PLAYER_ONE_TEXTURE_DANCE_REGION : PLAYER_TWO_TEXTURE_DANCE_REGION;
             default:
-                return PLAYER_TEXTURE_STILL_REGION;
+                return id == 1 ? PLAYER_ONE_TEXTURE_STILL_REGION : PLAYER_TWO_TEXTURE_STILL_REGION;
         }
     }
 
-    public static Animation<TextureRegion> GET_PLAYER_ANIMATION(String name, boolean hasIngredient) {
+    public static Animation<TextureRegion> GET_PLAYER_ANIMATION(String name, boolean hasIngredient, int id) {
         switch(name) {
             case "RUN":
-                if(hasIngredient) return PLAYER_RUN_HOLD_ANIMATION;
-                return PLAYER_RUN_ANIMATION;
+                if(hasIngredient) return id == 1 ? PLAYER_ONE_RUN_HOLD_ANIMATION : PLAYER_TWO_RUN_HOLD_ANIMATION;
+                return id == 1 ? PLAYER_ONE_RUN_ANIMATION : PLAYER_TWO_RUN_ANIMATION;
             case "JUMP":
-                if(hasIngredient) return PLAYER_JUMP_HOLD_ANIMATION;
-                return PLAYER_JUMP_ANIMATION;
+                if(hasIngredient) return id == 1 ? PLAYER_ONE_JUMP_HOLD_ANIMATION : PLAYER_TWO_JUMP_HOLD_ANIMATION;
+                return id == 1 ? PLAYER_ONE_JUMP_ANIMATION : PLAYER_TWO_JUMP_ANIMATION;
             case "FALL":
-                if(hasIngredient) return PLAYER_FALL_HOLD_ANIMATION;
-                return PLAYER_FALL_ANIMATION;
+                if(hasIngredient) return id == 1 ? PLAYER_ONE_FALL_HOLD_ANIMATION : PLAYER_TWO_FALL_HOLD_ANIMATION;
+                return id == 1 ? PLAYER_ONE_FALL_ANIMATION : PLAYER_TWO_FALL_ANIMATION;
             case "STILL":
-                if(hasIngredient)return PLAYER_STILL_HOLD_ANIMATION;
-                return PLAYER_STILL_ANIMATION;
+                if(hasIngredient) return id == 1 ? PLAYER_ONE_STILL_HOLD_ANIMATION : PLAYER_TWO_STILL_HOLD_ANIMATION;
+                return id == 1 ? PLAYER_ONE_STILL_ANIMATION : PLAYER_TWO_STILL_ANIMATION;
             case "DANCE":
-                return PLAYER_DANCE_ANIMATION;
+                return id == 1 ? PLAYER_ONE_DANCE_ANIMATION : PLAYER_TWO_DANCE_ANIMATION;
             default:
-                return PLAYER_STILL_ANIMATION;
+                return id == 1 ? PLAYER_ONE_STILL_ANIMATION : PLAYER_TWO_STILL_ANIMATION;
         }
     }
 

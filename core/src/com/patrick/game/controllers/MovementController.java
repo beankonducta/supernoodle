@@ -99,12 +99,7 @@ public class MovementController {
             }
             if (Gdx.input.isKeyJustPressed(KEYS[4])) {
                 if (p.getIngredient() != null) {
-                    p.getIngredient().setHeightGain(p.getHeightGain() * 1.2f);
-                    p.getIngredient().setVelocity(p.getVelocity() * 2f);
-                    p.getIngredient().move(new Vector2((p.getDir() == Direction.LEFT ? -10 : 10), 0));
-                    p.getIngredient().setHeld(false);
-                    p.setIngredient(null);
-                    p.update(delta);
+                    this.removeIngredient(p, null);
                 } else {
                     for (Ingredient i : map.getIngredients()) {
                         if (this.collisionController.checkIngredientPickupCollision(p, i))
@@ -125,6 +120,23 @@ public class MovementController {
         if (p.getIngredient() != null && (p.getVelocity() != 0))
             this.particleController.sweatParticlesAdd(map, p, 12);
         moveEntity(p, map, delta);
+    }
+
+    /**
+     * P1 is holding the ingredient, p2 is optional for player player collision calculations.
+     *
+     * @param p1
+     * @param p2
+     */
+    private void removeIngredient(Player p1, Player p2) {
+        if (p1.getIngredient() == null) return;
+        final float velocity = p2 == null ? p1.getVelocity() : p2.getVelocity();
+        final Direction direction = p2 == null ? p1.getDir() : p2.getDir();
+        p1.getIngredient().setHeightGain(p1.getHeightGain() * 1.2f);
+        p1.getIngredient().setVelocity(velocity * 2f);
+        p1.getIngredient().move(new Vector2((direction == Direction.LEFT ? -10 : 10), 0));
+        p1.getIngredient().setHeld(false);
+        p1.setIngredient(null);
     }
 
     private void updatePlayerRemoveAction(Player p, Map map) {
@@ -171,14 +183,24 @@ public class MovementController {
     }
 
     public void checkPlayerPlayerCollisions(Player one, Player two) {
-        // hacky to randomize the order collisions are checked, for some interesting randomness.
+        // TODO: refactor
         Player p1, p2;
-        if(com.patrick.game.util.Math.EITHER_OR(0, 1) == 1) {
+        if (Math.abs(one.getVelocity()) > Math.abs(two.getVelocity())) {
             p1 = one;
             p2 = two;
-        } else {
+        } else if (Math.abs(two.getVelocity()) > Math.abs(one.getVelocity())) {
             p1 = two;
             p2 = one;
+        } else {
+            // if velos are equal, randomize. this needs refactor
+            // this does seem to create sort of unpredictable results.
+            if (com.patrick.game.util.Math.EITHER_OR(0, 1) == 1) {
+                p1 = one;
+                p2 = two;
+            } else {
+                p1 = two;
+                p2 = one;
+            }
         }
         if (this.collisionController.checkPlayerHeadBounceCollision(p1, p2)) {
             if (p1.y() >= p2.y()) {
@@ -190,11 +212,10 @@ public class MovementController {
                 p2.setGrounded(false);
                 p1.setHeightGain(-Settings.PLAYER_FALL_MOD);
             }
-        }
-        if (this.collisionController.checkBasicCollision(p1, p2)) {
-            if((p1.getVelocity() < 0 && p2.getVelocity() > 0) || (p1.getVelocity() > 0 && p2.getVelocity() < 0)) {
-                p1.setVelocity(0);
-                p2.setVelocity(0);
+            if(Math.abs(p1.getVelocity()) > Math.abs(p2.getVelocity())) {
+                this.removeIngredient(p2, p1);
+            } else {
+                this.removeIngredient(p1, p2);
             }
         }
     }
