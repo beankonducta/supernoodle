@@ -5,6 +5,7 @@ import com.patrick.game.entities.Cloud;
 import com.patrick.game.entities.Ingredient;
 import com.patrick.game.entities.Player;
 import com.patrick.game.util.Direction;
+import com.patrick.game.util.Misc;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
@@ -109,7 +110,7 @@ public class TitleScreenController {
             this.playerTwoReady = playerTwoReady;
     }
 
-    public TitleScreenController(CameraController cameraController) {
+    public TitleScreenController(CameraController cameraController, int winningBowlId) {
         this.cameraController = cameraController;
         this.clouds = new ArrayList<>();
         this.cameraController.zoomIn(.5f);
@@ -122,6 +123,9 @@ public class TitleScreenController {
         this.ingredientTwo = new Ingredient(new Vector2(this.cameraController.getCamera().viewportWidth - 100, 25), 0, 0, 0, 4);
         this.logoDirection = -1;
         this.startTimer = 0;
+//        Misc.PLAYER_BOWL_MATCH_ID(both players, winningBowlId) {
+//            winningPlayer.addCrown (or whatever)
+//        }
         this.initPlayers();
         this.fillClouds();
     }

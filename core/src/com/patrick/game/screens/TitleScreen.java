@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
 import com.patrick.game.controllers.*;
 import com.patrick.game.entities.Cloud;
+import com.patrick.game.entities.Player;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
@@ -25,14 +26,14 @@ public class TitleScreen implements Screen {
 
     private float deltaCounter;
 
-    public TitleScreen(SuperNoodle game) {
+    public TitleScreen(SuperNoodle game, int winningBowlId) {
         this.game = game;
         this.cameraController = new CameraController();
         this.particleController = new ParticleController();
         this.collisionController = new CollisionController();
         this.levelController = new LevelController(this.collisionController, this.particleController, null);
         this.movementController = new MovementController(this.collisionController, this.cameraController, this.particleController, this.levelController);
-        this.titleScreenController = new TitleScreenController(this.cameraController);
+        this.titleScreenController = new TitleScreenController(this.cameraController, winningBowlId);
         this.musicController = new MusicController();
         this.deltaCounter = 0f;
     }

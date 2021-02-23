@@ -39,7 +39,7 @@ public class SuperNoodle extends Game {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
         font = new BitmapFont();
-        setScreen(new TitleScreen(this));
+        setScreen(new TitleScreen(this, 0));
     }
 
     @Override

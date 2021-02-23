@@ -103,7 +103,7 @@ public class GameScreen implements Screen {
                     if (this.winCutsceneTime >= Settings.DANCE_TIME) {
                         if (this.levelController.checkWin(b)) {
                             this.cameraController.resetCamera();
-                            this.game.setScreen(new WinScreen(this.game, this.winningBowl));
+                            this.game.setScreen(new TitleScreen(this.game, this.winningBowl));
                         }
                         this.map = this.mapLoader.loadMapToMap("MAP_0.png");
                         this.levelController.setMap(this.map);
