@@ -17,19 +17,16 @@ public class MovementController {
     private CollisionController collisionController;
     private CameraController cameraController;
     private ParticleController particleController;
+    private LevelController levelController;
 
     private boolean canMove;
     private boolean processPhysics;
 
-    private List<Entity> toRemove;
-    private List<Entity> toAdd;
-
-    public MovementController(CollisionController collisionController, CameraController cameraController, ParticleController particleController) {
+    public MovementController(CollisionController collisionController, CameraController cameraController, ParticleController particleController, LevelController levelController) {
         this.collisionController = collisionController;
         this.cameraController = cameraController;
         this.particleController = particleController;
-        this.toRemove = new ArrayList<>();
-        this.toAdd = new ArrayList<>();
+        this.levelController = levelController;
         this.start();
     }
 
@@ -47,17 +44,6 @@ public class MovementController {
         this.processPhysics = false;
     }
 
-    public void updateEntityList(Map map) {
-        for (Entity e : this.toRemove) {
-            map.getIngredients().remove(e);
-        }
-        this.toRemove = new ArrayList<>();
-        for (Entity e : this.toAdd) {
-            map.getIngredients().add((Ingredient) e);
-        }
-        this.toAdd = new ArrayList<>();
-    }
-
     public void playerMove(Player p, Map map, float delta) {
         if (this.canMove) {
             final int[] KEYS = p.getId() == 1 ? Settings.PLAYER_ONE_KEYS : Settings.PLAYER_TWO_KEYS;
@@ -70,7 +56,7 @@ public class MovementController {
                     for (Bowl b : map.getBowls()) {
                         for (Ingredient i : map.getIngredients()) {
                             b.addIngredient(i);
-                            this.toRemove.add(i);
+                            this.levelController.addToRemove(i);
                             if (b.getIngredientCount() == 5) return;
                         }
                     }
@@ -99,16 +85,16 @@ public class MovementController {
             }
             if (Gdx.input.isKeyJustPressed(KEYS[4])) {
                 if (p.getIngredient() != null) {
-                    this.removeIngredient(p, null);
+                    this.levelController.removeIngredient(p, null);
                 } else {
                     for (Ingredient i : map.getIngredients()) {
                         if (this.collisionController.checkIngredientPickupCollision(p, i))
-                            this.attemptPickup(p, i);
+                            this.levelController.attemptPickup(p, i);
                     }
                 }
             }
             if (Gdx.input.isKeyPressed(KEYS[4])) {
-                this.updatePlayerRemoveAction(p, map);
+                this.levelController.updatePlayerRemoveAction(p, map);
             }
             if (!Gdx.input.isKeyPressed(KEYS[4])) {
                 if (p.getActionTimer() > 0) {
@@ -120,47 +106,6 @@ public class MovementController {
         if (p.getIngredient() != null && (p.getVelocity() != 0))
             this.particleController.sweatParticlesAdd(map, p, 12);
         moveEntity(p, map, delta);
-    }
-
-    /**
-     * P1 is holding the ingredient, p2 is optional for player player collision calculations.
-     *
-     * @param p1
-     * @param p2
-     */
-    private void removeIngredient(Player p1, Player p2) {
-        if (p1.getIngredient() == null) return;
-        final float velocity = p2 == null ? p1.getVelocity() : p2.getVelocity();
-        final Direction direction = p2 == null ? p1.getDir() : p2.getDir();
-        p1.getIngredient().setHeightGain(p1.getHeightGain() * 1.2f);
-        p1.getIngredient().setVelocity(velocity * 2f);
-        if (p1.getGrounded() && p1.getHeightGain() == 0)
-            p1.getIngredient().move(new Vector2((direction == Direction.LEFT ? -10 : 10), 0));
-        p1.getIngredient().setHeld(false);
-        p1.setIngredient(null);
-    }
-
-    private void updatePlayerRemoveAction(Player p, Map map) {
-        for (Bowl b : map.getBowls()) {
-            if (this.collisionController.checkPlayerBowlCollision(p, b)) {
-                if (!Misc.PLAYER_BOWL_MATCH(p, b) && b.getIngredientCount() > 0) {
-                    if (p.getActionTimer() == 0)
-                        map.addEffect(new Effect((new Vector2(p.x() + (Settings.TILE_SIZE / 2), p.y() + p.height() + (Settings.TILE_SIZE * 1.5f))), Resources.TIMER_ANIMATION, Resources.TIMER_REGION, p.getId(), 90));
-                    p.incrementActionTimer();
-                    if (p.getActionTimer() >= 50) {
-                        this.attemptIngredientRemove(b);
-                        p.resetActionTimer();
-                    }
-                }
-            }
-        }
-    }
-
-    public void attemptPickup(Player p, Ingredient i) {
-        if (p.getIngredient() == null) {
-            i.setHeld(true);
-            p.setIngredient(i);
-        }
     }
 
     public void cloudMove(Cloud c, float delta) {
@@ -180,10 +125,75 @@ public class MovementController {
     public void ingredientMove(Ingredient i, Map map, float delta) {
         if (!this.processPhysics) return;
         moveEntity(i, map, delta);
-        this.attemptIngredientAdd(i, map);
+        this.levelController.attemptIngredientAdd(i, map);
     }
 
-    public void checkPlayerPlayerCollisions(Player one, Player two) {
+    public void moveEntity(Entity e, Map map, float delta) {
+        if (!this.processPhysics) return;
+        if (e instanceof Ingredient) {
+            Ingredient i = (Ingredient) e;
+            // no need to calculate collisions if e is a held ingredient
+            if (i.isHeld()) return;
+        }
+        e.move(new Vector2((e.getVelocity() * delta * (e.getGrounded() ? 1 : .5f)), ((e.getHeightGain() - e.getWeight()) * delta)));
+        if (e instanceof Particle) {
+            return;
+        }
+        if (e.x() < -Settings.TILE_SIZE / 2)
+            e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE, e.y()));
+        if (e.x() > this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE)
+            e.moveTo(new Vector2(-Settings.TILE_SIZE / 2, e.y()));
+        this.processEntityFloorCollisions(e, map, delta);
+        this.processEntityEntityCollisions(e, map, delta);
+    }
+
+    public void processEntityFloorCollisions(Entity e, Map map, float delta) {
+        boolean didGround = false;
+        for (Floor f : map.getFloors()) {
+            if (this.collisionController.checkBasicFloorCollision(e, f, this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE)) {
+                if (e instanceof Ingredient) {
+                    Ingredient i = (Ingredient) e;
+                    if (i.getHeightGain() == 0 && i.getGrounded() && i.wasHeld()) {
+                        i.setWasHeld(false);
+                        e.setVelocity(e.getVelocity() * .5f);
+                    }
+                }
+                final Vector2 offset = this.collisionController.calculateFloorCollisionOffset(e, f);
+                e.move(new Vector2(0, offset.y));
+                if (offset.x != 0) {
+                    e.setVelocity(-e.getVelocity() * .95f);
+                }
+                if (offset.y > 0) {
+                    if (!e.getGrounded()) {
+                        this.particleController.randomMoveParticlesAdd(map, e, 12);
+                    }
+                    e.setGrounded(true);
+                    didGround = true;
+                }
+                if (offset.y < 0) {
+                    e.setHeightGain(e.getHeightGain() / 2);
+                }
+            }
+        }
+        if (!didGround) e.setGrounded(false);
+    }
+
+    public void processEntityEntityCollisions(Entity e, Map map, float delta) {
+        for (Entity ent : map.playersAndIngredients())
+            if (e.getId() != ent.getId()) {
+                if (this.collisionController.checkBasicCollision(e, ent)) {
+                    if (Math.abs(e.getVelocity()) > Math.abs(ent.getVelocity())) {
+                        ent.move(new Vector2(e.getVelocity() * delta / 3, 0));
+                        ent.setVelocity(e.getVelocity());
+                    } else if (Math.abs(ent.getVelocity()) > Math.abs(e.getVelocity())) {
+                        e.move(new Vector2(ent.getVelocity() * delta / 3, 0));
+                        e.setVelocity(ent.getVelocity());
+                    }
+                }
+            }
+    }
+
+    public void processPlayerPlayerCollisions(Player one, Player two) {
         // TODO: refactor
         Player p1, p2;
         if (Math.abs(one.getVelocity()) > Math.abs(two.getVelocity())) {
@@ -214,88 +224,10 @@ public class MovementController {
                 p1.setHeightGain(-Settings.PLAYER_FALL_MOD);
             }
             if (Math.abs(p1.getVelocity()) > Math.abs(p2.getVelocity())) {
-                this.removeIngredient(p2, p1);
+                this.levelController.removeIngredient(p2, p1);
             } else {
-                this.removeIngredient(p1, p2);
+                this.levelController.removeIngredient(p1, p2);
             }
-        }
-    }
-
-    public void moveEntity(Entity e, Map map, float delta) {
-        if (!this.processPhysics) return;
-        boolean didGround = false;
-        if (e instanceof Ingredient) {
-            Ingredient i = (Ingredient) e;
-            // no need to calculate collisions if e is a held ingredient
-            if (i.isHeld()) return;
-        }
-        e.move(new Vector2((e.getVelocity() * delta * (e.getGrounded() ? 1 : .5f)), ((e.getHeightGain() - e.getWeight()) * delta)));
-        if (e instanceof Particle) {
-            return;
-        }
-        if (e.x() < -Settings.TILE_SIZE / 2)
-            e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE, e.y()));
-        if (e.x() > this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE)
-            e.moveTo(new Vector2(-Settings.TILE_SIZE / 2, e.y()));
-        for (Floor f : map.getFloors()) {
-            if (this.collisionController.checkBasicFloorCollision(e, f, this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE)) {
-                if (e instanceof Ingredient) {
-                    Ingredient i = (Ingredient) e;
-                    if (i.getHeightGain() == 0 && i.getGrounded() && i.wasHeld()) {
-                        i.setWasHeld(false);
-                        e.setVelocity(e.getVelocity() * .5f);
-                    }
-                }
-                Vector2 offset = this.collisionController.calculateFloorCollisionOffset(e, f);
-                e.move(new Vector2(0, offset.y));
-                if (offset.x != 0) {
-                    e.setVelocity(-e.getVelocity() * .95f);
-                }
-                if (offset.y > 0) {
-                    if (!e.getGrounded()) {
-                        this.particleController.randomMoveParticlesAdd(map, e, 12);
-                    }
-                    e.setGrounded(true);
-                    didGround = true;
-                }
-                if (offset.y < 0) {
-                    e.setHeightGain(e.getHeightGain() / 2);
-                }
-            }
-        }
-        if (!didGround) e.setGrounded(false);
-        for (Entity ent : map.playersAndIngredients())
-            if (e.getId() != ent.getId()) {
-                if (this.collisionController.checkBasicCollision(e, ent)) {
-                    if (Math.abs(e.getVelocity()) > Math.abs(ent.getVelocity())) {
-                        ent.move(new Vector2(e.getVelocity() * delta / 3, 0));
-                        ent.setVelocity(e.getVelocity());
-                    } else if (Math.abs(ent.getVelocity()) > Math.abs(e.getVelocity())) {
-                        e.move(new Vector2(ent.getVelocity() * delta / 3, 0));
-                        e.setVelocity(ent.getVelocity());
-                    }
-                }
-            }
-    }
-
-    private void attemptIngredientAdd(Ingredient i, Map map) {
-        if (i.isHeld()) return;
-        for (Bowl b : map.getBowls()) {
-            if (this.collisionController.checkBasicCollision(i, b)) {
-                b.addIngredient(i);
-                this.particleController.bowlParticlesAdd(map, b, 100);
-                this.toRemove.add(i);
-            }
-        }
-    }
-
-    private void attemptIngredientRemove(Bowl b) {
-        Entity e = b.removeLastIngredient();
-        if (e != null) {
-            e.moveTo(new Vector2(e.x(), e.y() + Settings.TILE_SIZE * 2));
-            e.setHeightGain(com.patrick.game.util.Math.RANDOM_BETWEEN((int) (Settings.PLAYER_JUMP_HEIGHT / 4), (int) (Settings.PLAYER_JUMP_HEIGHT)));
-            e.setVelocity(com.patrick.game.util.Math.RANDOM_POS_NEG(com.patrick.game.util.Math.RANDOM_BETWEEN((int) (Settings.INGREDIENT_SPEED), (int) (Settings.INGREDIENT_SPEED * 2))));
-            this.toAdd.add(e);
         }
     }
 }

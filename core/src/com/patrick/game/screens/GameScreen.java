@@ -10,7 +10,6 @@ import com.patrick.game.SuperNoodle;
 import com.patrick.game.controllers.*;
 import com.patrick.game.entities.*;
 import com.patrick.game.util.*;
-import com.patrick.game.util.Math;
 
 public class GameScreen implements Screen {
 
@@ -41,8 +40,8 @@ public class GameScreen implements Screen {
         this.particleController = new ParticleController();
         this.collisionController = new CollisionController();
         this.cameraController = new CameraController();
-        this.movementController = new MovementController(collisionController, cameraController, particleController);
-        this.levelController = new LevelController(collisionController, map);
+        this.levelController = new LevelController(collisionController, particleController, map);
+        this.movementController = new MovementController(collisionController, cameraController, particleController, levelController);
         this.winCutscene = false;
         this.winningBowl = -1;
         this.winCutsceneTime = 0f;
@@ -72,7 +71,7 @@ public class GameScreen implements Screen {
         this.uiBatch.begin();
         this.uiBatch.setProjectionMatrix(this.cameraController.getUiCamera().combined);
         if (Settings.SHOW_FPS)
-            this.game.font.draw(this.uiBatch, Gdx.graphics.getFramesPerSecond() + "", 500, 500);
+            this.game.font.draw(this.uiBatch, Gdx.graphics.getFramesPerSecond() + "", 20, 20);
         this.uiBatch.draw(Resources.LOGO, this.cameraController.getUiCamera().viewportWidth / 2 - 112, this.cameraController.getUiCamera().viewportHeight - 140);
         for (Player p : this.map.getPlayers()) {
             this.movementController.playerMove(p, this.map, delta);
@@ -123,9 +122,8 @@ public class GameScreen implements Screen {
         for (Particle p : this.map.getParticles()) {
             this.movementController.particleMove(p, this.map, delta);
         }
-        this.movementController.checkPlayerPlayerCollisions(this.map.playerOne(), this.map.playerTwo());
+        this.movementController.processPlayerPlayerCollisions(this.map.playerOne(), this.map.playerTwo());
         this.uiBatch.end();
-        this.movementController.updateEntityList(this.map);
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         if (Settings.DEBUG_COLLISION)
             this.game.shapeRenderer.circle(this.cameraController.getCamera().position.x, this.cameraController.getCamera().position.y, 5);

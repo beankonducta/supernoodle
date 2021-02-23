@@ -12,7 +12,6 @@ import com.patrick.game.util.Settings;
 public class CollisionController {
 
     public CollisionController() {
-
     }
 
     public boolean checkBasicCollision(Entity e1, Entity e2) {

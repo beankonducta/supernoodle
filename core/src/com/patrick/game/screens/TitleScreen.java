@@ -20,6 +20,7 @@ public class TitleScreen implements Screen {
     private ParticleController particleController;
     private CollisionController collisionController;
     private TitleScreenController titleScreenController;
+    private LevelController levelController;
     private MusicController musicController;
 
     private float deltaCounter;
@@ -29,7 +30,8 @@ public class TitleScreen implements Screen {
         this.cameraController = new CameraController();
         this.particleController = new ParticleController();
         this.collisionController = new CollisionController();
-        this.movementController = new MovementController(this.collisionController, this.cameraController, this.particleController);
+        this.levelController = new LevelController(this.collisionController, this.particleController, null);
+        this.movementController = new MovementController(this.collisionController, this.cameraController, this.particleController, this.levelController);
         this.titleScreenController = new TitleScreenController(this.cameraController);
         this.musicController = new MusicController();
         this.deltaCounter = 0f;
