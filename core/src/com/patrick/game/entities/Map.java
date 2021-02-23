@@ -105,6 +105,12 @@ public class Map {
         return null;
     }
 
+    /**
+     * Finds an effect in our list, if it exists, by a a parent entities id.
+     *
+     * @param e
+     * @return
+     */
     public Effect findEffectByParent(Entity e) {
         for (Effect f : this.effects) {
             if (f.getParentId() == e.getId()) return f;
@@ -122,6 +128,11 @@ public class Map {
         this.particles = new ArrayList<>();
     }
 
+    /**
+     * Returns all entities.
+     *
+     * @return
+     */
     public List<Entity> entities() {
         List<Entity> e = new ArrayList<>();
         e.addAll(this.floors);
@@ -134,6 +145,11 @@ public class Map {
         return e;
     }
 
+    /**
+     * Returns all entities, without clouds.
+     *
+     * @return
+     */
     public List<Entity> entitiesWithoutClouds() {
         List<Entity> e = new ArrayList<>();
         e.addAll(this.floors);
@@ -145,6 +161,11 @@ public class Map {
         return e;
     }
 
+    /**
+     * Returns just our players an ingredients.
+     *
+     * @return
+     */
     public List<Entity> playersAndIngredients() {
         List<Entity> e = new ArrayList<>();
         e.addAll(this.ingredients);

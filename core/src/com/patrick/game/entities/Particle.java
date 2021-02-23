@@ -40,15 +40,30 @@ public class Particle extends StaticEntity {
         this.debugColor = Color.ORANGE;
     }
 
+    /**
+     * Update the particle, lower time to live so the particle can go away eventually.
+     *
+     * @param delta
+     */
     public void update(float delta) {
         super.update(delta);
         this.timeToLive--;
     }
 
+    /**
+     * Draw the particle.
+     *
+     * @param batch
+     */
     public void draw(Batch batch) {
         super.draw(batch);
     }
 
+    /**
+     * Move the particle by provided position.
+     *
+     * @param position
+     */
     public void move(Vector2 position) {
         super.move(position);
     }

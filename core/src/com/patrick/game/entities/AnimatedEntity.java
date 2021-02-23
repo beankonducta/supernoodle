@@ -8,6 +8,11 @@ import com.patrick.game.util.Direction;
 
 public class AnimatedEntity extends Entity {
 
+    /**
+     * Animated Entities have animations rather than static graphics.
+     *
+     */
+
     private final float animOffsetMax = 2f;
     protected TextureRegion[][] textureRegions;
     protected Animation<TextureRegion> animation;
@@ -43,6 +48,11 @@ public class AnimatedEntity extends Entity {
         this.animOffset = 0;
     }
 
+    /**
+     * Updates the entity. An animated entities animations are handled here, looping through the frames as the animation progresses.
+     *
+     * @param delta
+     */
     public void update(float delta) {
         super.update(delta);
         if (this.playAnimation || this.forcePlayAnimation) {
@@ -55,6 +65,11 @@ public class AnimatedEntity extends Entity {
         }
     }
 
+    /**
+     * Draws the current animation frame.
+     *
+     * @param batch
+     */
     public void draw(Batch batch) {
         super.draw(batch);
         if (this.animation == null) return;
@@ -64,22 +79,42 @@ public class AnimatedEntity extends Entity {
         batch.draw(t, this.x(), this.y());
     }
 
+    /**
+     * Sprites only face left or right, there's not a direction for up, so this calculates which direction a sprite
+     * should be facing in an instance that the entity has moved 'up' after moving left or right.
+     *
+     * @param dir
+     * @return
+     */
     private boolean validDir(Direction dir) {
         return this.dir == dir || (this.dir == Direction.UP && this.lastDir == dir);
     }
 
+    /**
+     * Move the entity and in this case, trigger the animation to play.
+     *
+     * @param position
+     */
     public void move(Vector2 position) {
         if (Math.abs(this.velocity) > 0 || Math.abs(this.heightGain) > 0)
-            this.playAnimation = true;
+            this.start();
         else
-            this.playAnimation = false;
+            this.stop();
         super.move(position);
     }
 
+    /**
+     * Plays our animation.
+     *
+     */
     public void start() {
         this.playAnimation = true;
     }
 
+    /**
+     * Stop our animation.
+     *
+     */
     public void stop() {
         this.playAnimation = false;
     }

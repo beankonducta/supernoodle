@@ -119,6 +119,8 @@ public class Resources {
         return FLOOR_REGION[0][index];
     }
 
+    public static final int FLOOR_TEXTURES_LENGTH = FLOOR_REGION[0].length - 1;
+
     // bowls
     private static final TextureRegion[][] BOWLS_REGION = Sprite.split(new Texture(Gdx.files.internal("BOWLS.png")), Settings.TILE_SIZE, Settings.TILE_SIZE);
 
@@ -134,6 +136,8 @@ public class Resources {
         if (index >= CLOUDS_REGION[0].length) return null;
         return CLOUDS_REGION[0][index];
     }
+
+    public static final int CLOUD_TEXTURES_LENGTH = CLOUDS_REGION[0].length - 1;
 
     // background
     public static final Texture MOUNTAINS = new Texture(Gdx.files.internal("MOUNTAINS.png"));

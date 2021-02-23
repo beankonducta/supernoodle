@@ -9,8 +9,12 @@ import com.patrick.game.util.Settings;
 
 public class Floor extends StaticEntity {
 
+    /**
+     * Update the texture to a random texture in the sheet.
+     *
+     */
     public void updateTexture() {
-        this.texture = Resources.FLOOR(Math.RANDOM_BETWEEN(0, 2)); // 2 should be actual length of the floor texture region
+        this.texture = Resources.FLOOR(Math.RANDOM_BETWEEN(0, Resources.FLOOR_TEXTURES_LENGTH));
     }
 
     public Floor(Vector2 position) {

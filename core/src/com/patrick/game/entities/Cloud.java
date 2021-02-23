@@ -1,8 +1,6 @@
 package com.patrick.game.entities;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Math;
@@ -11,9 +9,12 @@ import com.patrick.game.util.Settings;
 
 public class Cloud extends StaticEntity {
 
-
+    /**
+     * Sets our texture to a random texture from the sheet.
+     *
+     */
     public void updateTexture() {
-        this.texture = Resources.CLOUD(Math.RANDOM_BETWEEN(0, 3)); // 3 should actually be the length of the texture region
+        this.texture = Resources.CLOUD(Math.RANDOM_BETWEEN(0, Resources.CLOUD_TEXTURES_LENGTH));
     }
 
     public Cloud(Vector2 position, float speed, int id) {
@@ -23,6 +24,11 @@ public class Cloud extends StaticEntity {
         this.id = id;
     }
 
+    /**
+     * Draws the texture.
+     *
+     * @param batch
+     */
     public void draw(Batch batch) {
         super.draw(batch);
         if (this.texture == null) return;

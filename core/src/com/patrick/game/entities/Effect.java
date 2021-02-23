@@ -37,11 +37,21 @@ public class Effect extends AnimatedEntity {
         this.start();
     }
 
+    /**
+     * Update the effects animation, set done if we're on the last frame.
+     *
+     * @param delta
+     */
     public void update(float delta) {
         if(this.animFrame >= this.animation.getKeyFrames().length - 1) this.done = true;
         super.update(delta);
     }
 
+    /**
+     * Move the effect.
+     *
+     * @param position
+     */
     public void move(Vector2 position) {
         super.move(position);
     }

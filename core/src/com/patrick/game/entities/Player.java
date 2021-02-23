@@ -31,6 +31,13 @@ public class Player extends AnimatedEntity {
             this.ingredient.setHeightGain(heightGain * .75f);
     }
 
+    /**
+     * Change the animation based on provided anim string. Force changes the anim no matter what, whereas normally
+     * it would only change if it's not currently on that provided anim.
+     *
+     * @param anim
+     * @param force
+     */
     public void changeAnimation(String anim, boolean force) {
         if(this.currentAnim != anim || force) {
             this.textureRegions = Resources.GET_PLAYER_TEXTURE_REGION(anim, this.getIngredient() != null, this.id);
@@ -49,7 +56,13 @@ public class Player extends AnimatedEntity {
         this.changeAnimation("STILL", false);
         this.animSpeed = 30;
     }
- 
+
+    /**
+     * Updates the players colliders, physics and movement variables. Changes the animation based on current speed and
+     * state.
+     *
+     * @param delta
+     */
     public void update(float delta) {
         super.update(delta);
         // lessens player jump height when they have ingredient
@@ -67,6 +80,11 @@ public class Player extends AnimatedEntity {
             this.bounceCollider.setPosition(this.x() + (Settings.TILE_SIZE / 2), this.y());
     }
 
+    /**
+     * Moves the player, and carries the ingredient (if held) along with it.
+     * 
+     * @param position
+     */
     public void move(Vector2 position) {
         // adjusts move speed depending if player has ingredient or not
         super.move(this.ingredient == null ? position : new Vector2(position.x / 2, position.y));

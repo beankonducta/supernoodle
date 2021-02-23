@@ -73,56 +73,74 @@ public class GameScreen implements Screen {
         if (Settings.SHOW_FPS)
             this.game.font.draw(this.uiBatch, Gdx.graphics.getFramesPerSecond() + "", 20, 20);
         this.uiBatch.draw(Resources.LOGO, this.cameraController.getUiCamera().viewportWidth / 2 - 112, this.cameraController.getUiCamera().viewportHeight - 140);
+        for (Bowl b : this.map.getBowls()) {
+            this.drawUi(b);
+            this.processWins(b, delta);
+        }
+        this.moveEntities(delta);
+        this.uiBatch.end();
+        this.renderDebug();
+    }
+
+    private void drawUi(Bowl b) {
+        if (b.getId() == -3) {
+            this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0, this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
+        } else {
+            this.uiBatch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getUiCamera().viewportWidth - Resources.PLAQUE_WIDTH, this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
+        }
+    }
+
+    private void processWins(Bowl b, float delta) {
+        if (this.levelController.checkFull(b) || this.winCutscene) {
+            if (this.winningBowl == b.getId() || this.winningBowl == -1) {
+                this.movementController.stop();
+                if (this.winCutsceneTime == 0)
+                    this.levelController.increaseFillCount(b);
+                this.winCutscene = true;
+                this.winCutsceneTime += delta;
+                this.winningBowl = b.getId();
+                if (this.winCutsceneTime >= Settings.DANCE_TIME) {
+                    if (this.levelController.checkWin(b)) {
+                        this.cameraController.resetCamera();
+                        this.game.setScreen(new TitleScreen(this.game, this.winningBowl));
+                    }
+                    this.map = this.mapLoader.loadMapToMap("MAP_0.png");
+                    this.levelController.setMap(this.map);
+                    this.cameraController.resetCamera();
+                    this.winCutscene = false;
+                    this.winCutsceneTime = 0f;
+                    this.winningBowl = -1;
+                    this.movementController.start();
+                }
+            }
+        }
+    }
+
+    private void moveEntities(float delta) {
         for (Player p : this.map.getPlayers()) {
             this.movementController.playerMove(p, this.map, delta);
-            if (this.winCutscene) {
-                if (Misc.PLAYER_BOWL_MATCH_ID(p.getId(), this.winningBowl)) {
-                    this.cameraController.moveCameraTowards(p, 225f, delta);
-                    p.changeAnimation("DANCE", true);
-                    p.setForcePlayAnimation(true);
-                    this.particleController.randomWinParticlesAdd(this.map, p, 10);
-                }
-            } else if (p.getForcePlayAnimation()) p.setForcePlayAnimation(false);
+            this.processPlayerWins(p, delta);
         }
         for (Ingredient i : this.map.getIngredients())
             this.movementController.ingredientMove(i, this.map, delta);
-        for (Bowl b : this.map.getBowls()) {
-            if (b.getId() == -3) {
-                this.uiBatch.draw(Resources.PLAQUE(1, this.levelController.getFillCount(b.getId())), 0, this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
-            } else {
-                this.uiBatch.draw(Resources.PLAQUE(2, this.levelController.getFillCount(b.getId())), this.cameraController.getUiCamera().viewportWidth - Resources.PLAQUE_WIDTH, this.cameraController.getUiCamera().viewportHeight - Resources.PLAQUE_HEIGHT);
-            }
-            if (this.levelController.checkFull(b) || this.winCutscene) {
-                if (this.winningBowl == b.getId() || this.winningBowl == -1) {
-                    this.movementController.stop();
-                    if (this.winCutsceneTime == 0)
-                        this.levelController.increaseFillCount(b);
-                    this.winCutscene = true;
-                    this.winCutsceneTime += delta;
-                    this.winningBowl = b.getId();
-                    if (this.winCutsceneTime >= Settings.DANCE_TIME) {
-                        if (this.levelController.checkWin(b)) {
-                            this.cameraController.resetCamera();
-                            this.game.setScreen(new TitleScreen(this.game, this.winningBowl));
-                        }
-                        this.map = this.mapLoader.loadMapToMap("MAP_0.png");
-                        this.levelController.setMap(this.map);
-                        this.cameraController.resetCamera();
-                        this.winCutscene = false;
-                        this.winCutsceneTime = 0f;
-                        this.winningBowl = -1;
-                        this.movementController.start();
-                    }
-                }
-            }
-        }
-        for (Cloud c : this.map.getClouds()) {
+        for (Cloud c : this.map.getClouds())
             this.movementController.cloudMove(c, delta);
-        }
-        for (Particle p : this.map.getParticles()) {
+        for (Particle p : this.map.getParticles())
             this.movementController.particleMove(p, this.map, delta);
-        }
-        this.uiBatch.end();
+    }
+
+    private void processPlayerWins(Player p, float delta) {
+        if (this.winCutscene) {
+            if (Misc.PLAYER_BOWL_MATCH_ID(p.getId(), this.winningBowl)) {
+                this.cameraController.moveCameraTowards(p, 225f, delta);
+                p.changeAnimation("DANCE", true);
+                p.setForcePlayAnimation(true);
+                this.particleController.randomWinParticlesAdd(this.map, p, 10);
+            }
+        } else if (p.getForcePlayAnimation()) p.setForcePlayAnimation(false);
+    }
+
+    private void renderDebug() {
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         if (Settings.DEBUG_COLLISION)
             this.game.shapeRenderer.circle(this.cameraController.getCamera().position.x, this.cameraController.getCamera().position.y, 5);

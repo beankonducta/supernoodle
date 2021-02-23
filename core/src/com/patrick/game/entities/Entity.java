@@ -164,6 +164,11 @@ public class Entity {
         this.heightGain = 0;
     }
 
+    /**
+     * Update the entity (process physics and movement mostly).
+     *
+     * @param delta
+     */
     public void update(float delta) {
         if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
         if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
@@ -180,10 +185,20 @@ public class Entity {
     public void draw(Batch batch) {
     }
 
+    /**
+     * Moves the entity by the provided position amount.
+     *
+     * @param position
+     */
     public void move(Vector2 position) {
         this.position = this.position.add(position);
     }
 
+    /**
+     * Moves the entity TO the provided position.
+     *
+     * @param position
+     */
     public void moveTo(Vector2 position) {
         this.position = position;
     }

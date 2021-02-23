@@ -34,8 +34,12 @@ public class Ingredient extends StaticEntity {
         return this.pickupCollider;
     }
 
+    /**
+     * Updates texture based on id (minus 3, because we start our ingredient id at 3)
+     *
+     */
     public void updateTexture() {
-        this.texture = Resources.INGREDIENT(this.id - 3); // - 3 because we start ingredient id at 3.
+        this.texture = Resources.INGREDIENT(this.id - 3);
     }
 
     public Ingredient(Vector2 position, float speed, float weight, float decelSpeed, int id) {
@@ -48,6 +52,11 @@ public class Ingredient extends StaticEntity {
         this.updateTexture();
     }
 
+    /**
+     * Update the ingredient. Move colliders to match position.
+     *
+     * @param delta
+     */
     public void update(float delta) {
         super.update(delta);
         if (this.pickupCollider != null)
@@ -58,10 +67,20 @@ public class Ingredient extends StaticEntity {
             this.floorCollider.setPosition(new Vector2(this.x() - (Settings.TILE_SIZE / 2), this.y()));
     }
 
+    /**
+     * Draw the ingredient.
+     *
+     * @param batch
+     */
     public void draw(Batch batch) {
         super.draw(batch);
     }
 
+    /**
+     * Move the ingredient by provided position.
+     *
+     * @param position
+     */
     public void move(Vector2 position) {
         super.move(position);
     }
