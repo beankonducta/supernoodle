@@ -10,6 +10,8 @@ import com.patrick.game.util.Math;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
+import java.util.List;
+
 public class ParticleController {
 
     public ParticleController() {
@@ -23,6 +25,7 @@ public class ParticleController {
      * @param max
      */
     public void randomMoveParticlesAdd(Map map, Entity e, int max) {
+        if(e == null) return;
         for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 3, max); i++)
             map.addParticle(new Particle(
                     Resources.GRASS_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.GRASS_ANIM_REGION[0].length - 1)],
@@ -39,8 +42,29 @@ public class ParticleController {
      * @param max
      */
     public void randomWinParticlesAdd(Map map, Entity e, int max) {
+        if(e == null) return;
         for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 3, max); i++)
             map.addParticle(new Particle(
+                    Resources.RAIN_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.RAIN_ANIM_REGION[0].length - 1)],
+                    new Vector2(e.x() + (Settings.TILE_SIZE / 2) + 8, e.y() + e.height() + 16),
+                    Math.FLOAT_RANDOM_BETWEEN(Settings.DEFAULT_PARTICLE_WEIGHT / 10, Settings.DEFAULT_PARTICLE_WEIGHT),
+                    Math.FLOAT_RANDOM_BETWEEN(Settings.PLAYER_DECEL_SPEED / 10, Settings.PLAYER_DECEL_SPEED),
+                    Math.RANDOM_BETWEEN(-700, 700),
+                    Math.RANDOM_BETWEEN(0, 700), 30));
+    }
+
+
+    /**
+     * Adds randomized win particles. Just some fun visualization over the winning player.
+     *
+     * @param particles
+     * @param e
+     * @param max
+     */
+    public void titleWinParticlesAdd(List<Particle> particles, Entity e, int max) {
+        if(e == null) return;
+        for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 3, max); i++)
+            particles.add(new Particle(
                     Resources.RAIN_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.RAIN_ANIM_REGION[0].length - 1)],
                     new Vector2(e.x() + (Settings.TILE_SIZE / 2) + 8, e.y() + e.height() + 16),
                     Math.FLOAT_RANDOM_BETWEEN(Settings.DEFAULT_PARTICLE_WEIGHT / 10, Settings.DEFAULT_PARTICLE_WEIGHT),
@@ -57,6 +81,7 @@ public class ParticleController {
      * @param max
      */
     public void bowlParticlesAdd(Map map, Entity e, int max) {
+        if(e == null) return;
         for (int i = 0; i < com.patrick.game.util.Math.RANDOM_BETWEEN(max / 2, max); i++)
             map.addParticle(new Particle(
                     Resources.BOWL_ANIM_REGION[0][com.patrick.game.util.Math.RANDOM_BETWEEN(0, Resources.BOWL_ANIM_REGION[0].length - 1)],
@@ -73,6 +98,7 @@ public class ParticleController {
      * @param max
      */
     public void sweatParticlesAdd(Map map, Entity e, int max) {
+        if(e == null) return;
         int random = com.patrick.game.util.Math.RANDOM_BETWEEN(0, max);
         if (random == max)
             map.addParticle(new Particle(

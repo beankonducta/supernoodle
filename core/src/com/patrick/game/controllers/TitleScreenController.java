@@ -1,9 +1,7 @@
 package com.patrick.game.controllers;
 
 import com.badlogic.gdx.math.Vector2;
-import com.patrick.game.entities.Cloud;
-import com.patrick.game.entities.Ingredient;
-import com.patrick.game.entities.Player;
+import com.patrick.game.entities.*;
 import com.patrick.game.util.Direction;
 import com.patrick.game.util.Misc;
 import com.patrick.game.util.Resources;
@@ -16,6 +14,7 @@ import java.lang.Math;
 public class TitleScreenController {
 
     private CameraController cameraController;
+    private ParticleController particleController;
 
     private Player playerOne;
     private Player playerTwo;
@@ -24,6 +23,7 @@ public class TitleScreenController {
     private Ingredient ingredientTwo;
 
     private List<Cloud> clouds;
+    private List<Particle> particles;
 
     private Vector2 logoPosition;
     private Vector2 playerOnePosition;
@@ -37,6 +37,8 @@ public class TitleScreenController {
     private float logoDirection;
 
     private int startTimer;
+
+    private int winningBowlId;
 
     public int getStartTimer() {
         return this.startTimer;
@@ -74,6 +76,8 @@ public class TitleScreenController {
         return this.clouds;
     }
 
+    public List<Particle> getParticles() { return this.particles; }
+
     public Vector2 getPlayerOneStartPlaquePosition() {
         return this.playerOneStartPlaquePosition;
     }
@@ -110,9 +114,11 @@ public class TitleScreenController {
             this.playerTwoReady = playerTwoReady;
     }
 
-    public TitleScreenController(CameraController cameraController, int winningBowlId) {
+    public TitleScreenController(CameraController cameraController, ParticleController particleController, int winningBowlId) {
         this.cameraController = cameraController;
+        this.particleController = particleController;
         this.clouds = new ArrayList<>();
+        this.particles = new ArrayList<>();
         this.cameraController.zoomIn(.5f);
         this.playerTwoStartPlaquePosition = new Vector2(cameraController.getCamera().viewportWidth / 2 + 128, cameraController.getCamera().viewportHeight);
         this.playerOneStartPlaquePosition = new Vector2(cameraController.getCamera().viewportWidth / 2 - Resources.START_PLAQUE_WIDTH - 128, cameraController.getCamera().viewportHeight);
@@ -123,11 +129,17 @@ public class TitleScreenController {
         this.ingredientTwo = new Ingredient(new Vector2(this.cameraController.getCamera().viewportWidth - 100, 25), 0, 0, 0, 4);
         this.logoDirection = -1;
         this.startTimer = 0;
-//        Misc.PLAYER_BOWL_MATCH_ID(both players, winningBowlId) {
-//            winningPlayer.addCrown (or whatever)
-//        }
+        this.winningBowlId = winningBowlId;
         this.initPlayers();
         this.fillClouds();
+    }
+
+    public Player getWinningPlayer(int winningBowlId) {
+        if(Misc.PLAYER_BOWL_MATCH_ID(this.playerOne.getId(), winningBowlId))
+            return this.playerOne;
+        else if(Misc.PLAYER_BOWL_MATCH_ID(this.playerTwo.getId(), winningBowlId))
+            return this.playerTwo;
+        return null;
     }
 
     /**
@@ -147,6 +159,11 @@ public class TitleScreenController {
         this.playerTwo.setIngredient(this.ingredientTwo);
     }
 
+    private void resetPlayerPositions() {
+        this.playerTwoPosition = new Vector2(100, this.cameraController.getCamera().viewportHeight + 100);
+        this.playerOnePosition = new Vector2(this.cameraController.getCamera().viewportWidth - 100, this.cameraController.getCamera().viewportHeight + 100);
+    }
+
     /**
      * Adds the clouds to our title screen.
      *
@@ -160,6 +177,21 @@ public class TitleScreenController {
     }
 
     /**
+     * Updates the active map's particle and effects list by removing any 'dead' particles.
+     *
+     * @param delta
+     */
+    private void removeParticles(float delta) {
+        List<Particle> particlesToRemove = new ArrayList<>();
+        for (Particle p : this.particles) {
+            if (p.getTimeToLive() <= 0) particlesToRemove.add(p);
+        }
+        for (Particle p : particlesToRemove) {
+            this.particles.remove(p);
+        }
+    }
+
+    /**
      * Updates the positions of our title screens elements. Used for bouncing effects, pulling graphics on screen, etc.
      *
      * @param delta
@@ -167,6 +199,10 @@ public class TitleScreenController {
     public void updateScreenPositions(float delta) {
         this.playerOne.update(delta);
         this.playerTwo.update(delta);
+        this.removeParticles(delta);
+        if(this.startTimer == 6)
+            this.resetPlayerPositions();
+        this.particleController.titleWinParticlesAdd(this.particles, this.getWinningPlayer(this.winningBowlId), 100);
         final float logoDiff = Math.abs(this.logoPosition.y - (this.cameraController.getCamera().viewportHeight * .51f));
         final float plaqueDiff = Math.abs(this.playerOneStartPlaquePosition.y - (this.cameraController.getCamera().viewportHeight * .675f));
         final Vector2 playerOneDiff = new Vector2(this.playerOnePosition.x - this.playerOne.x(), this.playerOnePosition.y - this.playerOne.y());

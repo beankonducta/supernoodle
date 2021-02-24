@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.SuperNoodle;
 import com.patrick.game.controllers.*;
 import com.patrick.game.entities.Cloud;
+import com.patrick.game.entities.Particle;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
@@ -32,7 +33,7 @@ public class TitleScreen implements Screen {
         this.collisionController = new CollisionController();
         this.levelController = new LevelController(this.collisionController, this.particleController, null);
         this.movementController = new MovementController(this.collisionController, this.cameraController, this.particleController, this.levelController);
-        this.titleScreenController = new TitleScreenController(this.cameraController, winningBowlId);
+        this.titleScreenController = new TitleScreenController(this.cameraController, this.particleController, winningBowlId);
         this.musicController = new MusicController();
         this.deltaCounter = 0f;
     }
@@ -83,6 +84,7 @@ public class TitleScreen implements Screen {
         this.game.batch.begin();
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
         this.processAndDrawClouds(delta);
+        this.processAndDrawParticles(delta);
         this.game.batch.draw(Resources.LOGO, this.titleScreenController.getLogoPosition().x, this.titleScreenController.getLogoPosition().y);
         this.game.batch.draw(Resources.START_PLAQUE(1, this.titleScreenController.isPlayerOneReady()), this.titleScreenController.getPlayerOneStartPlaquePosition().x, this.titleScreenController.getPlayerOneStartPlaquePosition().y);
         this.game.batch.draw(Resources.START_PLAQUE(2, this.titleScreenController.isPlayerTwoReady()), this.titleScreenController.getPlayerTwoStartPlaquePosition().x, this.titleScreenController.getPlayerTwoStartPlaquePosition().y);
@@ -107,6 +109,19 @@ public class TitleScreen implements Screen {
             c.update(delta);
             this.movementController.cloudMove(c, delta);
             c.draw(this.game.batch);
+        }
+    }
+
+    /**
+     * Updates, moves and renders the particles on screen.
+     *
+     * @param delta
+     */
+    private void processAndDrawParticles(float delta) {
+        for (Particle p : this.titleScreenController.getParticles()) {
+            p.update(delta);
+            this.movementController.particleMove(p, null, delta);
+            p.draw(this.game.batch);
         }
     }
 
