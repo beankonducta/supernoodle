@@ -21,7 +21,6 @@ public class GameScreen implements Screen {
     private CameraController cameraController;
     private LevelController levelController;
     private ParticleController particleController;
-    private MusicController musicController;
     private MapLoader mapLoader;
 
     private SpriteBatch uiBatch;
@@ -30,9 +29,8 @@ public class GameScreen implements Screen {
     private boolean winCutscene;
     private float winCutsceneTime;
 
-    public GameScreen(SuperNoodle game, MusicController musicController) {
+    public GameScreen(SuperNoodle game) {
         this.game = game;
-        this.musicController = musicController;
         this.uiBatch = new SpriteBatch();
         this.bgBatch = new SpriteBatch();
         this.mapLoader = new MapLoader();
@@ -60,7 +58,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        this.musicController.adjustMusic(this.map.bowlOne(), this.map.bowlTwo());
+        MusicController.adjustMusic(this.map.bowlOne(), this.map.bowlTwo());
         this.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         this.game.shapeRenderer.rect(0, 0, this.cameraController.getCamera().viewportWidth, this.cameraController.getCamera().viewportHeight, Settings.GREEN, Settings.GREEN, Settings.BLUE, Settings.BLUE);
         this.game.shapeRenderer.end();

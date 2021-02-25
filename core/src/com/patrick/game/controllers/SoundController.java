@@ -1,16 +1,26 @@
 package com.patrick.game.controllers;
 
 import com.badlogic.gdx.audio.Sound;
+import com.patrick.game.util.Resources;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SoundController {
 
-    private List<Sound> sounds;
+    private static List<Sound> sounds = new ArrayList<>();
 
-    public SoundController() {
-        this.sounds = new ArrayList<>();
+    /**
+     * Attempts to play a sound via provided string. Adds to our sounds list so we can dispose later.
+     *
+     * @param s - string of sound to play
+     *
+     */
+    public static void playSound(String s) {
+        Sound sound = Resources.SOUND(s);
+        if(sound == null) return;
+        if(!sounds.contains(sound)) sounds.add(sound);
+        sound.play();
     }
 
     /**
@@ -18,8 +28,8 @@ public class SoundController {
      *
      * @param sound
      */
-    public void playSound(Sound sound) {
-        if(!this.sounds.contains(sound)) this.sounds.add(sound);
+    public static void playSound(Sound sound) {
+        if(!sounds.contains(sound)) sounds.add(sound);
         sound.play();
     }
 
@@ -28,8 +38,8 @@ public class SoundController {
      *
      * @param sound
      */
-    public void stopSound(Sound sound) {
-        if(this.sounds.contains(sound)) this.sounds.get(this.sounds.indexOf(sound)).stop();
+    public static void stopSound(Sound sound) {
+        if(sounds.contains(sound)) sounds.get(sounds.indexOf(sound)).stop();
         else sound.stop();
     }
 
@@ -38,7 +48,7 @@ public class SoundController {
      *
      * @param sound
      */
-    private void disposeSound(Sound sound) {
+    private static void disposeSound(Sound sound) {
         sound.dispose();
     }
 
@@ -46,9 +56,9 @@ public class SoundController {
      * Disposes all sounds in our list.
      *
      */
-    public void disposeAllSounds() {
-        for(Sound s : this.sounds) {
-            this.disposeSound(s);
+    public static void disposeAllSounds() {
+        for(Sound s : sounds) {
+            disposeSound(s);
         }
     }
 }

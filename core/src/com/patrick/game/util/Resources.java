@@ -2,6 +2,7 @@ package com.patrick.game.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -196,4 +197,24 @@ public class Resources {
             Gdx.audio.newMusic(Gdx.files.internal("music/MAIN_3_HIGH.wav")),
             Gdx.audio.newMusic(Gdx.files.internal("music/MAIN_4_MELODY.wav"))
     };
+
+    private static final Sound WALK_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/WALK_SOUND.mp3"));
+    private static final Sound JUMP_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/JUMP_SOUND.mp3"));
+    private static final Sound PICKUP_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/PICKUP_SOUND.mp3"));
+    private static final Sound BOWL_ADD_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_ADD_SOUND.mp3"));
+    private static final Sound BOWL_REMOVE_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_REMOVE_SOUND.mp3"));
+    private static final Sound WIN_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/WIN_SOUND.mp3"));
+
+    public static Sound SOUND(String name) {
+        switch(name) {
+            case "walk": return WALK_SOUND;
+            case "jump": return JUMP_SOUND;
+            case "pickup": return PICKUP_SOUND;
+            case "bowl add": return BOWL_ADD_SOUND;
+            case "bowl remove": return BOWL_REMOVE_SOUND;
+            case "win": return WIN_SOUND;
+        }
+        return null;
+    }
+
 }

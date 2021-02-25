@@ -22,7 +22,6 @@ public class TitleScreen implements Screen {
     private CollisionController collisionController;
     private TitleScreenController titleScreenController;
     private LevelController levelController;
-    private MusicController musicController;
 
     private float deltaCounter;
 
@@ -34,7 +33,6 @@ public class TitleScreen implements Screen {
         this.levelController = new LevelController(this.collisionController, this.particleController, null);
         this.movementController = new MovementController(this.collisionController, this.cameraController, this.particleController, this.levelController);
         this.titleScreenController = new TitleScreenController(this.cameraController, this.particleController, winningBowlId);
-        this.musicController = new MusicController();
         this.deltaCounter = 0f;
     }
 
@@ -44,11 +42,12 @@ public class TitleScreen implements Screen {
      */
     @Override
     public void show() {
+        MusicController.setMusic(0);
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game, musicController));
+                    game.setScreen(new GameScreen(game));
                 }
                 if (keyCode == Input.Keys.NUM_1) {
                     cameraController.zoomOut(.1f);
@@ -137,7 +136,7 @@ public class TitleScreen implements Screen {
             this.deltaCounter -= 1;
         }
         if (this.titleScreenController.getStartTimer() == 7) {
-            this.game.setScreen(new GameScreen(this.game, this.musicController));
+            this.game.setScreen(new GameScreen(this.game));
         }
     }
 

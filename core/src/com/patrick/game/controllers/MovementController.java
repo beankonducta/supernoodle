@@ -190,7 +190,7 @@ public class MovementController {
             e.moveTo(new Vector2(this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE, e.y()));
         if (e.x() > this.cameraController.getCamera().viewportWidth - Settings.TILE_SIZE)
             e.moveTo(new Vector2(-Settings.TILE_SIZE / 2, e.y()));
-        this.processPlayerPlayerCollisions(map.playerOne(), map.playerTwo());
+        this.processPlayerPlayerCollisions(map, map.playerOne(), map.playerTwo());
         this.processEntityFloorCollisions(e, map, delta);
         this.processEntityEntityCollisions(e, map, delta);
     }
@@ -262,16 +262,18 @@ public class MovementController {
      * @param p1
      * @param p2
      */
-    public void processPlayerPlayerCollisions(Player p1, Player p2) {
+    public void processPlayerPlayerCollisions(Map map, Player p1, Player p2) {
         if (this.collisionController.checkPlayerHeadBounceCollision(p1, p2)) {
             if (p1.y() >= p2.y() || Math.abs(p1.getVelocity()) > Math.abs(p2.getVelocity())) {
                 p1.setHeightGain(Settings.PLAYER_JUMP_HEIGHT * .8f);
                 p1.setGrounded(false);
+                this.particleController.sweatParticlesAdd(map, p2, 5);
                 if (p2.y() > this.cameraController.getCamera().viewportHeight / 10)
                     p2.setHeightGain(-Settings.PLAYER_FALL_MOD);
             } else if (p1.y() < p2.y() | Math.abs(p2.getVelocity()) > Math.abs(p1.getVelocity())) {
                 p2.setHeightGain(Settings.PLAYER_JUMP_HEIGHT * .8f);
                 p2.setGrounded(false);
+                this.particleController.sweatParticlesAdd(map, p1, 5);
                 if (p1.y() > this.cameraController.getCamera().viewportHeight / 10)
                     p1.setHeightGain(-Settings.PLAYER_FALL_MOD);
             }

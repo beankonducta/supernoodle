@@ -6,28 +6,24 @@ import com.patrick.game.util.Resources;
 
 public class MusicController {
 
-    private Music music;
-    private int musicId;
-
-    public MusicController() {
-        this.setMusic(0);
-    }
+    private static Music music;
+    private static int musicId;
 
     /**
      * Sets the current music, and starts it at the position of the previous music (if applicable).
      *
      * @param id
      */
-    public void setMusic(int id) {
+    public static void setMusic(int id) {
         if(id > Resources.MUSIC.length - 1) return;
-        final float pos = this.music == null? 0 : this.music.getPosition();
-        this.musicId = id;
-        this.stop();
-        this.music = Resources.MUSIC[id];
-        this.music.setPosition(pos);
-        this.music.setLooping(true);
-        this.music.setVolume(.1f);
-        this.play();
+        final float pos = music == null? 0 : music.getPosition();
+        musicId = id;
+        stop();
+        music = Resources.MUSIC[id];
+        music.setPosition(pos);
+        music.setLooping(true);
+        music.setVolume(.1f);
+        play();
     }
 
     /**
@@ -36,45 +32,45 @@ public class MusicController {
      * @param b1
      * @param b2
      */
-    public void adjustMusic(Bowl b1, Bowl b2) {
+    public static void adjustMusic(Bowl b1, Bowl b2) {
         if(b1 == null || b2 == null) return;
         final int count = b1.getIngredientCount() > b2.getIngredientCount() ? b1.getIngredientCount() + 1: b2.getIngredientCount() + 1;
-        if(count != this.musicId) this.setMusic(count);
+        if(count != musicId) setMusic(count);
     }
 
     /**
      * Stops the music.
      *
      */
-    public void stop() {
-        if(this.music == null) return;
-        this.music.stop();
+    public static void stop() {
+        if(music == null) return;
+        music.stop();
     }
 
     /**
      * Plays the music.
      *
      */
-    public void play() {
-        if(this.music == null) return;
-        this.music.play();
+    public static void play() {
+        if(music == null) return;
+        music.play();
     }
 
     /**
      * Pauses the music.
      *
      */
-    public void pause() {
-        if(this.music == null) return;
-        this.music.pause();
+    public static void pause() {
+        if(music == null) return;
+        music.pause();
     }
 
     /**
      * Disposes the music.
      *
      */
-    public void dispose() {
-        if(this.music == null) return;
-        this.music.dispose();
+    public static void dispose() {
+        if(music == null) return;
+        music.dispose();
     }
 }

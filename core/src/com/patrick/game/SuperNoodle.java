@@ -15,15 +15,7 @@ public class SuperNoodle extends Game {
 
    TODO: CHANGE -> Change physics to be more 'realistic'
 
-   TODO: DESIGN -> Update look of HUD
-
-   TODO: DESIGN -> Design start and win screens
-
    TODO: DESIGN -> Keep playing with particles
-
-   TODO: IDEA -> Set a max velocity on entities, so there's literally no way they can move faster than expected.
-
-   TODO: DESIGN -> Add particles when player jumps on players head for feedback (sweat maybe?)
 
    TODO: AUDIO -> Add sounds
 
