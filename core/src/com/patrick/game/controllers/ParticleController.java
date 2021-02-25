@@ -14,6 +14,8 @@ import java.util.List;
 
 public class ParticleController {
 
+    // TODO: consider making this singleton
+
     public ParticleController() {
     }
 

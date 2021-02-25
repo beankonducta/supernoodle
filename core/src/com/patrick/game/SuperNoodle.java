@@ -20,6 +20,10 @@ public class SuperNoodle extends Game {
    TODO: AUDIO -> Add sounds
 
    TODO: AUDIO -> Polish music playback timing and buildup
+
+   TODO: REFACTOR -> Consider more singleton controllers
+
+   TODO: REFACTOR -> Consider moving singletons and controllers to different packages (and renaming one or the other)
     */
 
     public SpriteBatch batch;

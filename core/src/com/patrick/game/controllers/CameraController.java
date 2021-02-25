@@ -7,6 +7,8 @@ import com.patrick.game.util.Settings;
 
 public class CameraController {
 
+    // TODO: consider making this singleton
+
     private OrthographicCamera camera;
     private OrthographicCamera uiCamera;
 
