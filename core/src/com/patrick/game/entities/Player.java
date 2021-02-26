@@ -3,6 +3,8 @@ package com.patrick.game.entities;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.controllers.MusicController;
+import com.patrick.game.controllers.SoundController;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
@@ -78,6 +80,7 @@ public class Player extends AnimatedEntity {
             this.floorCollider.setPosition(new Vector2(this.x(), this.y()));
         if(this.bounceCollider != null)
             this.bounceCollider.setPosition(this.x() + (Settings.TILE_SIZE / 2), this.y());
+        if(Math.abs(this.velocity) > 0 && this.grounded) SoundController.playSound((this.ingredient != null ? "walk slow" : "walk"));
     }
 
     /**

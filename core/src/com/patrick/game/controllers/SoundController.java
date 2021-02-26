@@ -2,6 +2,7 @@ package com.patrick.game.controllers;
 
 import com.badlogic.gdx.audio.Sound;
 import com.patrick.game.util.Resources;
+import com.patrick.game.util.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class SoundController {
      */
     public static void playSound(Sound sound) {
         if(!sounds.contains(sound)) sounds.add(sound);
-        sound.play();
+        sound.play(Settings.SOUND_VOLUME);
     }
 
     /**

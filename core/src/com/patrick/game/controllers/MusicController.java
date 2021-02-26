@@ -3,6 +3,7 @@ package com.patrick.game.controllers;
 import com.badlogic.gdx.audio.Music;
 import com.patrick.game.entities.Bowl;
 import com.patrick.game.util.Resources;
+import com.patrick.game.util.Settings;
 
 public class MusicController {
 
@@ -22,7 +23,7 @@ public class MusicController {
         music = Resources.MUSIC[id];
         music.setPosition(pos);
         music.setLooping(true);
-        music.setVolume(.1f);
+        music.setVolume(Settings.MUSIC_VOLUME);
         play();
     }
 

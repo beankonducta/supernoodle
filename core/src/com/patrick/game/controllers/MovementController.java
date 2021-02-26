@@ -2,6 +2,7 @@ package com.patrick.game.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entities.*;
 import com.patrick.game.util.Direction;
@@ -98,10 +99,12 @@ public class MovementController {
                 p.setGrounded(false);
                 p.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
                 p.setDir(Direction.UP);
+                SoundController.playSound("jump");
             }
             if (Gdx.input.isKeyJustPressed(KEYS[3]) && p.getHeightGain() == 0 && p.getGrounded()) {
                 p.setGrounded(false);
                 p.setHeightGain(-Settings.PLAYER_FALL_MOD);
+                SoundController.playSound("jump");
             }
             if (Gdx.input.isKeyJustPressed(KEYS[4])) {
                 if (p.getIngredient() != null) {
@@ -264,6 +267,7 @@ public class MovementController {
      */
     public void processPlayerPlayerCollisions(Map map, Player p1, Player p2) {
         if (this.collisionController.checkPlayerHeadBounceCollision(p1, p2)) {
+            SoundController.playSound("jump");
             if (p1.y() >= p2.y() || Math.abs(p1.getVelocity()) > Math.abs(p2.getVelocity())) {
                 p1.setHeightGain(Settings.PLAYER_JUMP_HEIGHT * .8f);
                 p1.setGrounded(false);

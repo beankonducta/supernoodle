@@ -198,16 +198,18 @@ public class Resources {
             Gdx.audio.newMusic(Gdx.files.internal("music/MAIN_4_MELODY.wav"))
     };
 
-    private static final Sound WALK_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/WALK_SOUND.mp3"));
-    private static final Sound JUMP_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/JUMP_SOUND.mp3"));
-    private static final Sound PICKUP_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/PICKUP_SOUND.mp3"));
-    private static final Sound BOWL_ADD_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_ADD_SOUND.mp3"));
-    private static final Sound BOWL_REMOVE_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_REMOVE_SOUND.mp3"));
-    private static final Sound WIN_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/WIN_SOUND.mp3"));
+    private static final Sound WALK_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/WALK.wav"));
+    private static final Sound WALK_SLOW_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/WALK_SLOW.wav"));
+    private static final Sound JUMP_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/JUMP.wav"));
+    private static final Sound PICKUP_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/PICKUP.wav"));
+    private static final Sound BOWL_ADD_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_ADD.wav"));
+    private static final Sound BOWL_REMOVE_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_REMOVE.wav"));
+    private static final Sound WIN_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/WIN.wav"));
 
     public static Sound SOUND(String name) {
         switch(name) {
             case "walk": return WALK_SOUND;
+            case "walk slow": return WALK_SLOW_SOUND;
             case "jump": return JUMP_SOUND;
             case "pickup": return PICKUP_SOUND;
             case "bowl add": return BOWL_ADD_SOUND;
