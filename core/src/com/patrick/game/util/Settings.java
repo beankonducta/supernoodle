@@ -42,7 +42,7 @@ public class Settings {
     public static final float DEFAULT_PARTICLE_WEIGHT = 50f;
     public static final int MAX_PARTICLE_TIME_TO_LIVE = 40;
 
-    public static final float SOUND_VOLUME = .01f;
+    public static final float SOUND_VOLUME = .1f;
     public static final float MUSIC_VOLUME = .2f;
 
 }

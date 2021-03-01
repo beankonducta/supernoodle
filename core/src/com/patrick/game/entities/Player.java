@@ -80,7 +80,7 @@ public class Player extends AnimatedEntity {
             this.floorCollider.setPosition(new Vector2(this.x(), this.y()));
         if(this.bounceCollider != null)
             this.bounceCollider.setPosition(this.x() + (Settings.TILE_SIZE / 2), this.y());
-        if(Math.abs(this.velocity) > 0 && this.grounded) SoundController.playSound((this.ingredient != null ? "walk slow" : "walk"));
+        if(Math.abs(this.velocity) > 0 && this.grounded) SoundController.playSoundOffset((this.ingredient != null ? "walk slow" : "walk"), delta);
     }
 
     /**
