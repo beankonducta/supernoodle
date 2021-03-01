@@ -134,6 +134,12 @@ public class TitleScreen implements Screen {
         if (this.deltaCounter >= 1) {
             this.incrementTimer();
             this.deltaCounter -= 1;
+            if (this.titleScreenController.isPlayerOneReady() && this.titleScreenController.isPlayerTwoReady()) {
+                if (this.titleScreenController.getStartTimer() < 6)
+                    SoundController.playSound("jump");
+                else if (this.titleScreenController.getStartTimer() < 7)
+                    SoundController.playSound("win");
+            }
         }
         if (this.titleScreenController.getStartTimer() == 7) {
             this.game.setScreen(new GameScreen(this.game));
@@ -142,7 +148,6 @@ public class TitleScreen implements Screen {
 
     /**
      * Increments the timer.
-     *
      */
     private void incrementTimer() {
         if (this.titleScreenController.isPlayerTwoReady() && this.titleScreenController.isPlayerOneReady()) {

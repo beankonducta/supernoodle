@@ -12,10 +12,17 @@ public class Bowl extends StaticEntity {
 
     protected List<Ingredient> ingredients;
 
+    protected Rectangle ingredientCollider;
+
+    public Rectangle getIngredientCollider() {
+        return this.ingredientCollider;
+    }
+
     public Bowl(Vector2 position, int id) {
         super(position, null);
         this.ingredients = new ArrayList<Ingredient>();
         this.collider = new Rectangle(position.x, position.y, Settings.TILE_SIZE, Settings.TILE_SIZE);
+        this.ingredientCollider = new Rectangle(position.x - Settings.TILE_SIZE, position.y, Settings.TILE_SIZE * 3, Settings.TILE_SIZE);
         this.id = id;
         this.updateTexture();
     }

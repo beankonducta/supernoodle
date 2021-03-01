@@ -170,8 +170,8 @@ public class Entity {
      * @param delta
      */
     public void update(float delta) {
-        if (this.velocity > 0) this.velocity -= this.decelSpeed * delta;
-        if (this.velocity < 0) this.velocity += this.decelSpeed * delta;
+        if (this.velocity > 0) this.velocity -= (this.heightGain != 0 ? this.decelSpeed * (delta * 2) : this.decelSpeed * delta);
+        if (this.velocity < 0) this.velocity += (this.heightGain != 0 ? this.decelSpeed * (delta * 2) : this.decelSpeed * delta);
         if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;
         if (this.heightGain < 0) this.heightGain += this.decelSpeed * delta;
         if (this.heightGain < 10 && this.heightGain > 0) this.heightGain = 0;

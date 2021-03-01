@@ -23,6 +23,8 @@ public class SoundController {
         Sound sound = Resources.SOUND(s);
         if (sound == null) return;
         if (!sounds.contains(sound)) sounds.add(sound);
+        // makes it so only one instance of each sound plays
+        sound.stop();
         sound.play(Settings.SOUND_VOLUME);
     }
 
@@ -37,6 +39,8 @@ public class SoundController {
             Sound sound = Resources.SOUND(s);
             if (sound == null) return;
             if (!sounds.contains(sound)) sounds.add(sound);
+            // makes it so only one instance of each sound plays
+            sound.stop();
             sound.play(Settings.SOUND_VOLUME);
         }
         SOUND_TIMER += delta;

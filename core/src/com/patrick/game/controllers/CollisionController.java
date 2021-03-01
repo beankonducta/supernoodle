@@ -71,6 +71,17 @@ public class CollisionController {
     }
 
     /**
+     * Returns whether or not a bowl's ingredient collider overlaps the ingredient.
+     *
+     * @param b
+     * @param i
+     * @return
+     */
+    public boolean checkIngredientBowlNearby(Bowl b, Ingredient i) {
+        return b.getIngredientCollider().overlaps(i.getCollider());
+    }
+
+    /**
      * Returns whether or not a player has collided with another player's bounce collider.
      *
      * @param p1

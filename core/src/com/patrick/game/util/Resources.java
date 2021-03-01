@@ -175,7 +175,7 @@ public class Resources {
     }
 
     // effects
-    public static final TextureRegion[][] TIMER_REGION = Sprite.split(new Texture(Gdx.files.internal("TIMER.png")), 8, 8);
+    public static final TextureRegion[][] TIMER_REGION = Sprite.split(new Texture(Gdx.files.internal("METER.png")), 8, 16);
     public static final Animation<TextureRegion> TIMER_ANIMATION = new Animation(1f, TIMER_REGION[0]);
 
     public static final TextureRegion[][] GRASS_ANIM_REGION = Sprite.split(new Texture(Gdx.files.internal("GRASS_ANIM.png")), 1, 1);

@@ -108,8 +108,10 @@ public class GameScreen implements Screen {
         if (this.levelController.checkFull(b) || this.winCutscene) {
             if (this.winningBowl == b.getId() || this.winningBowl == -1) {
                 this.movementController.stop();
-                if (this.winCutsceneTime == 0)
+                if (this.winCutsceneTime == 0) {
                     this.levelController.increaseFillCount(b);
+                    SoundController.playSound("win");
+                }
                 this.winCutscene = true;
                 this.winCutsceneTime += delta;
                 this.winningBowl = b.getId();

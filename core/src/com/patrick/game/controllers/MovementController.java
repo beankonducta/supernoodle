@@ -168,7 +168,7 @@ public class MovementController {
     public void ingredientMove(Ingredient i, Map map, float delta) {
         if (!this.processPhysics) return;
         moveEntity(i, map, delta);
-        this.levelController.attemptIngredientAdd(i, map);
+        this.levelController.attemptIngredientAdd(i, map, delta);
     }
 
     /**
@@ -250,6 +250,7 @@ public class MovementController {
                     if (Math.abs(e.getVelocity()) > Math.abs(ent.getVelocity())) {
                         ent.move(new Vector2(e.getVelocity() * delta / 3, 0));
                         ent.setVelocity(e.getVelocity());
+                        SoundController.playSound("jump");
                     } else if (Math.abs(ent.getVelocity()) > Math.abs(e.getVelocity())) {
                         e.move(new Vector2(ent.getVelocity() * delta / 3, 0));
                         e.setVelocity(ent.getVelocity());
@@ -267,7 +268,7 @@ public class MovementController {
      */
     public void processPlayerPlayerCollisions(Map map, Player p1, Player p2) {
         if (this.collisionController.checkPlayerHeadBounceCollision(p1, p2)) {
-            SoundController.playSound("jump");
+            SoundController.playSoundOffset("jump", .1f);
             if (p1.y() >= p2.y() || Math.abs(p1.getVelocity()) > Math.abs(p2.getVelocity())) {
                 p1.setHeightGain(Settings.PLAYER_JUMP_HEIGHT * .8f);
                 p1.setGrounded(false);

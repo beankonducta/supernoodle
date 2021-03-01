@@ -100,8 +100,10 @@ public class TitleScreenController {
      * @param playerOneReady
      */
     public void setPlayerOneReady(boolean playerOneReady) {
-        if (this.playerOneStartPlaquePosition.y < this.cameraController.getCamera().viewportHeight - 175)
+        if (this.playerOneStartPlaquePosition.y < this.cameraController.getCamera().viewportHeight - 175) {
             this.playerOneReady = playerOneReady;
+            SoundController.playSound("win");
+        }
     }
 
     /**
@@ -110,8 +112,10 @@ public class TitleScreenController {
      * @param playerTwoReady
      */
     public void setPlayerTwoReady(boolean playerTwoReady) {
-        if (this.playerTwoStartPlaquePosition.y < this.cameraController.getCamera().viewportHeight - 175)
+        if (this.playerTwoStartPlaquePosition.y < this.cameraController.getCamera().viewportHeight - 175) {
             this.playerTwoReady = playerTwoReady;
+            SoundController.playSound("win");
+        }
     }
 
     public TitleScreenController(CameraController cameraController, ParticleController particleController, int winningBowlId) {
