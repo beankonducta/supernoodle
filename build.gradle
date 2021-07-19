@@ -1,7 +1,5 @@
-
-
 buildscript {
-    
+
 
     repositories {
         mavenLocal()
@@ -12,7 +10,7 @@ buildscript {
         google()
     }
     dependencies {
-        
+
 
     }
 }
@@ -23,11 +21,12 @@ allprojects {
     version = '1.0'
     ext {
         appName = "Super Noodle 2"
-        gdxVersion = '1.10.0'
-        roboVMVersion = '2.3.7'
-        box2DLightsVersion = '1.4'
-        ashleyVersion = '1.7.0'
-        aiVersion = '1.8.0'
+        gdxVersion = '1.9.13'
+        roboVMVersion = '2.3.12'
+        box2DLightsVersion = '1.5'
+        ashleyVersion = '1.7.3'
+        aiVersion = '1.8.2'
+        gdxControllersVersion = '2.0.1'
     }
 
     repositories {
@@ -37,7 +36,6 @@ allprojects {
         google()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-        maven { url "https://jitpack.io" }
     }
 }
 
@@ -47,11 +45,10 @@ project(":desktop") {
 
     dependencies {
         implementation project(":core")
-        compile "com.github.beankonducta:libgdx-jogl-backend:master-SNAPSHOT"
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-        
+
     }
 }
 
@@ -62,5 +59,6 @@ project(":core") {
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+
     }
 }
