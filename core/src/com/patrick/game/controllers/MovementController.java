@@ -95,18 +95,19 @@ public class MovementController {
                 p.setVelocity(-p.getSpeed());
                 p.setDir(Direction.LEFT);
             }
-            if (Gdx.input.isKeyJustPressed(KEYS[2]) && p.getHeightGain() == 0 && p.getGrounded()) {
+            if (Gdx.input.isKeyPressed(KEYS[2]) && p.getHeightGain() == 0 && p.getGrounded()) {
                 p.setGrounded(false);
+                System.out.println("JUMPING");
                 p.setHeightGain(Settings.PLAYER_JUMP_HEIGHT);
                 p.setDir(Direction.UP);
                 SoundController.playSound("jump");
             }
-            if (Gdx.input.isKeyJustPressed(KEYS[3]) && p.getHeightGain() == 0 && p.getGrounded()) {
+            if (Gdx.input.isKeyPressed(KEYS[3]) && p.getHeightGain() == 0 && p.getGrounded()) {
                 p.setGrounded(false);
                 p.setHeightGain(-Settings.PLAYER_FALL_MOD);
                 SoundController.playSound("jump");
             }
-            if (Gdx.input.isKeyJustPressed(KEYS[4])) {
+            if (Gdx.input.isKeyPressed(KEYS[4])) {
                 if (p.getIngredient() != null) {
                     this.levelController.removeIngredient(p, null);
                 } else {
