@@ -66,6 +66,10 @@ public class MovementController {
      */
     // TODO: Move the "player movement" to it's own method and the "user input" to it's own method
     public void playerMove(Player p, Map map, float delta) {
+        // quit, for our arcade cabinet
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT_BRACKET) && Gdx.input.isKeyPressed(Input.Keys.RIGHT_BRACKET)) {
+            System.exit(-1);
+        }
         if (this.canMove) {
             final int[] KEYS = p.getId() == 1 ? Settings.PLAYER_ONE_KEYS : Settings.PLAYER_TWO_KEYS;
             if (KEYS != null) {
@@ -73,6 +77,7 @@ public class MovementController {
                 if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_2)) this.cameraController.zoomOut(delta);
                 if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_9)) Settings.DEBUG_COLLISION = true;
                 if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_0)) Settings.DEBUG_COLLISION = false;
+                // test win
                 if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
                     for (Bowl b : map.getBowls()) {
                         for (Ingredient i : map.getIngredients()) {
@@ -83,9 +88,6 @@ public class MovementController {
                     }
                 }
             }
-            // quit, for our arcade cabinet
-            if(Gdx.input.isKeyPressed(Input.Keys.O) && Gdx.input.isKeyPressed(Input.Keys.P))
-                System.exit(-1);
 
             if (Gdx.input.isKeyPressed(KEYS[0])) {
                 if (p.getGrounded())
