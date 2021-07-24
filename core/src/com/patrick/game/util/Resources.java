@@ -174,6 +174,16 @@ public class Resources {
         return COUNTDOWN_REGION[0][seconds];
     }
 
+    // coins
+
+    public static final TextureRegion[][] COIN_COUNT_REGION = Sprite.split(new Texture(Gdx.files.internal("COIN_COUNT.png")), 32, 32);
+    public static final Texture COIN = new Texture(Gdx.files.internal("COIN.png"));
+
+    public static TextureRegion COIN_COUNT(int player, int count) {
+        if(count > 9) return COIN_COUNT_REGION[player][9];
+        return COIN_COUNT_REGION[player][count];
+    }
+
     // effects
     public static final TextureRegion[][] TIMER_REGION = Sprite.split(new Texture(Gdx.files.internal("METER.png")), 8, 16);
     public static final Animation<TextureRegion> TIMER_ANIMATION = new Animation(1f, TIMER_REGION[0]);
@@ -205,7 +215,6 @@ public class Resources {
     private static final Sound BOWL_ADD_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_ADD.wav"));
     private static final Sound BOWL_REMOVE_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_REMOVE.wav"));
     private static final Sound WIN_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/WIN.wav"));
-    private static final Sound COIN_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/COIN.wav"));
 
     public static Sound SOUND(String name) {
         switch(name) {
@@ -216,7 +225,6 @@ public class Resources {
             case "bowl add": return BOWL_ADD_SOUND;
             case "bowl remove": return BOWL_REMOVE_SOUND;
             case "win": return WIN_SOUND;
-            case "coin": return COIN_SOUND;
         }
         return null;
     }

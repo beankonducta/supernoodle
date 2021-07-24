@@ -59,10 +59,10 @@ public class TitleScreen implements Screen {
                 if (keyCode == Input.Keys.NUM_0) {
                     cameraController.zoomIn(.1f);
                 }
-                if (keyCode == Settings.PLAYER_ONE_KEYS[5] && p1Coins > -1) {
+                if (keyCode == Settings.PLAYER_ONE_KEYS[5] && p1Coins > 0) {
                     titleScreenController.setPlayerOneReady(true);
                 }
-                if (keyCode == Settings.PLAYER_TWO_KEYS[5] && p2Coins > -1) {
+                if (keyCode == Settings.PLAYER_TWO_KEYS[5] && p2Coins > 0) {
                     titleScreenController.setPlayerTwoReady(true);
                 }
                 return true;
@@ -78,11 +78,11 @@ public class TitleScreen implements Screen {
     @Override
     public void render(float delta) {
         // coins
-        if (Gdx.input.isKeyJustPressed(Settings.PLAYER_ONE_KEYS[6]) && this.p1Coins < 50) {
+        if (Gdx.input.isKeyJustPressed(Settings.PLAYER_ONE_KEYS[6]) && this.p1Coins < 9) {
             this.p1Coins++;
             SoundController.playSound("coin");
         }
-        if (Gdx.input.isKeyJustPressed(Settings.PLAYER_TWO_KEYS[6]) && this.p2Coins < 50) {
+        if (Gdx.input.isKeyJustPressed(Settings.PLAYER_TWO_KEYS[6]) && this.p2Coins < 9) {
             this.p2Coins++;
             SoundController.playSound("coin");
         }
@@ -101,16 +101,19 @@ public class TitleScreen implements Screen {
         this.game.batch.setProjectionMatrix(this.cameraController.getCamera().combined);
         this.processAndDrawClouds(delta);
         this.processAndDrawParticles(delta);
-        this.game.batch.draw(Resources.LOGO, this.titleScreenController.getLogoPosition().x, this.titleScreenController.getLogoPosition().y);
+        //this.game.batch.draw(Resources.LOGO, this.titleScreenController.getLogoPosition().x, this.titleScreenController.getLogoPosition().y);
         this.game.batch.draw(Resources.START_PLAQUE(1, this.titleScreenController.isPlayerOneReady()), this.titleScreenController.getPlayerOneStartPlaquePosition().x, this.titleScreenController.getPlayerOneStartPlaquePosition().y);
         this.game.batch.draw(Resources.START_PLAQUE(2, this.titleScreenController.isPlayerTwoReady()), this.titleScreenController.getPlayerTwoStartPlaquePosition().x, this.titleScreenController.getPlayerTwoStartPlaquePosition().y);
         this.titleScreenController.getPlayerOne().draw(this.game.batch);
         this.titleScreenController.getPlayerTwo().draw(this.game.batch);
         this.titleScreenController.getIngredientOne().draw(this.game.batch);
-        this.titleScreenController.getIngredientTwo().draw(this.game.batch);
-        // coins - no work!
-//        this.game.font.draw(this.game.batch, "Coins: "+this.p1Coins, 20, this.cameraController.getCamera().viewportHeight + 20);
-//        this.game.font.draw(this.game.batch, "Coins: "+this.p2Coins, 100, this.cameraController.getCamera().viewportHeight + 20);
+        // coins!
+        this.game.batch.draw(Resources.COIN, this.titleScreenController.getPlayerOneStartPlaquePosition().x, this.titleScreenController.getPlayerOneStartPlaquePosition().y - 40);
+        this.game.batch.draw(Resources.COIN_COUNT(0, this.p1Coins), this.titleScreenController.getPlayerOneStartPlaquePosition().x + 40, this.titleScreenController.getPlayerOneStartPlaquePosition().y - 40);
+
+        this.game.batch.draw(Resources.COIN, this.titleScreenController.getPlayerTwoStartPlaquePosition().x + 80, this.titleScreenController.getPlayerTwoStartPlaquePosition().y - 40);
+        this.game.batch.draw(Resources.COIN_COUNT(1, this.p2Coins), this.titleScreenController.getPlayerTwoStartPlaquePosition().x + 40 , this.titleScreenController.getPlayerTwoStartPlaquePosition().y - 40);
+
         if (this.titleScreenController.isPlayerOneReady() && this.titleScreenController.isPlayerTwoReady()) {
             this.game.batch.draw(Resources.COUNTDOWN(this.titleScreenController.getStartTimer()), this.cameraController.getCamera().viewportWidth / 2 - 16, this.cameraController.getCamera().viewportHeight / 2 - 16);
         }
@@ -162,6 +165,8 @@ public class TitleScreen implements Screen {
             }
         }
         if (this.titleScreenController.getStartTimer() == 7) {
+            this.p1Coins --;
+            this.p2Coins --;
             this.game.setScreen(new GameScreen(this.game, this.p1Coins, this.p2Coins));
         }
     }
