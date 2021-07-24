@@ -86,6 +86,10 @@ public class TitleScreen implements Screen {
             this.p2Coins++;
             SoundController.playSound("coin");
         }
+        // quit
+        if(Gdx.input.isKeyPressed(Settings.PLAYER_ONE_KEYS[5]) && Gdx.input.isKeyPressed(Settings.PLAYER_TWO_KEYS[5]) && Gdx.input.isKeyPressed(Settings.PLAYER_ONE_KEYS[6]) && Gdx.input.isKeyPressed(Settings.PLAYER_TWO_KEYS[6])) {
+            System.exit(-1);
+        }
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

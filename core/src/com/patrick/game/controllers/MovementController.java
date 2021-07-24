@@ -67,7 +67,7 @@ public class MovementController {
     // TODO: Move the "player movement" to it's own method and the "user input" to it's own method
     public void playerMove(Player p, Map map, float delta) {
         // quit, for our arcade cabinet
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT_BRACKET) && Gdx.input.isKeyPressed(Input.Keys.RIGHT_BRACKET)) {
+        if(Gdx.input.isKeyPressed(Settings.PLAYER_ONE_KEYS[5]) && Gdx.input.isKeyPressed(Settings.PLAYER_TWO_KEYS[5]) && Gdx.input.isKeyPressed(Settings.PLAYER_ONE_KEYS[6]) && Gdx.input.isKeyPressed(Settings.PLAYER_TWO_KEYS[6])) {
             System.exit(-1);
         }
         if (this.canMove) {
