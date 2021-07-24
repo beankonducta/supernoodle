@@ -8,8 +8,8 @@ public class Settings {
     public static final Color BLUE = new Color(0, .6f, .9f, 1);
     public static final Color GREEN = new Color(0, .6f, .5f, 1);
 
-    public static final int[] PLAYER_ONE_KEYS = new int[]{Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S, Input.Keys.L};
-    public static final int[] PLAYER_TWO_KEYS = new int[]{Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.R};
+    public static final int[] PLAYER_ONE_KEYS = new int[]{Input.Keys.D, Input.Keys.A, Input.Keys.W, Input.Keys.S, Input.Keys.L, Input.Keys.LEFT_BRACKET, Input.Keys.RIGHT_BRACKET};
+    public static final int[] PLAYER_TWO_KEYS = new int[]{Input.Keys.RIGHT, Input.Keys.LEFT, Input.Keys.UP, Input.Keys.DOWN, Input.Keys.R, Input.Keys.Z, Input.Keys.X};
 
     public static final float PLAYER_JUMP_HEIGHT = 700f;
     public static final float PLAYER_FALL_MOD = 20f;

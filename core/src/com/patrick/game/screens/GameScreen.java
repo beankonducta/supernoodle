@@ -26,10 +26,12 @@ public class GameScreen implements Screen {
     private SpriteBatch uiBatch;
     private SpriteBatch bgBatch;
 
+    private int p1Coins, p2Coins;
+
     private boolean winCutscene;
     private float winCutsceneTime;
 
-    public GameScreen(SuperNoodle game) {
+    public GameScreen(SuperNoodle game, int p1Coins, int p2Coins) {
         this.game = game;
         this.uiBatch = new SpriteBatch();
         this.bgBatch = new SpriteBatch();
@@ -43,6 +45,8 @@ public class GameScreen implements Screen {
         this.winCutscene = false;
         this.winningBowl = -1;
         this.winCutsceneTime = 0f;
+        this.p1Coins = p1Coins;
+        this.p2Coins = p2Coins;
     }
 
     @Override
@@ -118,7 +122,7 @@ public class GameScreen implements Screen {
                 if (this.winCutsceneTime >= Settings.DANCE_TIME) {
                     if (this.levelController.checkWin(b)) {
                         this.cameraController.resetCamera();
-                        this.game.setScreen(new TitleScreen(this.game, this.winningBowl));
+                        this.game.setScreen(new TitleScreen(this.game, this.winningBowl, this.p1Coins, this.p2Coins));
                     }
                     this.map = this.mapLoader.loadMapToMap("MAP_0.png");
                     this.levelController.setMap(this.map);

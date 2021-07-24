@@ -25,7 +25,9 @@ public class TitleScreen implements Screen {
 
     private float deltaCounter;
 
-    public TitleScreen(SuperNoodle game, int winningBowlId) {
+    private int p1Coins, p2Coins;
+
+    public TitleScreen(SuperNoodle game, int winningBowlId, int p1Coins, int p2Coins) {
         this.game = game;
         this.cameraController = new CameraController();
         this.particleController = new ParticleController();
@@ -34,6 +36,8 @@ public class TitleScreen implements Screen {
         this.movementController = new MovementController(this.collisionController, this.cameraController, this.particleController, this.levelController);
         this.titleScreenController = new TitleScreenController(this.cameraController, this.particleController, winningBowlId);
         this.deltaCounter = 0f;
+        this.p1Coins = p1Coins;
+        this.p2Coins = p2Coins;
     }
 
     /**
@@ -47,7 +51,7 @@ public class TitleScreen implements Screen {
             @Override
             public boolean keyDown(int keyCode) {
                 if (keyCode == Input.Keys.SPACE) {
-                    game.setScreen(new GameScreen(game));
+                    game.setScreen(new GameScreen(game, p1Coins, p2Coins));
                 }
                 if (keyCode == Input.Keys.NUM_1) {
                     cameraController.zoomOut(.1f);
@@ -55,10 +59,10 @@ public class TitleScreen implements Screen {
                 if (keyCode == Input.Keys.NUM_0) {
                     cameraController.zoomIn(.1f);
                 }
-                if (keyCode == Settings.PLAYER_ONE_KEYS[4]) {
+                if (keyCode == Settings.PLAYER_ONE_KEYS[5] && p1Coins > -1) {
                     titleScreenController.setPlayerOneReady(true);
                 }
-                if (keyCode == Settings.PLAYER_TWO_KEYS[4]) {
+                if (keyCode == Settings.PLAYER_TWO_KEYS[5] && p2Coins > -1) {
                     titleScreenController.setPlayerTwoReady(true);
                 }
                 return true;
@@ -73,6 +77,15 @@ public class TitleScreen implements Screen {
      */
     @Override
     public void render(float delta) {
+        // coins
+        if (Gdx.input.isKeyJustPressed(Settings.PLAYER_ONE_KEYS[6]) && this.p1Coins < 50) {
+            this.p1Coins++;
+            SoundController.playSound("coin");
+        }
+        if (Gdx.input.isKeyJustPressed(Settings.PLAYER_TWO_KEYS[6]) && this.p2Coins < 50) {
+            this.p2Coins++;
+            SoundController.playSound("coin");
+        }
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -91,6 +104,9 @@ public class TitleScreen implements Screen {
         this.titleScreenController.getPlayerTwo().draw(this.game.batch);
         this.titleScreenController.getIngredientOne().draw(this.game.batch);
         this.titleScreenController.getIngredientTwo().draw(this.game.batch);
+        // coins - no work!
+//        this.game.font.draw(this.game.batch, "Coins: "+this.p1Coins, 20, this.cameraController.getCamera().viewportHeight + 20);
+//        this.game.font.draw(this.game.batch, "Coins: "+this.p2Coins, 100, this.cameraController.getCamera().viewportHeight + 20);
         if (this.titleScreenController.isPlayerOneReady() && this.titleScreenController.isPlayerTwoReady()) {
             this.game.batch.draw(Resources.COUNTDOWN(this.titleScreenController.getStartTimer()), this.cameraController.getCamera().viewportWidth / 2 - 16, this.cameraController.getCamera().viewportHeight / 2 - 16);
         }
@@ -142,7 +158,7 @@ public class TitleScreen implements Screen {
             }
         }
         if (this.titleScreenController.getStartTimer() == 7) {
-            this.game.setScreen(new GameScreen(this.game));
+            this.game.setScreen(new GameScreen(this.game, this.p1Coins, this.p2Coins));
         }
     }
 

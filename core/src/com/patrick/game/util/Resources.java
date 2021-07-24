@@ -205,6 +205,7 @@ public class Resources {
     private static final Sound BOWL_ADD_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_ADD.wav"));
     private static final Sound BOWL_REMOVE_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/BOWL_REMOVE.wav"));
     private static final Sound WIN_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/WIN.wav"));
+    private static final Sound COIN_SOUND = Gdx.audio.newSound(Gdx.files.internal("sounds/COIN.wav"));
 
     public static Sound SOUND(String name) {
         switch(name) {
@@ -215,6 +216,7 @@ public class Resources {
             case "bowl add": return BOWL_ADD_SOUND;
             case "bowl remove": return BOWL_REMOVE_SOUND;
             case "win": return WIN_SOUND;
+            case "coin": return COIN_SOUND;
         }
         return null;
     }
