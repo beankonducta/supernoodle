@@ -172,8 +172,8 @@ public class Entity {
     public void update(float delta) {
         if (this.velocity > 0) this.velocity -= (this.heightGain != 0 ? this.decelSpeed * (delta * 2) : this.decelSpeed * delta);
         if (this.velocity < 0) this.velocity += (this.heightGain != 0 ? this.decelSpeed * (delta * 2) : this.decelSpeed * delta);
-        if (this.heightGain > 0) this.heightGain -= this.decelSpeed * delta;
-        if (this.heightGain < 0) this.heightGain += this.decelSpeed * delta;
+        if (this.heightGain > 0) this.heightGain -= (this.decelSpeed * .75f) * delta;
+        if (this.heightGain < 0) this.heightGain += (this.decelSpeed * .75f) * delta;
         if (this.heightGain < 10 && this.heightGain > 0) this.heightGain = 0;
         if (this.heightGain > -10 && this.heightGain < 0) this.heightGain = 0;
         if (this.velocity < 10 && this.velocity > 0) this.velocity = 0;

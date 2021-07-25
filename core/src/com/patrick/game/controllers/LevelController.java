@@ -218,6 +218,12 @@ public class LevelController {
         if (p1.getIngredient() == null) return;
         final float velocity = p2 == null ? p1.getVelocity() : p2.getVelocity();
         final Direction direction = p2 == null ? p1.getDir() : p2.getDir();
+        /**
+         * TODO:
+         * I need to fix these physics. It doesn't really 'throw' the ingredient, rather kind of floats it up.
+         *
+         * There's got to be some actual math I can use here to make it 'arch' more like it would in real life.
+         */
         p1.getIngredient().setHeightGain(p1.getHeightGain() * 1.2f);
         p1.getIngredient().setVelocity(velocity * 2f);
         if (p1.getGrounded() && p1.getHeightGain() == 0)
