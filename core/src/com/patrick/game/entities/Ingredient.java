@@ -58,7 +58,10 @@ public class Ingredient extends StaticEntity {
      * @param delta
      */
     public void update(float delta) {
+        float lastVelo = this.velocity;
         super.update(delta);
+        if(!this.grounded) this.setVelocity(lastVelo);
+        else this.setVelocity(0);
         if (this.pickupCollider != null)
             this.pickupCollider.setPosition(new Vector2(this.x() - (Settings.TILE_SIZE / 2), this.y() - (Settings.TILE_SIZE / 2)));
         if (this.collider != null)

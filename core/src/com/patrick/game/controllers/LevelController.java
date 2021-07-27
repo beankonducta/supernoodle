@@ -224,8 +224,8 @@ public class LevelController {
          *
          * There's got to be some actual math I can use here to make it 'arch' more like it would in real life.
          */
-        p1.getIngredient().setHeightGain(p1.getHeightGain() * 1.2f);
-        p1.getIngredient().setVelocity(velocity * 2f);
+        p1.getIngredient().setHeightGain(p1.getHeightGain());
+        p1.getIngredient().setVelocity(velocity);
         if (p1.getGrounded() && p1.getHeightGain() == 0)
             p1.getIngredient().move(new Vector2((direction == Direction.LEFT ? -10 : 10), 0));
         p1.getIngredient().setHeld(false);
